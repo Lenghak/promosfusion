@@ -1,0 +1,1 @@
+export { useGetStore } from "./useGetStore";
