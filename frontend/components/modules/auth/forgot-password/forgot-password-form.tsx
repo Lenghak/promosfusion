@@ -1,14 +1,10 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/navigation";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
@@ -17,14 +13,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const resetPassowrdSchema = z.object({
   email: z.string().email(),
 });
 
-type ResetPassowrdFormProps = {};
+type ForgotPasswordFormProps = {};
 
-export function ResetPassowrdForm({}: ResetPassowrdFormProps) {
+export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof resetPassowrdSchema>>({
@@ -65,7 +65,10 @@ export function ResetPassowrdForm({}: ResetPassowrdFormProps) {
         />
 
         {/*//* Submit button  */}
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+        >
           Send Verification Code
         </Button>
       </form>

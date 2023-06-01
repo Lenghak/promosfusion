@@ -1,12 +1,8 @@
 "use client";
 
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
@@ -15,6 +11,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const newPassword = z.object({
   otp: z.coerce.number({
@@ -22,9 +22,9 @@ const newPassword = z.object({
   }),
 });
 
-type NewPasswordFormProps = {};
+type ResetPasswordFormProps = {};
 
-export function NewPasswordForm({}: NewPasswordFormProps) {
+export function ResetPasswordForm({}: ResetPasswordFormProps) {
   const form = useForm<z.infer<typeof newPassword>>({
     defaultValues: {
       otp: undefined,
@@ -51,7 +51,11 @@ export function NewPasswordForm({}: NewPasswordFormProps) {
             <FormItem className="w-full">
               <FormLabel>Verification Code</FormLabel>
               <FormControl>
-                <Input {...field} autoComplete="on" className="text-center" />
+                <Input
+                  {...field}
+                  autoComplete="on"
+                  className="text-center"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -59,7 +63,10 @@ export function NewPasswordForm({}: NewPasswordFormProps) {
         />
 
         {/*//* Submit button  */}
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+        >
           Send Verification Code
         </Button>
       </form>
