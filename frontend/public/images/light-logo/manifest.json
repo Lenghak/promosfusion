@@ -1,7 +1,22 @@
 {
     "name": "Coupon Flare",
+    "short_name" : "CF",
     "display" : "fullscreen",
-    "start_URL" : "",
+    "start_url" : "/",
+    "background_color" : "#ffffff",
+    "theme_color" : "#3b82f6",
+    "orientation" : "any",
+    "version": "0.1.0",
+    "description": "CouponFlare is a versatile coupon generating tool that enables users to easily create and distribute customized coupons for a wide range of products and services.",
+    "keywords": [
+        "coupon",
+        "generator",
+        "discount",
+        "promotions",
+        "marketing",
+        "branding",
+        "pos"
+    ],
     "icons": [
      {
       "src": "/images/light-logo/android-icon-36x36.png",
