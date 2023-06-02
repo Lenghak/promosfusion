@@ -4,6 +4,7 @@ import { Fira_Mono } from "next/font/google";
 
 import { Html } from "@/components/modules/html";
 import { Icon } from "@/components/modules/icon";
+import { RouteProgressProvider } from "@/components/modules/route-progress";
 
 const firaMono = Fira_Mono({
   subsets: ["latin"],
@@ -34,7 +35,9 @@ export default function RootLayout({
       <head>
         <Icon />
       </head>
-      <body className={firaMono.className}>{children}</body>
+      <body className={firaMono.className}>
+        <RouteProgressProvider>{children}</RouteProgressProvider>
+      </body>
     </Html>
   );
 }
