@@ -160,13 +160,6 @@ export function SignUpForm({}: SignUpFormProps) {
           Sign Up
         </Button>
 
-        {/*//* Separator */}
-        <div className="flex w-full items-center justify-center gap-4">
-          <Separator className="w-24" />
-          <span className="text-center">or</span>
-          <Separator className="w-24" />
-        </div>
-
         {/*//* No account link  */}
         <span className="text-center text-sm ">
           Already have an account?{" "}

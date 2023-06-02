@@ -147,13 +147,6 @@ export function SignInForm({}: SignInFormProps) {
           Sign In
         </Button>
 
-        {/*//* Separator */}
-        <div className="flex w-full items-center justify-center gap-4">
-          <Separator className="w-24" />
-          <span>or</span>
-          <Separator className="w-24" />
-        </div>
-
         {/*//* No account link  */}
         <span className="text-center text-sm">
           Don&apos;t have an account yet?{" "}
