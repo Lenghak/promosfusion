@@ -36,7 +36,7 @@ export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
 
   //* Hanlder function
   const formSubmitHandler = (values: z.infer<typeof resetPassowrdSchema>) => {
-    router.push("/new-password");
+    router.push("/reset-password");
   };
 
   return (
