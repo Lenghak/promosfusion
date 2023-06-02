@@ -86,6 +86,9 @@ dependencies:
   next-auth:
     specifier: ^4.22.1
     version: 4.22.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
+  next-nprogress-bar:
+    specifier: ^1.2.2
+    version: 1.2.2
   postcss:
     specifier: 8.4.24
     version: 8.4.24
@@ -3094,6 +3097,12 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /next-nprogress-bar@1.2.2:
+    resolution: {integrity: sha512-oWqPjaDr6AEr3dWWRU/TloMxvnuNFrFL1PgimT6YPXT/ZY6lwXM9krJo13eLUxbTt/9b+Jv7ErmWp6xL/wOflA==}
+    dependencies:
+      nprogress: 0.2.0
+    dev: false
+
   /next@13.4.4(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1):
     resolution: {integrity: sha512-C5S0ysM0Ily9McL4Jb48nOQHT1BukOWI59uC3X/xCMlYIh9rJZCv7nzG92J6e1cOBqQbKovlpgvHWFmz4eKKEA==}
     engines: {node: '>=16.8.0'}
@@ -3162,6 +3171,10 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       path-key: 4.0.0
+    dev: false
+
+  /nprogress@0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
     dev: false
 
   /oauth@0.9.15:
