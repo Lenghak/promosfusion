@@ -1,19 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import Link from "next/link";
 
-import { useState } from "react";
-
-import { Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
 import {
   Form,
   FormControl,
@@ -22,7 +15,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { OAuthButtons } from "@/components/modules/auth";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+
+import { cn } from "@/lib/utils";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import { z } from "zod";
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -129,7 +129,7 @@ export function SignInForm({}: SignInFormProps) {
           />
 
           <Link
-            href={"/reset-password"}
+            href={"/forgot-password"}
             className={cn([
               buttonVariants({ variant: "link", size: "lg" }),
               "h-fit w-fit p-0 text-right",
@@ -140,7 +140,10 @@ export function SignInForm({}: SignInFormProps) {
         </section>
 
         {/*//* Submit button  */}
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+        >
           Sign In
         </Button>
 
@@ -150,8 +153,6 @@ export function SignInForm({}: SignInFormProps) {
           <span>or</span>
           <Separator className="w-24" />
         </div>
-
-        <OAuthButtons />
 
         {/*//* No account link  */}
         <span className="text-center text-sm">
