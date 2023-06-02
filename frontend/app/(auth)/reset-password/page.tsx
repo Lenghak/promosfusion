@@ -1,5 +1,5 @@
 import { FormTitle } from "@/components/modules/auth";
-import { ResetPasswordForm } from "@/components/modules/auth/new-password";
+import { ResetPasswordForm } from "@/components/modules/auth/reset-password";
 
 type ResetPasswordProps = {};
 

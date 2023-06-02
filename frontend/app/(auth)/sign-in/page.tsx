@@ -1,5 +1,5 @@
-import { SignInForm } from "@/components/modules/auth/sign-in";
 import { FormTitle } from "@/components/modules/auth";
+import { SignInForm } from "@/components/modules/auth/sign-in";
 
 type SignInProps = {};
 
