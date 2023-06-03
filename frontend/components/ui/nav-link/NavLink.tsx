@@ -1,34 +1,37 @@
+"use client";
+
+import { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
+
 import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
-type NavLinkProps = LinkProps & {
-  exact?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-};
+import { cn } from "@/lib/utils";
 
-const NavLink = ({
-  href,
-  exact,
-  children,
-  className,
-  ...props
-}: NavLinkProps) => {
-  const { pathname } = useRouter();
-  const isActive = exact ? pathname === href : pathname.startsWith(`${href}`);
+export type NavLinkProps = LinkProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    exact?: boolean;
+    children?: React.ReactNode;
+    className?: string;
+  };
 
-  if (isActive) {
-    className += " active";
+const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
+  (
+    { href, exact, children, className, ...props }: NavLinkProps,
+    ref: ForwardedRef<HTMLAnchorElement>
+  ) => {
+    const pathname = usePathname();
+    const isActive = exact ? pathname === href : pathname.startsWith(`${href}`);
+
+    return (
+      <Link
+        ref={ref}
+        href={href}
+        className={cn([className, isActive ? "active" : ""])}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
   }
-
-  return (
-    <Link
-      href={href}
-      {...props}
-    >
-      {children}
-    </Link>
-  );
-};
-
+);
 export { NavLink };
