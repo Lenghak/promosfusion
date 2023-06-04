@@ -3,22 +3,31 @@
 import Image from "next/image";
 import { ImageProps } from "next/image";
 
-import { useDarkModeStore } from "@/lib/zustand";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import { useGetStore } from "@/hooks/zustand";
+import { cn } from "@/lib/utils";
+
+import { useTheme } from "next-themes";
 
 type LogoProps = {} & Omit<ImageProps, "src" | "alt">;
 
 const Logo = ({ ...props }: LogoProps) => {
-  const darkMode = useGetStore(useDarkModeStore, (state) => state);
+  const { resolvedTheme } = useTheme();
 
-  return (
+  return resolvedTheme ? (
     <Image
       width={128}
       height={128}
-      src={darkMode?.isDarkMode ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"}
+      src={
+        resolvedTheme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"
+      }
       {...props}
       alt="Coupon Flare Logo"
+    />
+  ) : (
+    <Skeleton
+      {...props}
+      className={cn("h-32 w-32 rounded-full", props.className)}
     />
   );
 };
