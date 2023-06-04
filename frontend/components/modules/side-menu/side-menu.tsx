@@ -26,8 +26,8 @@ const SideMenu = () => {
   return (
     <aside
       className={
-        ` max-h-full min-h-screen h-full border-r border-solid px-4` +
-        `   0 relative font-bold transition-all ${
+        ` max-h-full min-h-screen h-full border-r border-solid px-4 relative font-bold transition-all` +
+        ` ${
           isSideMenuOpen
             ? "translate-x-0 md:min-w-[17rem] min-w-[6rem]"
             : "min-w-0 w-0 translate-x-0 md:min-w-[6rem] max-md:translate-x-[-10rem]"
