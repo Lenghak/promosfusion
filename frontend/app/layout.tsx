@@ -2,9 +2,9 @@ import "@/scss/globals.scss";
 
 import { Fira_Mono } from "next/font/google";
 
-import { Html } from "@/components/modules/html";
 import { Icon } from "@/components/modules/icon";
-import { RouteProgressProvider } from "@/components/modules/route-progress";
+import { RouteProgressProvider } from "@/components/providers/route-progress";
+import { ThemeProvider } from "@/components/providers/theme";
 
 const firaMono = Fira_Mono({
   subsets: ["latin"],
@@ -31,13 +31,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
         <Icon />
       </head>
       <body className={firaMono.className}>
-        <RouteProgressProvider>{children}</RouteProgressProvider>
+        <ThemeProvider>
+          <RouteProgressProvider>{children}</RouteProgressProvider>
+        </ThemeProvider>
       </body>
-    </Html>
+    </html>
   );
 }
