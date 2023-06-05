@@ -3,8 +3,10 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/modules/logo";
+import { Button } from "@/components/ui/button";
 import { Small } from "@/components/ui/small";
 
+import { cn } from "@/lib/utils";
 import { useSideMenuStore } from "@/lib/zustand";
 
 import {
@@ -42,19 +44,27 @@ const SideMenu = () => {
 
   return (
     <aside
-      className={`relative h-full max-h-screen min-h-screen overflow-y-scroll border-r border-solid px-4 font-bold transition-all
+      className={`relative h-full max-h-screen min-h-screen overflow-y-hidden border-r border-solid px-4 font-bold transition-all
        ${
          isSideMenuOpen
-           ? "min-w-[6rem] max-w-[6rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem]"
-           : "w-0 min-w-0 max-w-[6rem] translate-x-0 max-md:translate-x-[-10rem] md:min-w-[6rem]"
+           ? "min-w-[6rem] max-w-[6rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem] md:overflow-scroll"
+           : "w-0 min-w-0 max-w-[6rem] translate-x-0 overflow-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[6rem]"
        }`}
     >
-      <section className="min-h-20 flex h-full max-h-20 items-center justify-center border-b border-solid p-4">
+      <section className="flex h-[4.5rem] max-h-[4.5rem] items-center justify-center border-b border-solid py-4">
         <Link
           href={"/"}
-          className="flex h-full w-fit items-center justify-center "
+          className="flex h-full w-fit items-center justify-center gap-4"
         >
-          <Logo className="h-12 w-12" />
+          <Logo className="h-10 w-10" />
+          <span
+            className={cn(
+              "hidden whitespace-nowrap text-sm md:inline",
+              isSideMenuOpen ? "" : "md:hidden"
+            )}
+          >
+            Coupon Flare
+          </span>
         </Link>
       </section>
 
@@ -124,8 +134,12 @@ const SideMenu = () => {
         />
       </section>
 
-      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
-        <MenuTitle title={"Supports"} />
+      <section
+        className={
+          "flex flex-col gap-1 border-b border-solid py-3 max-md:items-center"
+        }
+      >
+        <MenuTitle title={"Configs"} />
 
         <MenuTab
           href={"/settings"}
@@ -140,13 +154,28 @@ const SideMenu = () => {
         />
       </section>
 
-      <section className="flex flex-wrap items-center justify-between gap-4 px-4 py-6 max-md:hidden">
+      <section
+        className={cn(
+          "flex flex-wrap items-center justify-between gap-4 px-4 py-6 max-md:hidden",
+          isSideMenuOpen ? "max-md:hidden" : "hidden"
+        )}
+      >
         {otherLinks.map((link) => (
-          <SideMenuLink href={"/" + link}>{link}</SideMenuLink>
+          <SideMenuLink
+            key={link}
+            href={"/" + link}
+          >
+            {link}
+          </SideMenuLink>
         ))}
       </section>
 
-      <section className="flex flex-col items-center justify-center gap-1 py-3 max-md:hidden">
+      <section
+        className={cn(
+          "flex flex-col items-center justify-center gap-1 py-3 max-md:hidden",
+          isSideMenuOpen ? "max-md:hidden" : "hidden"
+        )}
+      >
         <Small className="text-sm">© 2023 Coupon Flare</Small>
       </section>
     </aside>
