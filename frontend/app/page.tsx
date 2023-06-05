@@ -1,11 +1,9 @@
-import Image from "next/image";
+import { SideMenu } from "@/components/modules/side-menu";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <span className="text-xl">
-        <b>CouponFlare</b> coming soon! 🔥
-      </span>
+    <main className="flex items-center">
+      <SideMenu />
     </main>
   );
 }
