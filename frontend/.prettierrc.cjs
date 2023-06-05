@@ -21,7 +21,7 @@ module.exports = {
   "vueIndentScriptAndStyle": false,
   "filepath": "d:\\Github\\coupon_flare\\app\\layout.tsx",
   "parser": "typescript",
-  "plugins": [require("prettier-plugin-tailwindcss"), require("@trivago/prettier-plugin-sort-imports")],
+  "plugins": [require("@trivago/prettier-plugin-sort-imports"), require("prettier-plugin-tailwindcss")],
   "pluginSearchDirs": false,
   "importOrder": ["^@/scss/(.*)$", "^react(.*)$", "^next/(.*)$", "@^/layouts/(.*)$", "^@/components/(.*)$", "^@/lib/(.*)$", "<THIRD_PARTY_MODULES>", "^[./]"],
   "importOrderSeparation": true,
