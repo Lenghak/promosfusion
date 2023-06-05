@@ -26,7 +26,12 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
       <Link
         ref={ref}
         href={href}
-        className={cn([className, isActive ? "active" : ""])}
+        className={cn([
+          isActive
+            ? "text-primary bg-accent font-semibold [&>svg]:stroke-[2.5px]"
+            : "",
+          className,
+        ])}
         {...props}
       >
         {children}

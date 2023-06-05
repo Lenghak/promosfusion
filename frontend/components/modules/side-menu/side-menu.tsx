@@ -29,19 +29,17 @@ const SideMenu = () => {
 
   return (
     <aside
-      className={
-        ` min-h-screen h-full border-r border-solid px-4 relative font-bold transition-all overflow-y-scroll max-h-screen` +
-        ` ${
-          isSideMenuOpen
-            ? "translate-x-0 md:min-w-[17rem] min-w-[6rem]"
-            : "min-w-0 w-0 translate-x-0 md:min-w-[6rem] max-md:translate-x-[-10rem]"
-        }`
-      }
+      className={`min-h-screen h-full border-r border-solid px-4 relative font-bold transition-all overflow-y-scroll max-h-screen
+       ${
+         isSideMenuOpen
+           ? "translate-x-0 md:min-w-[17rem] min-w-[6rem]"
+           : "min-w-0 w-0 translate-x-0 md:min-w-[6rem] max-md:translate-x-[-10rem]"
+       }`}
     >
       <section className="flex p-4 items-center justify-center min-h-20 max-h-20 h-full border-b border-solid">
         <Link
           href={"/"}
-          className="flex justify-center w-full h-full items-center"
+          className="flex justify-center w-fit h-full items-center "
         >
           <Logo className="w-12 h-12" />
         </Link>
@@ -57,7 +55,7 @@ const SideMenu = () => {
         />
 
         <MenuTab
-          href={"/campaign"}
+          href={"/"}
           Icon={Ticket}
           name="Campaign"
         />
@@ -80,7 +78,7 @@ const SideMenu = () => {
       </section>
 
       <section className="flex flex-col py-3 gap-1 max-md:items-center border-b border-solid">
-        <MenuTitle title={"Profile"} />
+        <MenuTitle title={"Info"} />
 
         <MenuTab
           href={"/profile"}
