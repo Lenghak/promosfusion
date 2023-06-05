@@ -3,30 +3,34 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/modules/logo";
-import { buttonVariants } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { NavLink, NavLinkProps } from "@/components/ui/nav-link";
 
-import { cn } from "@/lib/utils";
 import { useSideMenuStore } from "@/lib/zustand";
 
 import {
   Bell,
+  Briefcase,
   LayoutGrid,
   LifeBuoy,
-  LucideIcon,
   MessageCircle,
   Settings,
-  Users,
+  Store,
+  Ticket,
+  User,
 } from "lucide-react";
+import { useLockedBody } from "usehooks-ts";
+
+import { MenuTab } from "./side-menu-tab";
+import { MenuTitle } from "./side-menu-title";
 
 const SideMenu = () => {
   const { isSideMenuOpen } = useSideMenuStore((state) => state);
 
+  useLockedBody(true);
+
   return (
     <aside
       className={
-        ` max-h-full min-h-screen h-full border-r border-solid px-4 relative font-bold transition-all` +
+        ` min-h-screen h-full border-r border-solid px-4 relative font-bold transition-all overflow-y-scroll max-h-screen` +
         ` ${
           isSideMenuOpen
             ? "translate-x-0 md:min-w-[17rem] min-w-[6rem]"
@@ -53,9 +57,9 @@ const SideMenu = () => {
         />
 
         <MenuTab
-          href={"/teams"}
-          Icon={Users}
-          name="Team Members"
+          href={"/campaign"}
+          Icon={Ticket}
+          name="Campaign"
         />
       </section>
 
@@ -76,6 +80,28 @@ const SideMenu = () => {
       </section>
 
       <section className="flex flex-col py-3 gap-1 max-md:items-center border-b border-solid">
+        <MenuTitle title={"Profile"} />
+
+        <MenuTab
+          href={"/profile"}
+          Icon={User}
+          name="Profile"
+        />
+
+        <MenuTab
+          href={"/teams"}
+          Icon={Briefcase}
+          name="Team Members"
+        />
+
+        <MenuTab
+          href={"/shop"}
+          Icon={Store}
+          name="My shop"
+        />
+      </section>
+
+      <section className="flex flex-col py-3 gap-1 max-md:items-center border-b border-solid">
         <MenuTitle title={"Supports"} />
 
         <MenuTab
@@ -91,55 +117,6 @@ const SideMenu = () => {
         />
       </section>
     </aside>
-  );
-};
-
-const MenuTitle = ({ title }: { title: React.ReactNode }) => {
-  const { isSideMenuOpen } = useSideMenuStore((state) => state);
-
-  return (
-    <Label
-      className={`px-4 py-3 text-neutral-400 ${
-        isSideMenuOpen ? "max-md:hidden" : "hidden"
-      }`}
-    >
-      {title}
-    </Label>
-  );
-};
-
-/**
- * @description the menu tab component for menu
- */
-const MenuTab = ({
-  href,
-  name,
-  Icon,
-  className,
-  ...props
-}: {
-  name: string;
-  Icon: LucideIcon;
-} & NavLinkProps) => {
-  const { isSideMenuOpen } = useSideMenuStore((state) => state);
-  return (
-    <NavLink
-      href={href}
-      className={cn([
-        buttonVariants({
-          variant: "ghost",
-          size: "lg",
-        }),
-        "gap-4 w-full",
-      ])}
-      {...props}
-      style={{ justifyContent: "start" }}
-    >
-      <Icon size={20} />
-      <span className={`${isSideMenuOpen ? "max-md:hidden" : "hidden"}`}>
-        {name}
-      </span>
-    </NavLink>
   );
 };
 
