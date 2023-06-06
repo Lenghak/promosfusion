@@ -79,3 +79,38 @@
     font-feature-settings: "rlig" 1 "calt" 1;
   }
 }
+
+
+body {
+  & * {
+    &::selection {
+      background-color: var(--primary);
+    }
+
+    &::-webkit-scrollbar {
+      width: 0.95rem;
+      height: 0.75rem;
+      background-color: transparent;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+     border-radius : (1rem);
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      border: 0.25rem solid transparent;
+      background-clip: padding-box;
+      border-radius : (50rem);
+      background-color: hsl(var(--accent));
+
+      &:hover {
+      
+        background-clip: padding-box;
+        border-radius : (50rem);
+        background-color: hsl(var(--accent));
+      }
+    }
+  }
+}

@@ -44,11 +44,11 @@ const SideMenu = () => {
 
   return (
     <aside
-      className={`relative h-full max-h-screen min-h-screen overflow-y-hidden border-r border-solid px-4 font-bold transition-all
+      className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 font-bold transition-all
        ${
          isSideMenuOpen
-           ? "min-w-[6rem] max-w-[6rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem] md:overflow-scroll"
-           : "w-0 min-w-0 max-w-[6rem] translate-x-0 overflow-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[6rem]"
+           ? "md:overflow-y -scroll min-w-[6rem] max-w-[6rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem]"
+           : "w-0 min-w-0 max-w-[6rem] translate-x-0 overflow-x-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[6rem]"
        }`}
     >
       <section className="flex h-[4.5rem] max-h-[4.5rem] items-center justify-center border-b border-solid py-4">
