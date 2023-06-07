@@ -69,7 +69,7 @@ export function SignUpForm({}: SignUpFormProps) {
                 <div className="relative">
                   <User
                     size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     placeholder="Your name"
@@ -95,7 +95,7 @@ export function SignUpForm({}: SignUpFormProps) {
                 <div className="relative">
                   <Mail
                     size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     placeholder="someone@example.com"
@@ -120,7 +120,7 @@ export function SignUpForm({}: SignUpFormProps) {
                 <div className="relative">
                   <Key
                     size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     placeholder="Password"
