@@ -4,7 +4,8 @@ import { Fira_Mono } from "next/font/google";
 
 import { Icon } from "@/components/modules/icon";
 import { RouteProgressProvider } from "@/components/providers/route-progress";
-import { ThemeProvider } from "@/components/providers/theme";
+
+import { ServerThemeProvider } from "@wits/next-themes";
 
 const firaMono = Fira_Mono({
   subsets: ["latin"],
@@ -31,18 +32,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
+    <ServerThemeProvider
+      attribute="class"
+      enableSystem
     >
-      <head>
-        <Icon />
-      </head>
-      <body className={firaMono.className}>
-        <ThemeProvider>
+      <html
+        lang="en"
+        suppressHydrationWarning
+      >
+        <head>
+          <Icon />
+        </head>
+        <body className={firaMono.className}>
           <RouteProgressProvider>{children}</RouteProgressProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ServerThemeProvider>
   );
 }
