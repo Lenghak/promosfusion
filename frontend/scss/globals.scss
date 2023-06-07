@@ -1,75 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 0 0% 98%;
     --foreground: 0 0% 4%;
- 
+
     --muted: 0 0% 83%;
     --muted-foreground: 0 0% 45%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 4%;
- 
+
     --card: 0 0% 100%;
     --card-foreground: 0 0% 4%;
- 
+
     --border: 0 0% 83%;
     --input: 0 0% 83%;
- 
+
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
- 
+
     --secondary: 0 0% 9%;
     --secondary-foreground: 0 0% 100%;
- 
+
     --accent: 0 0% 83%;
     --accent-foreground: 0 0% 4%;
- 
+
     --destructive: 0 98% 50%;
     --destructive-foreground: 0 0% 96%;
- 
+
     --ring: 0 0% 83%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 0 0% 9%;
     --foreground: 0 0% 100%;
- 
+
     --muted: 0 0% 25%;
     --muted-foreground: 0 0% 64%;
- 
+
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 100%;
- 
+
     --card: 0 0% 9%;
     --card-foreground: 0 0% 100%;
- 
-    --border:0 0% 25%;
-    --input:0 0% 25%;
- 
+
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+
     --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
- 
+
     --secondary: 0 0% 100%;
     --secondary-foreground: 0 0% 15%;
- 
+
     --accent: 0 0% 15%;
     --accent-foreground: 0 0% 100%;
- 
+
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
- 
+
     --ring: 0 0% 25%;
- 
+
     --radius: 0.5rem;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -80,6 +80,21 @@
   }
 }
 
+@layer utilities {
+  .number-appearance-none {
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type="number"] {
+      -moz-appearance: textfield !important;
+    }
+  }
+}
 
 body {
   & * {
@@ -95,20 +110,19 @@ body {
 
     /* Track */
     &::-webkit-scrollbar-track {
-     border-radius : (1rem);
+      border-radius: (1rem);
     }
 
     /* Handle */
     &::-webkit-scrollbar-thumb {
       border: 0.25rem solid transparent;
       background-clip: padding-box;
-      border-radius : (50rem);
+      border-radius: (50rem);
       background-color: hsl(var(--accent));
 
       &:hover {
-      
         background-clip: padding-box;
-        border-radius : (50rem);
+        border-radius: (50rem);
         background-color: hsl(var(--accent));
       }
     }
