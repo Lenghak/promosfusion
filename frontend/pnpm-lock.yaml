@@ -65,6 +65,9 @@ dependencies:
   '@types/react-dom':
     specifier: 18.2.4
     version: 18.2.4
+  '@wits/next-themes':
+    specifier: ^0.2.16
+    version: 0.2.16(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.24)
@@ -95,9 +98,6 @@ dependencies:
   next-nprogress-bar:
     specifier: ^1.2.2
     version: 1.2.2
-  next-themes:
-    specifier: ^0.2.1
-    version: 0.2.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
   postcss:
     specifier: 8.4.24
     version: 8.4.24
@@ -1566,6 +1566,18 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.7
       eslint-visitor-keys: 3.4.1
+    dev: false
+
+  /@wits/next-themes@0.2.16(next@13.4.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-tf2C7fE28JSOdE5fi4cUV3V5HT7viBahG6sh6G2V/VdzPinaXX5J5hTWuOhmfUnWuitU1JU7N1wIQe1q17SLUA==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.4.4(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /acorn-jsx@5.3.2(acorn@8.8.2):
@@ -3167,18 +3179,6 @@ packages:
     resolution: {integrity: sha512-oWqPjaDr6AEr3dWWRU/TloMxvnuNFrFL1PgimT6YPXT/ZY6lwXM9krJo13eLUxbTt/9b+Jv7ErmWp6xL/wOflA==}
     dependencies:
       nprogress: 0.2.0
-    dev: false
-
-  /next-themes@0.2.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
-    peerDependencies:
-      next: '*'
-      react: '*'
-      react-dom: '*'
-    dependencies:
-      next: 13.4.4(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /next@13.4.4(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1):
