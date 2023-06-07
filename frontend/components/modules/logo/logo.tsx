@@ -7,22 +7,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { cn } from "@/lib/utils";
 
-import { useTheme } from "next-themes";
+import { useIsMounted } from "@/hooks";
+import { useTheme } from "@wits/next-themes";
 
 type LogoProps = {} & Omit<ImageProps, "src" | "alt">;
 
 const Logo = ({ ...props }: LogoProps) => {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
+  const isMounted = useIsMounted();
 
-  return resolvedTheme ? (
+  return isMounted ? (
     <Image
       width={128}
       height={128}
-      src={
-        resolvedTheme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"
-      }
+      src={theme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"}
       {...props}
       alt="Coupon Flare Logo"
+      priority
     />
   ) : (
     <Skeleton
