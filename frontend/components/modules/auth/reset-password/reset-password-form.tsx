@@ -1,14 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
@@ -17,26 +11,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-const resetPassowrdSchema = z.object({
-  email: z.string().email(),
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const newPassword = z.object({
+  otp: z.coerce.number({
+    invalid_type_error: "Only numbers are accepted",
+  }),
 });
 
-type ResetPassowrdFormProps = {};
+type ResetPasswordFormProps = {};
 
-export function ResetPassowrdForm({}: ResetPassowrdFormProps) {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof resetPassowrdSchema>>({
+export function ResetPasswordForm({}: ResetPasswordFormProps) {
+  const form = useForm<z.infer<typeof newPassword>>({
     defaultValues: {
-      email: "",
+      otp: undefined,
     },
-    resolver: zodResolver(resetPassowrdSchema),
+    resolver: zodResolver(newPassword),
   });
 
   //* Hanlder function
-  const formSubmitHandler = (values: z.infer<typeof resetPassowrdSchema>) => {
-    router.push("/new-password");
+  const formSubmitHandler = (values: z.infer<typeof newPassword>) => {
+    console.log(values);
   };
 
   return (
@@ -48,15 +46,15 @@ export function ResetPassowrdForm({}: ResetPassowrdFormProps) {
         {/*//* Email input field  */}
         <FormField
           control={form.control}
-          name="email"
+          name="otp"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Verification Code</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="someone@example.com"
                   {...field}
                   autoComplete="on"
+                  className="text-center"
                 />
               </FormControl>
               <FormMessage />
@@ -65,7 +63,10 @@ export function ResetPassowrdForm({}: ResetPassowrdFormProps) {
         />
 
         {/*//* Submit button  */}
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+        >
           Send Verification Code
         </Button>
       </form>

@@ -13,7 +13,7 @@ const TermsPolicy = ({}: TermsPolicyProps) => {
   return (
     <section className="flex w-full justify-center">
       <Small className="w-full max-w-sm justify-self-center text-center text-sm">
-        By signing in, you agree with our{" "}
+        By proceeding, you agree with our{" "}
         <Link
           href={"/terms-conditions"}
           className={cn([

@@ -1,19 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import Link from "next/link";
 
-import { useState } from "react";
-
-import { Eye, EyeOff } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
 import {
   Form,
   FormControl,
@@ -22,25 +15,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
-import { OAuthButtons } from "@/components/modules/auth";
+import { cn } from "@/lib/utils";
 
-const signUpSchema = z
-  .object({
-    email: z.string().email(),
-    password: z.string().min(8, "Password has to be at least 8 characters"),
-    confirmPassword: z.string(),
-    remember: z.boolean().optional().default(false),
-  })
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "The passwords did not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import { z } from "zod";
+
+const signUpSchema = z.object({
+  name: z.string().nonempty("This is required"),
+  email: z.string().email().nonempty(),
+  password: z
+    .string()
+    .min(8, "Password has to be at least 8 characters")
+    .nonempty(),
+  remember: z.boolean().optional().default(false),
+});
 
 type SignUpFormProps = {};
 
@@ -51,7 +43,6 @@ export function SignUpForm({}: SignUpFormProps) {
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
       remember: true,
     },
     resolver: zodResolver(signUpSchema),
@@ -68,6 +59,25 @@ export function SignUpForm({}: SignUpFormProps) {
         className="flex h-fit w-full max-w-sm flex-col items-center gap-4 self-center"
         onSubmit={form.handleSubmit((values) => formSubmitHandler(values))}
       >
+        {/*//* Name input field  */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="John Doe"
+                  {...field}
+                  autoComplete="on"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/*//* Email input field  */}
         <FormField
           control={form.control}
@@ -119,38 +129,6 @@ export function SignUpForm({}: SignUpFormProps) {
           )}
         />
 
-        {/*//* Password input field  */}
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem className="relative w-full">
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    placeholder="Re-type your password"
-                    {...field}
-                    type={showPassword ? "text" : "password"}
-                    id="confrim-password"
-                    className="pr-12"
-                    autoComplete="password"
-                  />
-                  <Button
-                    variant={"link"}
-                    type="button"
-                    className="absolute right-0 top-0 text-neutral-900 dark:text-white"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {!showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <section className="flex w-full items-center justify-between">
           {/* <div className="flex items-center space-x-2">
             <Checkbox id="remember-password" />
@@ -175,18 +153,12 @@ export function SignUpForm({}: SignUpFormProps) {
         </section>
 
         {/*//* Submit button  */}
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button
+          type="submit"
+          className="w-full"
+        >
+          Sign Up
         </Button>
-
-        {/*//* Separator */}
-        <div className="flex w-full items-center justify-center gap-4">
-          <Separator className="w-24" />
-          <span className="text-center">or</span>
-          <Separator className="w-24" />
-        </div>
-
-        <OAuthButtons />
 
         {/*//* No account link  */}
         <span className="text-center text-sm ">
