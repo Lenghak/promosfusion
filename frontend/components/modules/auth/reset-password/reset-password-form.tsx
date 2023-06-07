@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Code, Hash } from "lucide-react";
 import { z } from "zod";
 
 const newPassword = z.object({
@@ -49,13 +50,19 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
           name="otp"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Verification Code</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  autoComplete="on"
-                  className="text-center"
-                />
+                <div className="relative">
+                  <Hash
+                    size={20}
+                    className="text-accent-foreground absolute left-4 h-full"
+                  />
+                  <Input
+                    placeholder="eg. 123456"
+                    {...field}
+                    autoComplete="on"
+                    className="pl-12"
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
