@@ -35,7 +35,7 @@ const MenuTab = ({
       // style={{ justifyContent: isSideMenuOpen ? "start" : "center" }}
     >
       <Icon
-        size={20}
+        size={18}
         className="min-h-[1.25rems] min-w-[1.25rem]"
       />
       <span
