@@ -1,3 +1,5 @@
+@use "mixin" as mixin;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,19 +112,19 @@ body {
 
     /* Track */
     &::-webkit-scrollbar-track {
-      border-radius: (1rem);
+      @include mixin.border-radius(1rem);
     }
 
     /* Handle */
     &::-webkit-scrollbar-thumb {
       border: 0.25rem solid transparent;
       background-clip: padding-box;
-      border-radius: (50rem);
+      @include mixin.border-radius(50rem);
       background-color: hsl(var(--accent));
 
       &:hover {
         background-clip: padding-box;
-        border-radius: (50rem);
+        @include mixin.border-radius(50rem);
         background-color: hsl(var(--accent));
       }
     }
