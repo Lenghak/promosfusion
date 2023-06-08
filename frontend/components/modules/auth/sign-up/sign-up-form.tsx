@@ -68,7 +68,7 @@ export function SignUpForm({}: SignUpFormProps) {
               <FormControl>
                 <div className="relative">
                   <User
-                    size={20}
+                    size={18}
                     className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
@@ -94,7 +94,7 @@ export function SignUpForm({}: SignUpFormProps) {
               <FormControl>
                 <div className="relative">
                   <Mail
-                    size={20}
+                    size={18}
                     className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
@@ -119,7 +119,7 @@ export function SignUpForm({}: SignUpFormProps) {
               <FormControl>
                 <div className="relative">
                   <Key
-                    size={20}
+                    size={18}
                     className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input

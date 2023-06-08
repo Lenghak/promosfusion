@@ -50,7 +50,7 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
               <FormControl>
                 <div className="relative">
                   <Hash
-                    size={20}
+                    size={18}
                     className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input

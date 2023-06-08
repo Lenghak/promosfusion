@@ -63,8 +63,8 @@ export function SignInForm({}: SignInFormProps) {
               <FormControl>
                 <div className="relative">
                   <Mail
-                    size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     type="email"
@@ -89,8 +89,8 @@ export function SignInForm({}: SignInFormProps) {
               <FormControl>
                 <div className="relative">
                   <Key
-                    size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     placeholder="Password"

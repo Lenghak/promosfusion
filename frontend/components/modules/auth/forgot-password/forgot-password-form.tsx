@@ -55,8 +55,8 @@ export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
               <FormControl>
                 <div className="relative">
                   <Mail
-                    size={20}
-                    className="text-accent-foreground absolute left-4 h-full"
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
                   />
                   <Input
                     placeholder="someone@example.com"
