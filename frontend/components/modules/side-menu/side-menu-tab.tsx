@@ -28,7 +28,9 @@ const MenuTab = ({
           variant: "ghost",
         }),
         `w-full justify-center gap-4 ${
-          isSideMenuOpen ? "max-md:p-0 md:justify-start" : "justify-center p-0"
+          isSideMenuOpen
+            ? "max-md:place-self-center max-md:self-center max-md:px-3 md:justify-start"
+            : "w-fit justify-center place-self-center self-center px-3"
         }`,
       ])}
       {...props}
