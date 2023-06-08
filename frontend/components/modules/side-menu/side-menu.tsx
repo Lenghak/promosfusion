@@ -3,8 +3,6 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/modules/logo";
-import { Button } from "@/components/ui/button";
-import { Small } from "@/components/ui/small";
 
 import { cn } from "@/lib/utils";
 import { useSideMenuStore } from "@/lib/zustand";
@@ -13,6 +11,7 @@ import {
   Activity,
   Bell,
   Briefcase,
+  Calendar,
   Flag,
   HelpCircle,
   LayoutGrid,
@@ -21,21 +20,12 @@ import {
   Store,
   Ticket,
   User,
+  Users,
 } from "lucide-react";
 import { useLockedBody } from "usehooks-ts";
 
-import { SideMenuLink } from "./side-menu-links";
 import { MenuTab } from "./side-menu-tab";
 import { MenuTitle } from "./side-menu-title";
-
-const otherLinks = [
-  "about",
-  "contact-us",
-  "terms",
-  "privacy",
-  "security",
-  "docs",
-];
 
 const SideMenu = () => {
   const { isSideMenuOpen } = useSideMenuStore((state) => state);
@@ -47,8 +37,8 @@ const SideMenu = () => {
       className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 font-bold transition-all
        ${
          isSideMenuOpen
-           ? "md:overflow-y -scroll min-w-[6rem] max-w-[6rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem]"
-           : "w-0 min-w-0 max-w-[6rem] translate-x-0 overflow-x-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[6rem]"
+           ? "md:overflow-y -scroll min-w-[5rem] max-w-[5rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem]"
+           : "w-0 min-w-0 max-w-[5rem] translate-x-0 overflow-x-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[5rem]"
        }`}
     >
       <section className="flex h-[4.5rem] max-h-[4.5rem] items-center justify-center border-b border-solid py-4">
@@ -69,19 +59,41 @@ const SideMenu = () => {
       </section>
 
       <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
-        <MenuTitle title={"Menu"} />
+        <MenuTitle title={"General"} />
 
         <MenuTab
           href={"/"}
+          Icon={Ticket}
+          name="Campaigns"
+        />
+
+        <MenuTab
+          href={"/dashboard"}
           Icon={LayoutGrid}
           name="Dashboard"
         />
 
         <MenuTab
-          href={"/campaigns"}
-          Icon={Ticket}
-          name="Campaigns"
+          href={"/members"}
+          Icon={Users}
+          name="Members"
         />
+
+        <MenuTab
+          href={"/shop"}
+          Icon={Store}
+          name="Shops"
+        />
+
+        <MenuTab
+          href={"/chat"}
+          Icon={MessageCircle}
+          name="Messages"
+        />
+      </section>
+
+      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
+        <MenuTitle title={"Reports"} />
 
         <MenuTab
           href={"/reports"}
@@ -94,52 +106,16 @@ const SideMenu = () => {
           Icon={Activity}
           name="Actvities"
         />
-      </section>
-
-      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
-        <MenuTitle title={"Contact"} />
 
         <MenuTab
-          href={"/notification"}
-          Icon={Bell}
-          name="Notifications"
-        />
-
-        <MenuTab
-          href={"/chat"}
-          Icon={MessageCircle}
-          name="Messages"
+          href={"/schedules"}
+          Icon={Calendar}
+          name="Schedules"
         />
       </section>
 
-      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
-        <MenuTitle title={"Info"} />
-
-        <MenuTab
-          href={"/profile"}
-          Icon={User}
-          name="My Profile"
-        />
-
-        <MenuTab
-          href={"/teams"}
-          Icon={Briefcase}
-          name="My Team"
-        />
-
-        <MenuTab
-          href={"/shop"}
-          Icon={Store}
-          name="My Shop"
-        />
-      </section>
-
-      <section
-        className={
-          "flex flex-col gap-1 border-b border-solid py-3 max-md:items-center"
-        }
-      >
-        <MenuTitle title={"Configs"} />
+      <section className={"flex flex-col gap-1 py-3 max-md:items-center"}>
+        <MenuTitle title={"Settings"} />
 
         <MenuTab
           href={"/settings"}
@@ -154,7 +130,7 @@ const SideMenu = () => {
         />
       </section>
 
-      <section
+      {/* <section
         className={cn(
           "flex flex-wrap items-center justify-between gap-4 px-4 py-6 max-md:hidden",
           isSideMenuOpen ? "max-md:hidden" : "hidden"
@@ -177,7 +153,7 @@ const SideMenu = () => {
         )}
       >
         <Small className="text-sm">© 2023 Coupon Flare</Small>
-      </section>
+      </section> */}
     </aside>
   );
 };
