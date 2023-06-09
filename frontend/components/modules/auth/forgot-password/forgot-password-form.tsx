@@ -16,10 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail } from "lucide-react";
 import { z } from "zod";
 
 const resetPassowrdSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Invalid email address"),
 });
 
 type ForgotPasswordFormProps = {};
@@ -51,13 +52,19 @@ export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="someone@example.com"
-                  {...field}
-                  autoComplete="on"
-                />
+                <div className="relative">
+                  <Mail
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
+                  />
+                  <Input
+                    placeholder="someone@example.com"
+                    {...field}
+                    autoComplete="on"
+                    className="pl-12"
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

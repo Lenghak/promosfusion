@@ -19,12 +19,17 @@ module.exports = {
   "useTabs": false,
   "embeddedLanguageFormatting": "auto",
   "vueIndentScriptAndStyle": false,
-  "filepath": "d:\\Github\\coupon_flare\\app\\layout.tsx",
   "parser": "typescript",
   "plugins": [require("@trivago/prettier-plugin-sort-imports"), require("prettier-plugin-tailwindcss")],
   "pluginSearchDirs": false,
   "importOrder": ["^@/scss/(.*)$", "^react(.*)$", "^next/(.*)$", "@^/layouts/(.*)$", "^@/components/(.*)$", "^@/lib/(.*)$", "<THIRD_PARTY_MODULES>", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "importOrderCaseInsensitive": true
+  "importOrderCaseInsensitive": true,
+  "overrides": [
+    {
+      "files": "*.scss",
+      "options": { "parser": "scss" }
+    }
+  ]
 };

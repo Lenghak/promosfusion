@@ -8,18 +8,16 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Hash } from "lucide-react";
 import { z } from "zod";
 
 const newPassword = z.object({
-  otp: z.coerce.number({
-    invalid_type_error: "Only numbers are accepted",
-  }),
+  otp: z.string().length(6, "The verification code must be 6 numbers long"),
 });
 
 type ResetPasswordFormProps = {};
@@ -27,7 +25,7 @@ type ResetPasswordFormProps = {};
 export function ResetPasswordForm({}: ResetPasswordFormProps) {
   const form = useForm<z.infer<typeof newPassword>>({
     defaultValues: {
-      otp: undefined,
+      otp: "",
     },
     resolver: zodResolver(newPassword),
   });
@@ -49,13 +47,20 @@ export function ResetPasswordForm({}: ResetPasswordFormProps) {
           name="otp"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Verification Code</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  autoComplete="on"
-                  className="text-center"
-                />
+                <div className="relative">
+                  <Hash
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
+                  />
+                  <Input
+                    type="number"
+                    placeholder="eg. 123456"
+                    autoComplete="on"
+                    className="number-appearance-none pl-12"
+                    {...field}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

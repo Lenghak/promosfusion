@@ -16,17 +16,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 
 import { cn } from "@/lib/utils";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Key, Mail } from "lucide-react";
 import { z } from "zod";
 
 const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, "Password has to be at least 8 characters"),
+  password: z.string().min(8, "Password must has at least 8 characters"),
   remember: z.boolean().optional().default(false),
 });
 
@@ -61,13 +60,20 @@ export function SignInForm({}: SignInFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="someone@example.com"
-                  {...field}
-                  autoComplete="on"
-                />
+                <div className="relative">
+                  <Mail
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="someone@example.com"
+                    {...field}
+                    autoComplete="on"
+                    className="pl-12"
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,15 +86,18 @@ export function SignInForm({}: SignInFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem className="relative w-full">
-              <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
+                  <Key
+                    size={18}
+                    className="absolute left-4 h-full text-accent-foreground"
+                  />
                   <Input
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     {...field}
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    className="pr-12"
+                    className="px-12"
                     autoComplete="password"
                   />
                   <Button
