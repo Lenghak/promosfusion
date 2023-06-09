@@ -8,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuSub,
@@ -18,10 +19,14 @@ import {
 
 import { useTheme } from "@wits/next-themes";
 import {
+  Bug,
+  ChevronsUpDown,
+  HelpCircle,
   Laptop2,
   LogOut,
   Moon,
   Palette,
+  Plus,
   Settings,
   Sun,
   User,
@@ -41,17 +46,36 @@ const TopBarProfileDropdown = ({}: Props) => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-52 font-medium">
+
+      <DropdownMenuContent className="mr-4 mt-2 font-medium">
+        <DropdownMenuLabel className="flex flex-nowrap items-center gap-4">
+          <Avatar className="cursor-pointer">
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+
+          <div className="flex h-full flex-col justify-between">
+            <span>Shadcn UI</span>
+            <span className="text-xs font-normal">someone@example.com</span>
+          </div>
+
+          <ChevronsUpDown className="h-7 w-[18px]" />
+        </DropdownMenuLabel>
+
+        <DropdownMenuSeparator />
+
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             <User className="mr-4 h-7 w-[18px]" />
             <span>Profile</span>
           </DropdownMenuItem>
+
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Palette className="mr-4 h-7 w-[18px]" />
               <span>Theme</span>
             </DropdownMenuSubTrigger>
+
             <DropdownMenuPortal>
               <DropdownMenuSubContent className="w-48 font-medium">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
@@ -69,16 +93,40 @@ const TopBarProfileDropdown = ({}: Props) => {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+
           <DropdownMenuItem onClick={() => router.push("/settings")}>
             <Settings className="mr-4 h-7 w-[18px]" />
             <span>Settings</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="mr-4 h-7 w-[18px]" />
-          <span>Log out</span>
-        </DropdownMenuItem>
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => router.push("/helps")}>
+            <HelpCircle className="mr-4 h-7 w-[18px]" />
+            <span>Help Center</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem onClick={() => router.push("/customer-care")}>
+            <Bug className="mr-4 h-7 w-[18px]" />
+            <span>Bug Reports</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Plus className="mr-4 h-7 w-[18px]" />
+            <span>Add Account</span>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <LogOut className="mr-4 h-7 w-[18px]" />
+            <span>Log out</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
