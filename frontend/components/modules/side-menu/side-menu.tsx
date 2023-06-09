@@ -9,8 +9,6 @@ import { useSideMenuStore } from "@/lib/zustand";
 
 import {
   Activity,
-  Bell,
-  Briefcase,
   Calendar,
   Flag,
   HelpCircle,
@@ -19,7 +17,6 @@ import {
   Settings,
   Store,
   Ticket,
-  User,
   Users,
 } from "lucide-react";
 import { useLockedBody } from "usehooks-ts";
@@ -62,7 +59,7 @@ const SideMenu = () => {
         <MenuTitle title={"General"} />
 
         <MenuTab
-          href={"/"}
+          href={"/campaigns"}
           Icon={Ticket}
           name="Campaigns"
         />
