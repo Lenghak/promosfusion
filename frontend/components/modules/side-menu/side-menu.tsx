@@ -9,8 +9,6 @@ import { useSideMenuStore } from "@/lib/zustand";
 
 import {
   Activity,
-  Bell,
-  Briefcase,
   Calendar,
   Flag,
   HelpCircle,
@@ -19,7 +17,6 @@ import {
   Settings,
   Store,
   Ticket,
-  User,
   Users,
 } from "lucide-react";
 import { useLockedBody } from "usehooks-ts";
@@ -62,7 +59,7 @@ const SideMenu = () => {
         <MenuTitle title={"General"} />
 
         <MenuTab
-          href={"/"}
+          href={"/campaigns"}
           Icon={Ticket}
           name="Campaigns"
         />
@@ -92,7 +89,7 @@ const SideMenu = () => {
         />
       </section>
 
-      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
+      <section className="flex flex-col gap-1 py-3 max-md:items-center">
         <MenuTitle title={"Reports"} />
 
         <MenuTab
@@ -114,7 +111,7 @@ const SideMenu = () => {
         />
       </section>
 
-      <section className={"flex flex-col gap-1 py-3 max-md:items-center"}>
+      {/* <section className={"flex flex-col gap-1 py-3 max-md:items-center"}>
         <MenuTitle title={"Settings"} />
 
         <MenuTab
@@ -128,7 +125,7 @@ const SideMenu = () => {
           Icon={HelpCircle}
           name="Helps"
         />
-      </section>
+      </section> */}
 
       {/* <section
         className={cn(
