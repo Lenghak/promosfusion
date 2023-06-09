@@ -37,7 +37,7 @@ const SideMenu = () => {
       className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 font-bold transition-all
        ${
          isSideMenuOpen
-           ? "md:overflow-y -scroll min-w-[5rem] max-w-[5rem] translate-x-0 md:min-w-[17rem] md:max-w-[17rem]"
+           ? "md:overflow-y -scroll min-w-[5rem] max-w-[5rem] translate-x-0 md:min-w-[15rem] md:max-w-[15rem]"
            : "w-0 min-w-0 max-w-[5rem] translate-x-0 overflow-x-hidden max-md:translate-x-[-10rem] max-md:p-0 md:min-w-[5rem]"
        }`}
     >
