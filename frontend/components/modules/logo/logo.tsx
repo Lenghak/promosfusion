@@ -13,14 +13,16 @@ import { useTheme } from "@wits/next-themes";
 type LogoProps = {} & Omit<ImageProps, "src" | "alt">;
 
 const Logo = ({ ...props }: LogoProps) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const isMounted = useIsMounted();
 
   return isMounted ? (
     <Image
       width={128}
       height={128}
-      src={theme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"}
+      src={
+        resolvedTheme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"
+      }
       {...props}
       alt="Coupon Flare Logo"
       priority
