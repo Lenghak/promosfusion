@@ -12,11 +12,12 @@ export type NavLinkProps = LinkProps &
     exact?: boolean;
     children?: React.ReactNode;
     className?: string;
+    activeClass?: string;
   };
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
   (
-    { href, exact, children, className, ...props }: NavLinkProps,
+    { href, exact, children, className, activeClass, ...props }: NavLinkProps,
     ref: ForwardedRef<HTMLAnchorElement>
   ) => {
     const pathname = usePathname();
@@ -28,7 +29,7 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
         href={href}
         className={cn([
           isActive
-            ? "text-primary bg-accent font-semibold [&>svg]:stroke-[2.5px]"
+            ? `bg-accent font-semibold [&>svg]:stroke-[2.5px] ${activeClass}`
             : "",
           className,
         ])}
