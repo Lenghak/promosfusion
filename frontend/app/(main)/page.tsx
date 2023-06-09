@@ -1,5 +1,5 @@
 type HomeProps = {};
 
-export default function Home({}: HomeProps) {
-  return <div>Home</div>;
+export default function Campaigns({}: HomeProps) {
+  return <section className="h-full w-full"></section>;
 }
