@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 import { QrCode } from "lucide-react";
 
-type QRScannerLinkProps = {};
+type QRScannerTriggerProps = {};
 
-const QRScannerLink = ({}: QRScannerLinkProps) => {
+const QRScannerTrigger = ({}: QRScannerTriggerProps) => {
   return (
     <Link
       href={"/coupon/scan"}
@@ -26,4 +26,4 @@ const QRScannerLink = ({}: QRScannerLinkProps) => {
   );
 };
 
-export { QRScannerLink };
+export { QRScannerTrigger };

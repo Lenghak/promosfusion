@@ -1,4 +1,4 @@
-import { QRScannerLink } from "@/components/modules/qr-scanner";
+import { QRScannerTrigger } from "@/components/modules/qr-scanner";
 import { SideMenu } from "@/components/modules/side-menu";
 import { TopBar } from "@/components/modules/top-bar";
 
@@ -19,7 +19,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <div className="h-full w-full">{children}</div>
       </section>
 
-      <QRScannerLink />
+      <QRScannerTrigger />
     </main>
   );
 }

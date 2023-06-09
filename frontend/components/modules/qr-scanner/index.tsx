@@ -1,2 +1,2 @@
-export { QRScannerLink } from "./qr-scanner-link";
+export { QRScannerTrigger } from "./qr-scanner-trigger";
 export { QRScannerForm } from "./qr-scanner-form";
