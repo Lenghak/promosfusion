@@ -1,5 +1,7 @@
-type CouponDisplayProps = {};
+import React from "react";
 
-const CouponDisplay = ({}: CouponDisplayProps) => {
+type Props = {};
+
+export default function CouponDisplay({}: Props) {
   return <div>CouponDisplay</div>;
-};
+}
