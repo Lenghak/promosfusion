@@ -16,7 +16,7 @@ const TopBar = ({}: TopbarProps) => {
 
   return (
     <section className="relative flex h-[4.5rem] max-h-[4.5rem] w-full items-center justify-between border-b border-solid">
-      {/*//* Toggle Button */}
+      {/*//* Side bar toggle button */}
       <Button
         variant={"ghost"}
         className="border border-solid p-3"
@@ -29,6 +29,7 @@ const TopBar = ({}: TopbarProps) => {
         )}
       </Button>
 
+      {/*//* Profile picture */}
       <div className="flex items-center justify-end gap-4">
         <Button
           variant={"ghost"}

@@ -6,7 +6,6 @@ import {
   DropdownMenuItem,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -55,7 +54,6 @@ const TopBarProfileDropdown = ({}: Props) => {
                   <Moon className="mr-4 h-7 w-[18px]" />
                   <span>Dark Mode</span>
                 </DropdownMenuItem>
-
                 <DropdownMenuItem>
                   <Laptop2 className="mr-4 h-7 w-[18px]" />
                   <span>System</span>
