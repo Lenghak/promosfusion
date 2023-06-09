@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
-
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 
@@ -12,8 +10,7 @@ type QRScannerTriggerProps = {};
 
 const QRScannerTrigger = ({}: QRScannerTriggerProps) => {
   return (
-    <Link
-      href={"/coupon/scan"}
+    <Button
       className={cn(
         buttonVariants({
           variant: "default",
@@ -22,7 +19,7 @@ const QRScannerTrigger = ({}: QRScannerTriggerProps) => {
       )}
     >
       <QrCode />
-    </Link>
+    </Button>
   );
 };
 
