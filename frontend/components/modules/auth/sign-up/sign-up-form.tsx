@@ -30,7 +30,6 @@ const signUpSchema = z.object({
     .string()
     .min(8, "Password must has at least 8 characters")
     .nonempty(),
-  remember: z.boolean().optional().default(false),
 });
 
 type SignUpFormProps = {};
@@ -43,7 +42,6 @@ export function SignUpForm({}: SignUpFormProps) {
       name: "",
       email: "",
       password: "",
-      remember: true,
     },
     resolver: zodResolver(signUpSchema),
   });
@@ -145,11 +143,7 @@ export function SignUpForm({}: SignUpFormProps) {
           )}
         />
 
-        <section className="flex w-full items-center justify-between">
-          {/* <div className="flex items-center space-x-2">
-            <Checkbox id="remember-password" />
-            <Label htmlFor="remember-password">Remember me</Label>
-          </div> */}
+        {/* <section className="flex w-full items-center justify-between">
 
           <FormField
             control={form.control}
@@ -166,7 +160,7 @@ export function SignUpForm({}: SignUpFormProps) {
               </FormItem>
             )}
           />
-        </section>
+        </section> */}
 
         {/*//* Submit button  */}
         <Button

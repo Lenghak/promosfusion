@@ -115,28 +115,7 @@ export function SignInForm({}: SignInFormProps) {
           )}
         />
 
-        <section className="flex w-full items-center justify-between">
-          {/* <div className="flex items-center space-x-2">
-            <Checkbox id="remember-password" />
-            <Label htmlFor="remember-password">Remember me</Label>
-          </div> */}
-
-          <FormField
-            control={form.control}
-            name="remember"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-center gap-3 space-y-0">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel>Remember me</FormLabel>
-              </FormItem>
-            )}
-          />
-
+        <section className="flex w-full items-center justify-end">
           <Link
             href={"/forgot-password"}
             className={cn([
