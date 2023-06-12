@@ -1,5 +1,8 @@
-type DashBoardProps = {};
+import { authOptions } from "@/lib/next-auth";
 
-export default function Dashboard({}: DashBoardProps) {
-  return <div>Dashboard</div>;
+import { getServerSession } from "next-auth/next";
+
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions);
+  return <pre>{JSON.stringify(session, null, 2)}</pre>;
 }
