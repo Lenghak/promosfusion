@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -21,12 +20,12 @@ import { cn } from "@/lib/utils";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Key, Mail } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
 
 const signInSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must has at least 8 characters"),
-  remember: z.boolean().optional().default(false),
 });
 
 type SignInFormProps = {};
@@ -38,14 +37,18 @@ export function SignInForm({}: SignInFormProps) {
     defaultValues: {
       email: "",
       password: "",
-      remember: true,
     },
     resolver: zodResolver(signInSchema),
   });
 
   //* Hanlder function
-  const formSubmitHandler = (values: z.infer<typeof signInSchema>) => {
-    console.log(values);
+  const formSubmitHandler = async (values: z.infer<typeof signInSchema>) => {
+    await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      callbackUrl: "/dashboard",
+      redirect: true,
+    });
   };
 
   return (
