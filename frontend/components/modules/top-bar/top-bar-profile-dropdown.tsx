@@ -39,8 +39,6 @@ const TopBarProfileDropdown = ({}: Props) => {
   const { data: session } = useSession();
   const { setTheme } = useTheme();
   const router = useRouter();
-
-  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
