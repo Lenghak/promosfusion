@@ -10,7 +10,7 @@ export type UserSignInCredentails = {
 };
 
 export type User = {
-  id: number;
+  id: string;
   uuid: string;
   name: string;
   phone: string;
