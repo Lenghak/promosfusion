@@ -34,7 +34,7 @@ const MenuTab = ({
         }`,
       ])}
       activeClass={
-        "before:content-empty before:absolute before:left-0 before:w-1 before:h-6 before:bg-primary before:self-center before:rounded-full"
+        "before:content-empty before:absolute before:left-0 before:w-1 before:h-4 before:bg-primary before:self-center before:rounded-full"
       }
       {...props}
       // style={{ justifyContent: isSideMenuOpen ? "start" : "center" }}
