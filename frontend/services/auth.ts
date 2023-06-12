@@ -1,9 +1,6 @@
 import { signInService, signUpService } from "@/lib/axios/auth";
 
-import {
-  UserRegisterCredentials,
-  UserSignInCredentails,
-} from "@/types/api/auth";
+import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 
 const useSignUpService = (data: UserRegisterCredentials) => {

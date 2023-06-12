@@ -1,7 +1,4 @@
-import {
-  UserRegisterCredentials,
-  UserSignInCredentails,
-} from "@/types/api/auth";
+import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 
 import { axios } from "./axios";
 
