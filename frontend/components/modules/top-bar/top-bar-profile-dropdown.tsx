@@ -31,13 +31,16 @@ import {
   Sun,
   User,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 type Props = {};
 
 const TopBarProfileDropdown = ({}: Props) => {
+  const { data: session } = useSession();
   const { setTheme } = useTheme();
   const router = useRouter();
 
+  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -122,7 +125,9 @@ const TopBarProfileDropdown = ({}: Props) => {
             <span>Add Account</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: "/sign-in", redirect: true })}
+          >
             <LogOut className="mr-4 h-7 w-[18px]" />
             <span>Log out</span>
           </DropdownMenuItem>
