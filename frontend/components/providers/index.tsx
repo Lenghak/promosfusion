@@ -11,10 +11,10 @@ type ProvidersProps = {
 
 export default function Providers({ children }: ProvidersProps) {
   return (
-    <SessionProvider>
-      <ReactQueryProvider>
-        <RouteProgressProvider>{children}</RouteProgressProvider>
-      </ReactQueryProvider>
-    </SessionProvider>
+    <ReactQueryProvider>
+      <RouteProgressProvider>
+        <SessionProvider>{children}</SessionProvider>
+      </RouteProgressProvider>
+    </ReactQueryProvider>
   );
 }
