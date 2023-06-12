@@ -59,15 +59,15 @@ const SideMenu = () => {
         <MenuTitle title={"General"} />
 
         <MenuTab
-          href={"/campaigns"}
-          Icon={Ticket}
-          name="Campaigns"
-        />
-
-        <MenuTab
           href={"/dashboard"}
           Icon={LayoutGrid}
           name="Dashboard"
+        />
+
+        <MenuTab
+          href={"/campaigns"}
+          Icon={Ticket}
+          name="Campaigns"
         />
 
         <MenuTab
