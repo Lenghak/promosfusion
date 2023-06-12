@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileAvatar } from "@/components/modules/profile-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,28 +36,27 @@ import { signOut, useSession } from "next-auth/react";
 type Props = {};
 
 const TopBarProfileDropdown = ({}: Props) => {
+  //* session from next-auth for user session data
   const { data: session } = useSession();
+
+  //* theme from next-theme for themes
   const { setTheme } = useTheme();
+
+  //* router for navigation
   const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <ProfileAvatar />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mr-4 mt-2 font-medium">
-        <DropdownMenuLabel className="flex flex-nowrap items-center gap-4">
-          <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+        <DropdownMenuLabel className="flex cursor-pointer flex-nowrap items-center gap-4">
+          <ProfileAvatar />
 
           <div className="flex h-full flex-col justify-between">
-            <span>Shadcn UI</span>
-            <span className="text-xs font-normal">someone@example.com</span>
+            <span>{session?.user.name}</span>
+            <span className="text-xs font-normal">{session?.user.email}</span>
           </div>
 
           <ChevronsUpDown className="h-7 w-[18px]" />
