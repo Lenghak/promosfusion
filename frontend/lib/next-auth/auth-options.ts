@@ -1,5 +1,6 @@
 import { signInService } from "@/lib/axios/auth";
 
+import { User } from "@/types/auth";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -36,7 +37,9 @@ const authOptions: AuthOptions = {
 
         // If no error and we have user data, return it
         // Return null if user data could not be retrieved
-        return res?.status === 200 && user ? user : null;
+        return res?.status === 200 && user
+          ? { ...user.user, token: user.token }
+          : null;
       },
     }),
   ],
@@ -47,13 +50,12 @@ const authOptions: AuthOptions = {
   },
   callbacks: {
     async session({ session, token }) {
-      session.user = token;
+      session.user = token as User;
       return session;
     },
 
     async jwt({ token, user }) {
-      if (user) token.user = user;
-      return token;
+      return { ...token, ...user };
     },
   },
 };
