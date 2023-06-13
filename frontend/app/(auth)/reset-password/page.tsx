@@ -3,7 +3,7 @@ import { ResetPasswordForm } from "@/components/modules/auth/reset-password";
 
 type ResetPasswordProps = {};
 
-export default function ResetPassword({}: ResetPasswordProps) {
+export default function Page({}: ResetPasswordProps) {
   return (
     <div className="flex h-full w-full max-w-md flex-col items-center gap-8 self-center p-4  md:max-w-none">
       <FormTitle
