@@ -3,17 +3,19 @@ import { signInService, signUpService } from "@/lib/axios/auth";
 import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 
-const useSignUpService = (data: UserRegisterCredentials) => {
+const useSignUpService = () => {
   return useMutation({
     mutationKey: ["sign-up"],
-    mutationFn: async () => await signUpService(data),
+    mutationFn: async (data: UserRegisterCredentials) =>
+      await signUpService(data),
   });
 };
 
-const useSignInService = (data: UserSignInCredentails) => {
+const useSignInService = () => {
   return useMutation({
     mutationKey: ["sign-in"],
-    mutationFn: async () => await signInService(data),
+    mutationFn: async (data: UserSignInCredentails) =>
+      await signInService(data),
   });
 };
 
