@@ -1,4 +1,4 @@
-export default function NotFound() {
+export default function Page() {
   return (
     <div className="grid h-full min-h-screen w-full place-content-center place-items-center">
       <span className="text-xl">

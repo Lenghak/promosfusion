@@ -1,5 +1,5 @@
 type CampaignsProps = {};
 
-export default function Campaigns({}: CampaignsProps) {
+export default function Page({}: CampaignsProps) {
   return <div>Campaigns</div>;
 }
