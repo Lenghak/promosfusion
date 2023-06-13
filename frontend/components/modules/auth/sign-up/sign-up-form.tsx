@@ -1,26 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useSignUpService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Key, Mail, User } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -37,6 +37,8 @@ type SignUpFormProps = {};
 export function SignUpForm({}: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const { mutateAsync: signUp, status } = useSignUpService();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     defaultValues: {
       name: "",
@@ -47,8 +49,8 @@ export function SignUpForm({}: SignUpFormProps) {
   });
 
   //* Hanlder function
-  const formSubmitHandler = (values: z.infer<typeof signUpSchema>) => {
-    console.log(values);
+  const formSubmitHandler = async (values: z.infer<typeof signUpSchema>) => {
+    await signUp(values);
   };
 
   return (
