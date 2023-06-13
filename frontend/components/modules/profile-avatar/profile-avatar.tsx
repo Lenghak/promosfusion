@@ -13,8 +13,6 @@ const ProfileAvatar = forwardRef<HTMLSpanElement, AvatarProps>(
   ({ className, ...props }, ref) => {
     const { data: session } = useSession();
 
-    console.log(session);
-
     return (
       <Avatar
         className={cn("cursor-pointer", className)}
