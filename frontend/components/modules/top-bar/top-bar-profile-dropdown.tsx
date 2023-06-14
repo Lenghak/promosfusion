@@ -40,7 +40,7 @@ const TopBarProfileDropdown = ({}: Props) => {
   const { data: session } = useSession();
 
   //* theme from next-theme for themes
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   //* router for navigation
   const router = useRouter();
@@ -78,15 +78,24 @@ const TopBarProfileDropdown = ({}: Props) => {
 
             <DropdownMenuPortal>
               <DropdownMenuSubContent className="w-48 font-medium">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("light")}
+                  className={theme === "light" ? "bg-accent text-primary" : ""}
+                >
                   <Sun className="mr-4 h-7 w-[18px]" />
                   <span>Light Mode</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("dark")}
+                  className={theme === "dark" ? "bg-accent text-primary" : ""}
+                >
                   <Moon className="mr-4 h-7 w-[18px]" />
                   <span>Dark Mode</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("system")}
+                  className={theme === "system" ? "bg-accent text-primary" : ""}
+                >
                   <Laptop2 className="mr-4 h-7 w-[18px]" />
                   <span>System</span>
                 </DropdownMenuItem>
