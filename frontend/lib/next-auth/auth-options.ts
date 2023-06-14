@@ -43,7 +43,7 @@ const authOptions: AuthOptions = {
       },
     }),
   ],
-  pages: { signIn: "/sign-in" },
+  pages: { signIn: "/sign-in", error: "/sign-in" },
   session: {
     strategy: "jwt",
     maxAge: 365 * 24 * 60 * 60,
