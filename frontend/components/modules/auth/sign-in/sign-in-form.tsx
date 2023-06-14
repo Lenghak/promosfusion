@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -17,11 +18,13 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useSignInService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Key, Mail } from "lucide-react";
+import { Eye, EyeOff, Key, Loader2, Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { z } from "zod";
 
+//* zod schema
 const signInSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must has at least 8 characters"),
@@ -32,6 +35,7 @@ type SignInFormProps = {};
 export function SignInForm({}: SignInFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  //* form return object from useForm from react-hook-form integrated with zod
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
       email: "",
@@ -40,13 +44,19 @@ export function SignInForm({}: SignInFormProps) {
     resolver: zodResolver(signInSchema),
   });
 
+  const {
+    mutate: signIn,
+    isError: isSignInError,
+    isSuccess: isSignInSuccess,
+    isLoading: isSigningIn,
+    error: signInError,
+  } = useSignInService();
+
   //* Hanlder function
-  const formSubmitHandler = async (values: z.infer<typeof signInSchema>) => {
-    await signIn("credentials", {
+  const formSubmitHandler = (values: z.infer<typeof signInSchema>) => {
+    signIn({
       email: values.email,
       password: values.password,
-      callbackUrl: "/dashboard",
-      redirect: true,
     });
   };
 
@@ -133,8 +143,16 @@ export function SignInForm({}: SignInFormProps) {
         <Button
           type="submit"
           className="w-full"
+          disabled={isSigningIn}
         >
-          Sign In
+          {isSigningIn ? (
+            <Loader2
+              size={18}
+              className="animate-spin"
+            />
+          ) : (
+            "Sign In"
+          )}
         </Button>
 
         {/*//* No account link  */}
