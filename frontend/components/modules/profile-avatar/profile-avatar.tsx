@@ -28,4 +28,6 @@ const ProfileAvatar = forwardRef<HTMLSpanElement, AvatarProps>(
   }
 );
 
+ProfileAvatar.displayName = "ProfileAvatar";
+
 export { ProfileAvatar };
