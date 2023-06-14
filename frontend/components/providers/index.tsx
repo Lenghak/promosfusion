@@ -1,5 +1,7 @@
 "use client";
 
+import { Toaster } from "@/components/ui/toast";
+
 import { SessionProvider } from "next-auth/react";
 
 import { ReactQueryProvider } from "./react-query";
@@ -13,7 +15,9 @@ export default function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
       <RouteProgressProvider>
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          {children} <Toaster />
+        </SessionProvider>
       </RouteProgressProvider>
     </ReactQueryProvider>
   );
