@@ -33,9 +33,7 @@ const MenuTab = ({
             : "w-fit justify-center place-self-center self-center px-3"
         }`,
       ])}
-      activeClass={
-        "before:content-empty before:absolute before:left-0 before:w-1 before:h-4 before:bg-primary before:self-center before:rounded-full"
-      }
+      activeClass={"text-primary"}
       {...props}
       // style={{ justifyContent: isSideMenuOpen ? "start" : "center" }}
     >
