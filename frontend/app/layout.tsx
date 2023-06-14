@@ -4,6 +4,7 @@ import { Fira_Mono } from "next/font/google";
 
 import { Icon } from "@/components/modules/icon";
 import Providers from "@/components/providers";
+import { Toaster } from "@/components/ui/toast";
 
 import { ServerThemeProvider } from "@wits/next-themes";
 
@@ -45,6 +46,7 @@ export default function RootLayout({
         </head>
         <body className={firaMono.className}>
           <Providers>{children}</Providers>
+          <Toaster />
         </body>
       </html>
     </ServerThemeProvider>
