@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -17,10 +18,10 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { toast } from "@/hooks/use-toast";
 import { useSignUpService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Key, Mail, User } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { Eye, EyeOff, Key, Loader2, Mail, User } from "lucide-react";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -37,7 +38,13 @@ type SignUpFormProps = {};
 export function SignUpForm({}: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const { mutateAsync: signUp, status } = useSignUpService();
+  const {
+    mutate: signUp,
+    isError: isSignUpError,
+    isSuccess: isSignUpSuccess,
+    isLoading: isSigningUp,
+    error: signUpError,
+  } = useSignUpService();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     defaultValues: {
@@ -49,9 +56,13 @@ export function SignUpForm({}: SignUpFormProps) {
   });
 
   //* Hanlder function
-  const formSubmitHandler = async (values: z.infer<typeof signUpSchema>) => {
-    await signUp(values);
+  const formSubmitHandler = (values: z.infer<typeof signUpSchema>) => {
+    signUp(values);
   };
+
+  if (isSignUpSuccess) {
+    redirect("/sign-in");
+  }
 
   return (
     <Form {...form}>
@@ -168,8 +179,16 @@ export function SignUpForm({}: SignUpFormProps) {
         <Button
           type="submit"
           className="w-full"
+          disabled={isSigningUp}
         >
-          Sign Up
+          {isSigningUp ? (
+            <Loader2
+              size={18}
+              className="animate-spin"
+            />
+          ) : (
+            "Sign Up"
+          )}
         </Button>
 
         {/*//* No account link  */}
