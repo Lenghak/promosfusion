@@ -5,7 +5,7 @@ const useIsOnline = () => {
 
   useEffect(() => {
     setIsOnline(navigator.onLine);
-  }, [navigator.onLine]);
+  }, []);
 
   return isOnline;
 };

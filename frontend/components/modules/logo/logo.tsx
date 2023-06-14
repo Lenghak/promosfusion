@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { cn } from "@/lib/utils";
 
-import { useIsMounted } from "@/hooks";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useTheme } from "@wits/next-themes";
 
 type LogoProps = {} & Omit<ImageProps, "src" | "alt">;
