@@ -7,6 +7,7 @@ import { useSideMenuStore } from "@/lib/zustand";
 
 import { Bell, SidebarClose, SidebarOpen } from "lucide-react";
 
+import { QRScannerForm } from "../qr-scanner";
 import { TopBarProfileDropdown } from "./top-bar-profile-dropdown";
 
 type TopbarProps = {};
@@ -19,7 +20,7 @@ const TopBar = ({}: TopbarProps) => {
       {/*//* Side bar toggle button */}
       <Button
         variant={"ghost"}
-        className="border border-solid p-3"
+        className="p-3"
         onClick={() => setSideMenu(!isSideMenuOpen)}
       >
         {isSideMenuOpen ? (
@@ -31,9 +32,11 @@ const TopBar = ({}: TopbarProps) => {
 
       {/*//* Profile picture */}
       <div className="flex items-center justify-end gap-4">
+        <QRScannerForm />
+
         <Button
           variant={"ghost"}
-          className="border border-solid p-3"
+          className="p-3"
         >
           <Bell size={18} />
         </Button>
