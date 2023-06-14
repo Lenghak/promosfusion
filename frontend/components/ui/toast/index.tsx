@@ -1,10 +1,10 @@
-export type { ToastProps, ToastActionElement } from "./toast";
 export {
-  ToastProvider,
-  ToastViewport,
   Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
   ToastAction,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
 } from "./toast";
+export type { ToastProps, ToastActionElement } from "./toast";
