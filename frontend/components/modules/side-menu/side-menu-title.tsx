@@ -7,7 +7,7 @@ const MenuTitle = ({ title }: { title: React.ReactNode }) => {
 
   return (
     <Label
-      className={`px-4 py-3 uppercase ${
+      className={`px-4 py-3 text-xs uppercase ${
         isSideMenuOpen ? "max-md:hidden" : "hidden"
       }`}
     >
