@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useToast } from "@/hooks/use-toast";
 import { useSignUpService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
@@ -37,6 +38,7 @@ type SignUpFormProps = {};
 
 export function SignUpForm({}: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const {
     mutate: signUp,
@@ -64,16 +66,19 @@ export function SignUpForm({}: SignUpFormProps) {
   useEffect(() => {
     if (isSignUpSuccess) redirect("/sign-in");
 
-    if (isSignUpError && isAxiosError(signUpError)) {
-      form.setError(
-        "email",
-        { message: signUpError.response?.data.errors.email },
-        {
-          shouldFocus: true,
-        }
-      );
+    if (isAxiosError(signUpError)) {
+      const emailError: string = signUpError.response?.data.errors.email;
+
+      emailError
+        ? form.setError("email", { message: emailError })
+        : toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description:
+              "There was a problem processing your request. Please try again later",
+          });
     }
-  }, [isSignUpError, isSignUpSuccess, signUpError, form]);
+  }, [isSignUpSuccess, signUpError, form, toast]);
 
   return (
     <Form {...form}>

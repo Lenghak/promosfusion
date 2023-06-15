@@ -18,10 +18,10 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useToast } from "@/hooks/use-toast";
 import { useSignInService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Key, Loader2, Mail } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { z } from "zod";
 
 //* zod schema
@@ -34,6 +34,7 @@ type SignInFormProps = {};
 
 export function SignInForm({}: SignInFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
 
   //* form return object from useForm from react-hook-form integrated with zod
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -69,12 +70,19 @@ export function SignInForm({}: SignInFormProps) {
         message: "Error - Incorrect email or passowrd",
         type: "401",
       });
+    } else if (signInResponse?.error?.length) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "There was a problem processing your request. Please try again later",
+      });
     }
 
     if (signInResponse?.error === null) {
       redirect("/dashboard");
     }
-  }, [signInResponse, form]);
+  }, [signInResponse, form, toast]);
 
   return (
     <Form {...form}>
