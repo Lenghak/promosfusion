@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
@@ -46,10 +46,8 @@ export function SignInForm({}: SignInFormProps) {
 
   const {
     mutate: signIn,
-    isError: isSignInError,
-    isSuccess: isSignInSuccess,
     isLoading: isSigningIn,
-    error: signInError,
+    data: signInResponse,
   } = useSignInService();
 
   //* Hanlder function
@@ -59,6 +57,24 @@ export function SignInForm({}: SignInFormProps) {
       password: values.password,
     });
   };
+
+  //* Signin Error handling
+  useEffect(() => {
+    if (signInResponse?.error?.includes("401")) {
+      form.setError("email", {
+        message: "Error - Incorrect email or passowrd",
+        type: "401",
+      });
+      form.setError("password", {
+        message: "Error - Incorrect email or passowrd",
+        type: "401",
+      });
+    }
+
+    if (signInResponse?.error === null) {
+      redirect("/dashboard");
+    }
+  }, [signInResponse, form]);
 
   return (
     <Form {...form}>

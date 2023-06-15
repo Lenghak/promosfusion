@@ -19,8 +19,8 @@ const useSignInService = () => {
       await signIn("credentials", {
         email: data.email,
         password: data.password,
-        callbackUrl: "/dashboard",
-        redirect: true,
+        callbackUrl: "/sign-in",
+        redirect: false,
       }),
   });
 };
