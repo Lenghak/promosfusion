@@ -1,8 +1,6 @@
-import { authOptions } from "@/lib/next-auth";
-
-import { getServerSession } from "next-auth/next";
+import { getCurrentUser } from "@/lib/next-auth";
 
 export default async function Dashboard() {
-  const session = await getServerSession(authOptions);
-  return <pre>{JSON.stringify(session, null, 2)}</pre>;
+  const session = await getCurrentUser();
+  return <pre></pre>;
 }
