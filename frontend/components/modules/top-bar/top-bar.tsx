@@ -16,7 +16,7 @@ const TopBar = ({}: TopbarProps) => {
   const { isSideMenuOpen, setSideMenu } = useSideMenuStore((state) => state);
 
   return (
-    <section className="relative flex h-[4.5rem] max-h-[4.5rem] w-full items-center justify-between border-b border-solid">
+    <section className="relative flex h-[4.5rem] max-h-[4.5rem] min-h-[4.5rem] w-full items-center justify-between border-b border-solid">
       {/*//* Side bar toggle button */}
       <Button
         variant={"ghost"}

@@ -103,6 +103,8 @@
 }
 
 body {
+  overflow-x: auto !important;
+
   & * {
     &::selection {
       background-color: hsl(var(--primary));

@@ -10,7 +10,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <main className="flex items-start">
       <SideMenu />
 
-      <section className="flex h-full w-full flex-col px-4">
+      <section className="flex h-full min-h-screen w-full flex-col overflow-y-auto px-4">
         <TopBar />
 
         <div className="h-full w-full">{children}</div>
