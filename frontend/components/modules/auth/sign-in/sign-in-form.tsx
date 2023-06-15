@@ -26,7 +26,7 @@ import { z } from "zod";
 
 //* zod schema
 const signInSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must has at least 8 characters"),
 });
 
