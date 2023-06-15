@@ -31,7 +31,7 @@ const SideMenu = () => {
 
   return (
     <aside
-      className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 font-bold transition-all
+      className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 transition-all
        ${
          isSideMenuOpen
            ? "md:overflow-y -scroll min-w-[5rem] max-w-[5rem] translate-x-0 md:min-w-[15rem] md:max-w-[15rem]"
@@ -46,7 +46,7 @@ const SideMenu = () => {
           <Logo className="h-10 w-10" />
           <span
             className={cn(
-              "hidden whitespace-nowrap text-sm md:inline",
+              "hidden whitespace-nowrap text-sm font-bold md:inline",
               isSideMenuOpen ? "" : "md:hidden"
             )}
           >
