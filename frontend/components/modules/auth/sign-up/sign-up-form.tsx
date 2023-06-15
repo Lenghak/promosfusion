@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
@@ -18,9 +18,9 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
-import { toast } from "@/hooks/use-toast";
 import { useSignUpService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
 import { Eye, EyeOff, Key, Loader2, Mail, User } from "lucide-react";
 import { z } from "zod";
 
@@ -60,9 +60,20 @@ export function SignUpForm({}: SignUpFormProps) {
     signUp(values);
   };
 
-  if (isSignUpSuccess) {
-    redirect("/sign-in");
-  }
+  //* Handling side-effect
+  useEffect(() => {
+    if (isSignUpSuccess) redirect("/sign-in");
+
+    if (isSignUpError && isAxiosError(signUpError)) {
+      form.setError(
+        "email",
+        { message: signUpError.response?.data.errors.email },
+        {
+          shouldFocus: true,
+        }
+      );
+    }
+  }, [isSignUpError, isSignUpSuccess, signUpError, form]);
 
   return (
     <Form {...form}>
