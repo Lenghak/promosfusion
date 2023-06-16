@@ -1,8 +1,9 @@
 "use client";
 
-import {  useState } from "react";
+import { useState } from "react";
 
 import { QrScanner } from "@yudiel/react-qr-scanner";
+import { CameraOff } from "lucide-react";
 
 import { QrScannerViewFinder } from "./qr-scanner-view-finder";
 
@@ -26,12 +27,15 @@ const QrScannerView = () => {
       />
 
       {errorMessage && (
-        <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col place-content-center place-items-center gap-4 p-10">
+        <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col place-content-center place-items-center gap-4 p-14">
           {errorMessage === "Permission denied" ? (
-            <span className="text-center text-sm">
-              Your browser has not allowed camera permission. Please allow
-              camera permission for scanning.
-            </span>
+            <>
+              <CameraOff size={48} />
+              <span className="text-center text-sm">
+                Your browser does not have access to the camera. Please allow
+                camera permission for scanning.
+              </span>
+            </>
           ) : (
             <span className="text-center text-sm">
               There was a problem accessing your camera. Please try again later.
