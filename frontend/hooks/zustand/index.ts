@@ -1,1 +1,1 @@
-export { useGetStore } from "./useGetStore";
+export { useGetStore } from "./use-get-store";

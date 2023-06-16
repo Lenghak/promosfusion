@@ -94,7 +94,7 @@ const Icon = () => {
       />
       <link
         rel="manifest"
-        href="/images/light-logo/manifest.json"
+        href="/manifest.light.json"
         media="(prefers-color-scheme: light)"
       />
       <meta
@@ -203,7 +203,7 @@ const Icon = () => {
       />
       <link
         rel="manifest"
-        href="/images/dark-logo/manifest.json"
+        href="/manifest.dark.json"
         media="(prefers-color-scheme: dark)"
       />
       <meta

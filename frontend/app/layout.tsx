@@ -3,7 +3,7 @@ import "@/scss/globals.scss";
 import { Fira_Mono } from "next/font/google";
 
 import { Icon } from "@/components/modules/icon";
-import { RouteProgressProvider } from "@/components/providers/route-progress";
+import Providers from "@/components/providers";
 
 import { ServerThemeProvider } from "@wits/next-themes";
 
@@ -44,7 +44,7 @@ export default function RootLayout({
           <Icon />
         </head>
         <body className={firaMono.className}>
-          <RouteProgressProvider>{children}</RouteProgressProvider>
+          <Providers>{children}</Providers>
         </body>
       </html>
     </ServerThemeProvider>

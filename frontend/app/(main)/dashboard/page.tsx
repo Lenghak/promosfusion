@@ -1,5 +1,6 @@
-type DashBoardProps = {};
+import { getCurrentUser } from "@/lib/next-auth";
 
-export default function Dashboard({}: DashBoardProps) {
-  return <div>Dashboard</div>;
+export default async function Dashboard() {
+  const session = await getCurrentUser();
+  return <pre></pre>;
 }

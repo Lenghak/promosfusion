@@ -72,8 +72,8 @@ dependencies:
     specifier: ^0.2.16
     version: 0.2.16(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
   '@yudiel/react-qr-scanner':
-    specifier: ^1.1.8
-    version: 1.1.8(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.1.9
+    version: 1.1.9(react-dom@18.2.0)(react@18.2.0)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.24)
@@ -1592,8 +1592,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@yudiel/react-qr-scanner@1.1.8(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Noq29aLdelQy3whKLWIXTm9dugAVlnVZdq/vFLFmHzsotDTeFXg0a8SGRZ7BXBNJOVgwkydKXgw4jow5VtnyRg==}
+  /@yudiel/react-qr-scanner@1.1.9(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-yJkSMEPE5vqirSMz6NKtK0wvjyRun2BTcstEuVyieKKNdGMtCf7o5PudWeILfRevpBhFmFlqeCEviuow13yuLw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0

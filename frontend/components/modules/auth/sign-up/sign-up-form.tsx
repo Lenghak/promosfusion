@@ -1,26 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useToast } from "@/hooks/use-toast";
+import { useSignUpService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Key, Mail, User } from "lucide-react";
+import { isAxiosError } from "axios";
+import { Eye, EyeOff, Key, Loader2, Mail, User } from "lucide-react";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -30,28 +32,53 @@ const signUpSchema = z.object({
     .string()
     .min(8, "Password must has at least 8 characters")
     .nonempty(),
-  remember: z.boolean().optional().default(false),
 });
 
 type SignUpFormProps = {};
 
 export function SignUpForm({}: SignUpFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
+
+  const {
+    mutate: signUp,
+    isError: isSignUpError,
+    isSuccess: isSignUpSuccess,
+    isLoading: isSigningUp,
+    error: signUpError,
+  } = useSignUpService();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     defaultValues: {
       name: "",
       email: "",
       password: "",
-      remember: true,
     },
     resolver: zodResolver(signUpSchema),
   });
 
   //* Hanlder function
   const formSubmitHandler = (values: z.infer<typeof signUpSchema>) => {
-    console.log(values);
+    signUp(values);
   };
+
+  //* Handling side-effect
+  useEffect(() => {
+    if (isSignUpSuccess) redirect("/sign-in");
+
+    if (isAxiosError(signUpError)) {
+      const emailError: string = signUpError.response?.data.errors.email;
+
+      emailError
+        ? form.setError("email", { message: emailError })
+        : toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description:
+              "There was a problem processing your request. Please try again later",
+          });
+    }
+  }, [isSignUpSuccess, signUpError, form, toast]);
 
   return (
     <Form {...form}>
@@ -145,11 +172,7 @@ export function SignUpForm({}: SignUpFormProps) {
           )}
         />
 
-        <section className="flex w-full items-center justify-between">
-          {/* <div className="flex items-center space-x-2">
-            <Checkbox id="remember-password" />
-            <Label htmlFor="remember-password">Remember me</Label>
-          </div> */}
+        {/* <section className="flex w-full items-center justify-between">
 
           <FormField
             control={form.control}
@@ -166,14 +189,22 @@ export function SignUpForm({}: SignUpFormProps) {
               </FormItem>
             )}
           />
-        </section>
+        </section> */}
 
         {/*//* Submit button  */}
         <Button
           type="submit"
           className="w-full"
+          disabled={isSigningUp}
         >
-          Sign Up
+          {isSigningUp ? (
+            <Loader2
+              size={18}
+              className="animate-spin"
+            />
+          ) : (
+            "Sign Up"
+          )}
         </Button>
 
         {/*//* No account link  */}

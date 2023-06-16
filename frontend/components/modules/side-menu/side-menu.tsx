@@ -9,6 +9,7 @@ import { useSideMenuStore } from "@/lib/zustand";
 
 import {
   Activity,
+  Bell,
   Calendar,
   Flag,
   HelpCircle,
@@ -31,7 +32,7 @@ const SideMenu = () => {
 
   return (
     <aside
-      className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 font-bold transition-all
+      className={`relative h-full max-h-screen min-h-screen overflow-x-hidden border-r border-solid px-4 transition-all
        ${
          isSideMenuOpen
            ? "md:overflow-y -scroll min-w-[5rem] max-w-[5rem] translate-x-0 md:min-w-[15rem] md:max-w-[15rem]"
@@ -46,7 +47,7 @@ const SideMenu = () => {
           <Logo className="h-10 w-10" />
           <span
             className={cn(
-              "hidden whitespace-nowrap text-sm md:inline",
+              "hidden whitespace-nowrap text-sm font-bold md:inline",
               isSideMenuOpen ? "" : "md:hidden"
             )}
           >
@@ -59,15 +60,15 @@ const SideMenu = () => {
         <MenuTitle title={"General"} />
 
         <MenuTab
-          href={"/campaigns"}
-          Icon={Ticket}
-          name="Campaigns"
-        />
-
-        <MenuTab
           href={"/dashboard"}
           Icon={LayoutGrid}
           name="Dashboard"
+        />
+
+        <MenuTab
+          href={"/campaigns"}
+          Icon={Ticket}
+          name="Campaigns"
         />
 
         <MenuTab
@@ -81,15 +82,29 @@ const SideMenu = () => {
           Icon={Store}
           name="Shops"
         />
+      </section>
+
+      <section
+        className={
+          "flex flex-col gap-1 border-b border-solid py-3 max-md:items-center"
+        }
+      >
+        <MenuTitle title={"Communication"} />
 
         <MenuTab
           href={"/chat"}
           Icon={MessageCircle}
           name="Messages"
         />
+
+        <MenuTab
+          href={"/notifications"}
+          Icon={Bell}
+          name="Notification"
+        />
       </section>
 
-      <section className="flex flex-col gap-1 py-3 max-md:items-center">
+      <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
         <MenuTitle title={"Reports"} />
 
         <MenuTab
@@ -110,22 +125,6 @@ const SideMenu = () => {
           name="Schedules"
         />
       </section>
-
-      {/* <section className={"flex flex-col gap-1 py-3 max-md:items-center"}>
-        <MenuTitle title={"Settings"} />
-
-        <MenuTab
-          href={"/settings"}
-          Icon={Settings}
-          name="Settings"
-        />
-
-        <MenuTab
-          href={"/help"}
-          Icon={HelpCircle}
-          name="Helps"
-        />
-      </section> */}
 
       {/* <section
         className={cn(

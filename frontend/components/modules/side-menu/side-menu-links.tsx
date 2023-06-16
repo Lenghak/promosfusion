@@ -16,7 +16,7 @@ const SideMenuLink = ({
     <Link
       href={href}
       className={cn(
-        "whitespace-nowrap text-sm font-medium capitalize text-opacity-50 hover:underline hover:underline-offset-2",
+        "whitespace-nowrap text-sm capitalize text-opacity-50 hover:underline hover:underline-offset-2",
         className
       )}
       {...props}

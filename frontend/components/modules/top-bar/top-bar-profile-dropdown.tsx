@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileAvatar } from "@/components/modules/profile-avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,32 +31,32 @@ import {
   Sun,
   User,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 
 type Props = {};
 
 const TopBarProfileDropdown = ({}: Props) => {
-  const { setTheme } = useTheme();
-  const router = useRouter();
+  //* session from next-auth for user session data
+  const { data: session } = useSession();
 
+  //* theme from next-theme for themes
+  const { setTheme, theme } = useTheme();
+
+  //* router for navigation
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <ProfileAvatar />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mr-4 mt-2 font-medium">
-        <DropdownMenuLabel className="flex flex-nowrap items-center gap-4">
-          <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+        <DropdownMenuLabel className="flex cursor-pointer flex-nowrap items-center gap-4">
+          <ProfileAvatar />
 
           <div className="flex h-full flex-col justify-between">
-            <span>Shadcn UI</span>
-            <span className="text-xs font-normal">someone@example.com</span>
+            <span>{session?.user.name}</span>
+            <span className="text-xs font-normal">{session?.user.email}</span>
           </div>
 
           <ChevronsUpDown className="h-7 w-[18px]" />
@@ -78,15 +78,24 @@ const TopBarProfileDropdown = ({}: Props) => {
 
             <DropdownMenuPortal>
               <DropdownMenuSubContent className="w-48 font-medium">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("light")}
+                  className={theme === "light" ? "bg-accent text-primary" : ""}
+                >
                   <Sun className="mr-4 h-7 w-[18px]" />
                   <span>Light Mode</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("dark")}
+                  className={theme === "dark" ? "bg-accent text-primary" : ""}
+                >
                   <Moon className="mr-4 h-7 w-[18px]" />
                   <span>Dark Mode</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
+                <DropdownMenuItem
+                  onClick={() => setTheme("system")}
+                  className={theme === "system" ? "bg-accent text-primary" : ""}
+                >
                   <Laptop2 className="mr-4 h-7 w-[18px]" />
                   <span>System</span>
                 </DropdownMenuItem>
@@ -122,7 +131,9 @@ const TopBarProfileDropdown = ({}: Props) => {
             <span>Add Account</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: "/sign-in", redirect: true })}
+          >
             <LogOut className="mr-4 h-7 w-[18px]" />
             <span>Log out</span>
           </DropdownMenuItem>

@@ -1,52 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
+import { useToast } from "@/hooks/use-toast";
+import { useSignInService } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Key, Mail } from "lucide-react";
+import { Eye, EyeOff, Key, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
 
+//* zod schema
 const signInSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must has at least 8 characters"),
-  remember: z.boolean().optional().default(false),
 });
 
 type SignInFormProps = {};
 
 export function SignInForm({}: SignInFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { toast } = useToast();
 
+  //* form return object from useForm from react-hook-form integrated with zod
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
       email: "",
       password: "",
-      remember: true,
     },
     resolver: zodResolver(signInSchema),
   });
 
+  const {
+    mutate: signIn,
+    isLoading: isSigningIn,
+    data: signInResponse,
+  } = useSignInService();
+
   //* Hanlder function
   const formSubmitHandler = (values: z.infer<typeof signInSchema>) => {
-    console.log(values);
+    signIn({
+      email: values.email,
+      password: values.password,
+    });
   };
+
+  //* Signin Error handling
+  useEffect(() => {
+    if (signInResponse?.error?.includes("401")) {
+      form.setError("email", {
+        message: "Error - Incorrect email or passowrd",
+        type: "401",
+      });
+      form.setError("password", {
+        message: "Error - Incorrect email or passowrd",
+        type: "401",
+      });
+    } else if (signInResponse?.error?.length) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "There was a problem processing your request. Please try again later",
+      });
+    }
+
+    if (signInResponse?.error === null) {
+      redirect("/dashboard");
+    }
+  }, [signInResponse, form, toast]);
 
   return (
     <Form {...form}>
@@ -115,28 +151,7 @@ export function SignInForm({}: SignInFormProps) {
           )}
         />
 
-        <section className="flex w-full items-center justify-between">
-          {/* <div className="flex items-center space-x-2">
-            <Checkbox id="remember-password" />
-            <Label htmlFor="remember-password">Remember me</Label>
-          </div> */}
-
-          <FormField
-            control={form.control}
-            name="remember"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-center gap-3 space-y-0">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel>Remember me</FormLabel>
-              </FormItem>
-            )}
-          />
-
+        <section className="flex w-full items-center justify-end">
           <Link
             href={"/forgot-password"}
             className={cn([
@@ -152,8 +167,16 @@ export function SignInForm({}: SignInFormProps) {
         <Button
           type="submit"
           className="w-full"
+          disabled={isSigningIn}
         >
-          Sign In
+          {isSigningIn ? (
+            <Loader2
+              size={18}
+              className="animate-spin"
+            />
+          ) : (
+            "Sign In"
+          )}
         </Button>
 
         {/*//* No account link  */}
