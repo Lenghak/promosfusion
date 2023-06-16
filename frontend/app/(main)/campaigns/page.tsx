@@ -36,11 +36,10 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Edit, Filter, MoreVertical, Plus, Search } from "lucide-react";
 
 type CampaignsProps = {
-  role: string;
   campaignCount: number;
 };
 
-export default function Campaigns({ role, campaignCount }: CampaignsProps) {
+export default function Campaigns({ campaignCount }: CampaignsProps) {
   const [date, setDate] = React.useState<Date>();
 
   return (
