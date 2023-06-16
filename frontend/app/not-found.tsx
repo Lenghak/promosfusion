@@ -1,3 +1,5 @@
+"use client";
+
 export default function NotFound() {
   return (
     <div className="grid h-full min-h-screen w-full place-content-center place-items-center">
