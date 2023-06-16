@@ -1,7 +1,3 @@
-import React from "react";
-
-type Props = {};
-
-export default function Members({}: Props) {
+export default function Members() {
   return <div>Members</div>;
 }
