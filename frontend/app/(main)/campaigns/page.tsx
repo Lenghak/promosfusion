@@ -1,7 +1,3 @@
-"use client";
-
-import * as React from "react";
-
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -35,12 +31,12 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Edit, Filter, MoreVertical, Plus, Search } from "lucide-react";
 
-type CampaignsProps = {
-  campaignCount: number;
-};
+// type CampaignsProps = {
+//   campaignCount: number;
+// };
 
-export default function Campaigns({ campaignCount }: CampaignsProps) {
-  const [date, setDate] = React.useState<Date>();
+export default function Campaigns() {
+  // const [date, setDate] = useState<Date>();
 
   return (
     <div className="flex flex-col">
@@ -74,19 +70,19 @@ export default function Campaigns({ campaignCount }: CampaignsProps) {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
+                    "w-[280px] justify-start text-left font-normal"
+                    // !date && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  {/* {date ? format(date, "PPP") : <span>Pick a date</span>} */}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
-                  selected={date}
-                  onSelect={setDate}
+                  // selected={date}
+                  // onSelect={setDate}
                   initialFocus
                 />
               </PopoverContent>
@@ -106,7 +102,7 @@ export default function Campaigns({ campaignCount }: CampaignsProps) {
         <div className="flex flex-row items-center gap-2">
           <div>
             <div className="text-neutral-400">Showing&nbsp;</div>{" "}
-            <div>{campaignCount}</div>
+            {/* <div>{campaignCount}</div> */}
           </div>
           <div>
             <Button variant="default">
