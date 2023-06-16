@@ -1,3 +1,5 @@
+"use client";
+
 type ErrorProps = {};
 
 export default function Error({}: ErrorProps) {

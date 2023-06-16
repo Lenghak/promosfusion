@@ -28,12 +28,10 @@ const QrScannerView = () => {
       {errorMessage && (
         <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col place-content-center place-items-center gap-4 p-10">
           {errorMessage === "Permission denied" ? (
-            <Fragment>
-              <span className="text-center text-sm">
-                Your browser has not allowed camera permission. Please allow
-                camera permission for scanning.
-              </span>
-            </Fragment>
+            <span className="text-center text-sm">
+              Your browser has not allowed camera permission. Please allow
+              camera permission for scanning.
+            </span>
           ) : (
             <span className="text-center text-sm">
               There was a problem accessing your camera. Please try again later.
