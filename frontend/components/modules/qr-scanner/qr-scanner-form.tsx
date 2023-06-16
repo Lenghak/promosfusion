@@ -1,21 +1,25 @@
+"use client";
+
 import { buttonVariants } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import { QrCode } from "lucide-react";
+
+import { QrScannerView } from "./qr-scanner-view";
 
 type QRScannerFormProps = {};
 
 const QRScannerForm = ({}: QRScannerFormProps) => {
   return (
-    <Dialog>
-      <DialogTrigger
+    <Sheet modal={false}>
+      <SheetTrigger
         className={buttonVariants({
           variant: "default",
           className: "w-11 p-0",
@@ -25,17 +29,18 @@ const QRScannerForm = ({}: QRScannerFormProps) => {
           size={18}
           className="min-h-[1.125rem] min-w-[1.125rem]"
         />
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+      </SheetTrigger>
+      <SheetContent className="w-full md:w-1/2 lg:w-1/3">
+        <SheetHeader>
+          <SheetTitle className="text-center">Coupon Scanning</SheetTitle>
+          <SheetDescription className="text-center">
+            Display the QR code right inside the scanning box for scanning.
+          </SheetDescription>
+
+          <QrScannerView />
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
   );
 };
 
