@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import {  useState } from "react";
 
 import { QrScanner } from "@yudiel/react-qr-scanner";
 

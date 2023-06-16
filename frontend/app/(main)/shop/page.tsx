@@ -1,7 +1,5 @@
-import React from "react";
 
-type Props = {};
 
-export default function Shop({}: Props) {
+export default function Shop() {
   return <div>Shop</div>;
 }
