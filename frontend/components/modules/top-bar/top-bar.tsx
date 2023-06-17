@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { useSideMenuStore } from "@/lib/zustand";
 
-import { Bell, SidebarClose, SidebarOpen } from "lucide-react";
+import { Bell, Search, SidebarClose, SidebarOpen } from "lucide-react";
 
 import { QRScannerForm } from "../qr-scanner";
 import { TopBarProfileDropdown } from "./top-bar-profile-dropdown";
@@ -31,8 +31,16 @@ const TopBar = ({}: TopbarProps) => {
       </Button>
 
       {/*//* Profile picture */}
-      <div className="flex items-center justify-end gap-4">
+      <div className="flex items-center justify-end gap-3">
         <QRScannerForm />
+
+     
+        <Button
+          variant={"ghost"}
+          className="p-3"
+        >
+          <Search size={18} />
+        </Button>
 
         <Button
           variant={"ghost"}

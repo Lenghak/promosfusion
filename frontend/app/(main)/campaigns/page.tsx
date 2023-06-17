@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -23,11 +21,13 @@ import {
 
 import { Edit, Filter, MoreVertical, Plus, Search } from "lucide-react";
 
-type CampaignsProps = {
-  campaignCount: number;
-};
+// type CampaignsProps = {
+//   campaignCount: number;
+// };
 
-export default function Campaigns({ campaignCount }: CampaignsProps) {
+export default function Campaigns() {
+  // const [date, setDate] = useState<Date>();
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between py-6 font-bold">
@@ -68,7 +68,7 @@ export default function Campaigns({ campaignCount }: CampaignsProps) {
         <div className="flex flex-row items-center gap-2">
           <div>
             <div className="text-neutral-400">Showing&nbsp;</div>{" "}
-            <div>{campaignCount}</div>
+            {/* <div>{campaignCount}</div> */}
           </div>
           <div>
             <Button variant="default">
