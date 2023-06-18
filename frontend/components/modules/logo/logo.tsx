@@ -10,9 +10,11 @@ import { cn } from "@/lib/utils";
 import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useTheme } from "@wits/next-themes";
 
-type LogoProps = {} & Omit<ImageProps, "src" | "alt">;
+type LogoProps = {
+  preference?: string;
+} & Omit<ImageProps, "src" | "alt" | "preference">;
 
-const Logo = ({ ...props }: LogoProps) => {
+const Logo = ({ preference, ...props }: LogoProps) => {
   const { resolvedTheme } = useTheme();
   const isMounted = useIsMounted();
 
@@ -21,7 +23,9 @@ const Logo = ({ ...props }: LogoProps) => {
       width={128}
       height={128}
       src={
-        resolvedTheme === "dark" ? "/svg/logo-dark.svg" : "/svg/logo-light.svg"
+        (preference ?? resolvedTheme) === "dark"
+          ? "/svg/logo-dark.svg"
+          : "/svg/logo-light.svg"
       }
       {...props}
       alt="Coupon Flare Logo"

@@ -61,16 +61,17 @@ export function SignInForm({}: SignInFormProps) {
 
   //* Signin Error handling
   useEffect(() => {
-    if (signInResponse?.error?.includes("401")) {
-      form.setError("email", {
-        message: "Error - Incorrect email or passowrd",
-        type: "401",
-      });
+    if (signInResponse?.error?.includes("401"))
       form.setError("password", {
-        message: "Error - Incorrect email or passowrd",
+        message: "Error - Incorrect password",
         type: "401",
       });
-    } else if (signInResponse?.error?.length) {
+    else if (signInResponse?.error?.includes("404"))
+      form.setError("email", {
+        message: "Error - No user found with this email",
+        type: "404",
+      });
+    else if (signInResponse?.error?.length) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
