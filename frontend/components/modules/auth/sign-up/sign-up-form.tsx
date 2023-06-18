@@ -64,7 +64,13 @@ export function SignUpForm({}: SignUpFormProps) {
 
   //* Handling side-effect
   useEffect(() => {
-    if (isSignUpSuccess) redirect("/sign-in");
+    if (isSignUpSuccess) {
+      toast({
+        title: "Account Registered Successfully",
+        description: "Let's try to sign in using your email.",
+      });
+      redirect("/sign-in");
+    }
 
     if (isAxiosError(signUpError)) {
       const emailError: string = signUpError.response?.data.errors.email;
