@@ -20,7 +20,7 @@ const CouponContent = ({}: CouponContentProps) => {
         width={80}
         height={80}
         className={cn("my-2 h-20 w-20")}
-        preferrence="light"
+        preference="light"
       />
 
       {/*//* Congratulations! */}
