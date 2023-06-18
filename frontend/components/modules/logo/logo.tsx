@@ -11,10 +11,10 @@ import { useIsMounted } from "@/hooks/use-is-mounted";
 import { useTheme } from "@wits/next-themes";
 
 type LogoProps = {
-  preferrence?: string;
-} & Omit<ImageProps, "src" | "alt">;
+  preference?: string;
+} & Omit<ImageProps, "src" | "alt" | "preference">;
 
-const Logo = ({ preferrence, ...props }: LogoProps) => {
+const Logo = ({ preference, ...props }: LogoProps) => {
   const { resolvedTheme } = useTheme();
   const isMounted = useIsMounted();
 
@@ -23,7 +23,7 @@ const Logo = ({ preferrence, ...props }: LogoProps) => {
       width={128}
       height={128}
       src={
-        (preferrence ?? resolvedTheme) === "dark"
+        (preference ?? resolvedTheme) === "dark"
           ? "/svg/logo-dark.svg"
           : "/svg/logo-light.svg"
       }
