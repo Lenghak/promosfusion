@@ -9,9 +9,7 @@ const CouponContent = ({}: CouponContentProps) => {
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-t-lg bg-white p-6 text-neutral-900",
-        "after:absolute after:-bottom-4 after:-left-4 after:h-8 after:w-8 after:rounded-full after:bg-background after:content-['']",
-        "before:absolute before:-bottom-4 before:-right-4 before:h-8 before:w-8 before:rounded-full before:bg-background before:content-['']"
+        "relative flex w-full flex-col items-center justify-center gap-3 rounded-lg border-b border-dashed bg-white p-6 text-neutral-900 shadow-md"
       )}
     >
       {/*//* Logo && title */}

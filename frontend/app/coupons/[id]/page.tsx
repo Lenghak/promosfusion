@@ -1,8 +1,4 @@
-import {
-  CouponContent,
-  CouponQR,
-  CouponSeparator,
-} from "@/components/modules/coupon";
+import { CouponContent, CouponQR } from "@/components/modules/coupon";
 
 import { cn } from "@/lib/utils";
 
@@ -12,7 +8,7 @@ type CouponProps = {};
 
 export default function CouponDisplay({}: CouponProps) {
   return (
-    <section className="flex h-full min-h-screen w-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-sm p-8">
+    <section className="flex h-full min-h-screen w-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-lg p-8">
       {/*//* Page title and, or back button  */}
       <div className="absolute top-8 flex w-full"></div>
 
@@ -22,11 +18,10 @@ export default function CouponDisplay({}: CouponProps) {
         <CouponContent />
 
         {/*//* Separator */}
-        <CouponSeparator />
         {/*//*Footer */}
         <div
           className={cn(
-            "flex w-full flex-col items-center justify-between gap-4 rounded-b-lg bg-white p-6"
+            "relative flex w-full flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-md"
           )}
         >
           {/*//* QR Code */}
