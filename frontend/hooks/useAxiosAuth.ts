@@ -15,7 +15,6 @@ const useAxiosAuth = () => {
         if (!config.headers["Authorization"])
           config.headers["Authorization"] = `Bearer ${session?.user.token}`;
 
-        console.log(config);
         return config;
       }
     );
