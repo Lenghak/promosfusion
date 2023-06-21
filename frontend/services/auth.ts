@@ -1,8 +1,8 @@
-import { signUpService } from "@/lib/axios/auth";
+import { signUpService, useSignOut } from "@/lib/axios/auth";
 
 import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 const useSignUpService = () => {
   return useMutation({
@@ -25,4 +25,16 @@ const useSignInService = () => {
   });
 };
 
-export { useSignUpService, useSignInService };
+const useSignOutService = () => {
+  const signOutService = useSignOut();
+
+  return useMutation({
+    mutationKey: ["sign-out"],
+    mutationFn: async () => {
+      await signOutService();
+      await signOut({ callbackUrl: "/sign-in", redirect: true });
+    },
+  });
+};
+
+export { useSignUpService, useSignInService, useSignOutService };
