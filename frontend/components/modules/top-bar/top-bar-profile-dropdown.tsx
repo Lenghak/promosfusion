@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useSignOutService } from "@/services/auth";
 import { useTheme } from "@wits/next-themes";
 import {
   Bug,
@@ -44,6 +45,9 @@ const TopBarProfileDropdown = ({}: Props) => {
 
   //* router for navigation
   const router = useRouter();
+
+  const { mutate: signOut } = useSignOutService();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -131,9 +135,7 @@ const TopBarProfileDropdown = ({}: Props) => {
             <span>Add Account</span>
           </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: "/sign-in", redirect: true })}
-          >
+          <DropdownMenuItem onClick={() => signOut()}>
             <LogOut className="mr-4 h-7 w-[18px]" />
             <span>Log out</span>
           </DropdownMenuItem>
