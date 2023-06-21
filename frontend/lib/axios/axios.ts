@@ -12,4 +12,13 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-export { instance as axios };
+const authorizedInstance: AxiosInstance = axios.create({
+  baseURL: "http://couponapi.textura-art.com",
+  headers: {
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
+export { instance as axios, authorizedInstance as authorizedAxios };

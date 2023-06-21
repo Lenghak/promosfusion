@@ -21,9 +21,5 @@ export type User = {
   avatar: string | null | undefined;
   createdAt: string;
   updatedAt: string;
-};
-
-export type AuthenticatedUser = {
-  user: User;
-  token: string;
+  token : string
 };
