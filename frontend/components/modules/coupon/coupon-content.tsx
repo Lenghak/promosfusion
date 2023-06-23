@@ -1,51 +1,135 @@
+"use client";
+
+import Image from "next/image";
+
 import { Logo } from "@/components/modules/logo";
 import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 
-type CouponContentProps = {};
+import { useToast } from "@/hooks/use-toast";
+import { CheckCircle, Copy, Download, XCircle } from "lucide-react";
 
-const CouponContent = ({}: CouponContentProps) => {
+type CouponProps = {
+  title: string;
+  description: string;
+  couponType: string;
+  companyName?: string;
+  logo?: string;
+  expireDate: string;
+  couponToken: string;
+};
+
+const CouponContent = ({
+  couponToken,
+  couponType,
+  description,
+  expireDate,
+  title,
+  companyName = "Coupon Flare",
+  logo,
+}: CouponProps) => {
+  const { toast } = useToast();
+
+  //* copy to clipboard hanler
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(`http://coupon-flare.vercel.app/coupons/${couponToken}`)
+      .then(() =>
+        toast({
+          description: (
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-4">
+                <CheckCircle
+                  size={18}
+                  className="text-green-500"
+                />
+                <span className="font-bold">Link Copied to Clipboard</span>
+              </div>
+              You can paste the link in your brower to view this coupon.
+            </div>
+          ),
+        })
+      )
+      .catch(() =>
+        toast({
+          description: (
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-4">
+                <XCircle
+                  size={18}
+                  className="text-destructive"
+                />
+                <span className="font-bold">Failed to Copy</span>
+              </div>
+              There was a problem copying you coupon. You can copy the url
+              manually.
+            </div>
+          ),
+        })
+      );
+  };
+
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-lg border-b border-dashed bg-white p-6 text-neutral-900 shadow-md"
+        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-r-2 border-dashed bg-accent p-6 shadow-lg"
       )}
     >
-      {/*//* Logo && title */}
+      <div className="flex items-center justify-center gap-8">
+        {logo ? (
+          <Image
+            src={logo}
+            width={80}
+            height={80}
+            alt="Company Logo"
+            className="my-2 h-20 w-20"
+          />
+        ) : (
+          <Logo
+            width={80}
+            height={80}
+            className={"my-2 h-20 w-20"}
+          />
+        )}
+        <div className="flex flex-col items-center justify-center gap-4 text-center">
+          <span className="font-semibold">{companyName}</span>
+          {/*//* Coupon type! */}
+          <span className="text-center text-xl font-bold">
+            {couponType ?? "Buy 1 Free 1!"}
+          </span>
+        </div>
+      </div>
 
-      <Logo
-        width={80}
-        height={80}
-        className={cn("my-2 h-20 w-20")}
-        preference="light"
-      />
-
-      {/*//* Congratulations! */}
-      <span className="flex flex-col text-center font-semibold">
-        Congratulations! You got
-      </span>
-
-      {/*//* Coupon type! */}
-      <span className="my-2 text-center text-2xl font-semibold">
-        Buy 1 Free 1!
-      </span>
+      {/*//* Title */}
+      <span className="text-lg font-bold">{title}</span>
 
       {/*//* Description */}
-      <span className="text-center text-sm">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi odit
-        possimus voluptas sapiente dolores consequuntur numquam quis.
+      <span className="mb-2 max-h-20 max-w-sm overflow-hidden text-ellipsis whitespace-break-spaces text-center text-sm">
+        {description}
       </span>
 
-      {/*//* Coupon Code  */}
-      <div className="relative mt-4 flex w-fit items-center gap-4 rounded-md border p-2 text-neutral-900">
-        <span className="absolute -top-[0.6rem] bg-white px-2 text-center text-sm">
-          Your code is
+      <div className="flex w-full items-center justify-between">
+        <Button
+          className="h-fit w-fit rounded-full p-2"
+          variant={"ghost"}
+          title={"Download"}
+        >
+          <Download size={18} />
+        </Button>
+
+        <span className="rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
+          Expire Date : <span className="font-semibold">{expireDate}</span>
         </span>
-        <span className="ml-4 w-fit text-center font-bold uppercase tracking-widest">
-          sfdjXjwisdW23
-        </span>
-        <Button>Claim</Button>
+
+        <Button
+          className="h-fit w-fit rounded-full p-2"
+          variant={"ghost"}
+          onClick={() => copyToClipboard()}
+          title={"Copy URL"}
+        >
+          <Copy size={18} />
+        </Button>
       </div>
     </div>
   );
