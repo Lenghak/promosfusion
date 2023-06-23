@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,9 +8,10 @@ import { useQRCode } from "next-qrcode";
 
 type CouponQRProps = {
   code: string;
+  action: React.ReactNode;
 };
 
-const CouponQR = ({ code }: CouponQRProps) => {
+const CouponQR = ({ code, action }: CouponQRProps) => {
   const { SVG } = useQRCode();
 
   return (
@@ -33,7 +34,7 @@ const CouponQR = ({ code }: CouponQRProps) => {
         }}
       />
       -- : --
-      <Button className="w-full">Claim Coupon</Button>
+      {action}
     </div>
   );
 };
