@@ -1,6 +1,6 @@
-import { useProvideCoupon } from "@/lib/axios/coupon";
+import { getCoupon, useProvideCoupon } from "@/lib/axios/coupon";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const useProvideCouponService = (campaignId: string) => {
   const provideCoupon = useProvideCoupon(campaignId);
@@ -11,4 +11,11 @@ const useProvideCouponService = (campaignId: string) => {
   });
 };
 
-export { useProvideCouponService };
+const useGetCouponService = (couponId: string) => {
+  return useQuery({
+    queryKey: ["coupon"],
+    queryFn: async () => await getCoupon(couponId),
+  });
+};
+
+export { useProvideCouponService, useGetCouponService };
