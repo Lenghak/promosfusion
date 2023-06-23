@@ -38,7 +38,9 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
           </DialogDescription>
         </DialogHeader>
 
-        <CouponDisplay response={provideResponse?.data} />
+        {provideResponse?.data.data.cuid ? (
+          <CouponDisplay couponId={provideResponse?.data.data.cuid!!} />
+        ) : null}
       </DialogContent>
     </Dialog>
   );

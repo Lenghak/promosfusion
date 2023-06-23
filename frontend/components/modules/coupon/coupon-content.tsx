@@ -119,7 +119,7 @@ const CouponContent = ({
         </Button>
 
         <span className="rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
-          Expire Date : <span className="font-semibold">{expireDate}</span>
+          EXP : <span className="font-semibold">{expireDate}</span>
         </span>
 
         <Button
