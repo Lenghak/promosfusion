@@ -31,8 +31,8 @@ const useSignOutService = () => {
   return useMutation({
     mutationKey: ["sign-out"],
     mutationFn: async () => {
-      await signOutService();
       await signOut({ callbackUrl: "/sign-in", redirect: true });
+      await signOutService();
     },
   });
 };
