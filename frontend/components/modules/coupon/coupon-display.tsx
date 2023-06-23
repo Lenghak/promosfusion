@@ -1,14 +1,16 @@
-import { CouponProvideResponse } from "@/types/coupon";
+"use client";
+
+import { useGetCouponService } from "@/services/coupon";
 
 import { CouponContent } from "./coupon-content";
 import { CouponQR } from "./coupon-qr";
 
 type Props = {
-  response?: CouponProvideResponse;
+  couponId: string;
 };
 
-const CouponDisplay = ({ response }: Props) => {
-  const data = response?.data;
+const CouponDisplay = ({ couponId }: Props) => {
+  const { data: axiosResponse, isLoading } = useGetCouponService(couponId);
 
   return (
     <div
@@ -18,15 +20,15 @@ const CouponDisplay = ({ response }: Props) => {
     >
       {/*//* Coupon Content */}
       <CouponContent
-        cuid={data?.cuid}
-        logo={data?.couponDisplay.logo}
-        companyName={data?.couponDisplay.campany}
-        couponType={data?.couponDisplay.promotion}
-        title={data?.couponDisplay.title}
-        description={data?.couponDisplay.description}
+        cuid={axiosResponse?.data?.cuid}
+        logo={axiosResponse?.data?.couponDisplay.logo}
+        companyName={axiosResponse?.data?.couponDisplay.campany}
+        couponType={axiosResponse?.data?.couponDisplay.promotion}
+        title={axiosResponse?.data?.couponDisplay.title}
+        description={axiosResponse?.data?.couponDisplay.description}
       />
 
-      <CouponQR cuid={data?.cuid} />
+      <CouponQR cuid={axiosResponse?.data?.cuid} />
     </div>
   );
 };
