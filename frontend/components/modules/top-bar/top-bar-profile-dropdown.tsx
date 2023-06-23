@@ -32,7 +32,7 @@ import {
   Sun,
   User,
 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 type Props = {};
 
