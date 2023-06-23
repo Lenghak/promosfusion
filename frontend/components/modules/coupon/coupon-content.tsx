@@ -11,17 +11,17 @@ import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Copy, Download, XCircle } from "lucide-react";
 
 type CouponProps = {
-  title: string;
-  description: string;
-  couponType: string;
+  title?: string;
+  description?: string;
+  couponType?: string;
   companyName?: string;
   logo?: string;
-  expireDate: string;
-  couponToken: string;
+  expireDate?: string;
+  cuid?: string;
 };
 
 const CouponContent = ({
-  couponToken,
+  cuid,
   couponType,
   description,
   expireDate,
@@ -34,7 +34,7 @@ const CouponContent = ({
   //* copy to clipboard hanler
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(`http://coupon-flare.vercel.app/coupons/${couponToken}`)
+      .writeText(`http://coupon-flare.vercel.app/coupons/${cuid}`)
       .then(() =>
         toast({
           description: (
@@ -73,7 +73,7 @@ const CouponContent = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-r-2 border-dashed bg-accent p-6 shadow-lg"
+        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg"
       )}
     >
       <div className="flex items-center justify-center gap-8">
@@ -93,7 +93,7 @@ const CouponContent = ({
           />
         )}
         <div className="flex flex-col items-center justify-center gap-4 text-center">
-          <span className="font-semibold">{companyName}</span>
+          <span className="font-semibold capitalize">{companyName}</span>
           {/*//* Coupon type! */}
           <span className="text-center text-xl font-bold">
             {couponType ?? "Buy 1 Free 1!"}
@@ -102,7 +102,7 @@ const CouponContent = ({
       </div>
 
       {/*//* Title */}
-      <span className="text-lg font-bold">{title}</span>
+      <span className="text-lg font-bold capitalize">{title}</span>
 
       {/*//* Description */}
       <span className="mb-2 max-h-20 max-w-sm overflow-hidden text-ellipsis whitespace-break-spaces text-center text-sm">
