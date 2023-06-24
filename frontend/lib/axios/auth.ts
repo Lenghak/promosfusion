@@ -1,4 +1,4 @@
-import { useAxiosAuth } from "@/hooks/useAxiosAuth";
+import { useAxiosAuth } from "@/hooks/use-axios-auth";
 import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 
 import { axios } from "./axios";
@@ -15,7 +15,6 @@ const signInService = (data: UserSignInCredentails) =>
 
 const useSignOut = () => {
   const authorizedAxios = useAxiosAuth();
-
   return () => authorizedAxios.get("/auth/logout");
 };
 

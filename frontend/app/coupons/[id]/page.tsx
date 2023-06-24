@@ -1,37 +1,26 @@
-import { CouponContent, CouponQR } from "@/components/modules/coupon";
+import { CouponDisplay } from "@/components/modules/coupon";
 
-import { cn } from "@/lib/utils";
+import { getCoupon } from "@/lib/axios/coupon";
+import { getQueryClient } from "@/lib/react-query";
 
-import { Download, Info } from "lucide-react";
+import { dehydrate, Hydrate } from "@tanstack/react-query";
 
-type CouponProps = {};
+type CouponProps = {
+  params: { id: string };
+};
 
-export default function CouponDisplay({}: CouponProps) {
+export default async function Coupon({ params }: CouponProps) {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(["coupon"], () => getCoupon(params.id));
+  const dehydratedState = dehydrate(queryClient);
+
   return (
-    <section className="flex h-full min-h-screen w-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-lg p-8">
+    <section className="flex h-full min-h-screen w-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-lg bg-accent p-8 dark:bg-background">
       {/*//* Page title and, or back button  */}
-      <div className="absolute top-8 flex w-full"></div>
-
-      {/*//* Coupon Content */}
-
-      <div className={cn("relative flex h-fit w-max max-w-xs flex-col")}>
-        <CouponContent />
-
-        {/*//* Separator */}
-        {/*//*Footer */}
-        <div
-          className={cn(
-            "relative flex w-full flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-md"
-          )}
-        >
-          {/*//* QR Code */}
-          <CouponQR code="sfdjXjwisdW23" />
-
-          <span className="w-full text-center text-xs font-medium text-neutral-900">
-            Valid till : <span className="font-semibold">23-July-2023</span>
-          </span>
-        </div>
-      </div>
+      {/* <div className="absolute top-8 flex w-full"></div> */}
+      <Hydrate state={dehydratedState}>
+        <CouponDisplay couponId={params.id} />
+      </Hydrate>
     </section>
   );
 }
