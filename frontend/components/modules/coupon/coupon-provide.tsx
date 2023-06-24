@@ -117,10 +117,18 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
                   <Button
                     variant={"outline"}
                     className="w-40"
+                    onClick={() =>
+                      setDialogs((prev) => ({ ...prev, dialogOpen: false }))
+                    }
                   >
                     Cancel
                   </Button>
-                  <Button className="w-40">Rety</Button>
+                  <Button
+                    className="w-40"
+                    onClick={() => generateCoupon()}
+                  >
+                    Rety
+                  </Button>
                 </div>
               </>
             ) : null}
