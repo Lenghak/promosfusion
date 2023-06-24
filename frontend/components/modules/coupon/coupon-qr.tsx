@@ -7,9 +7,10 @@ import { useQRCode } from "next-qrcode";
 type CouponQRProps = {
   cuid: string;
   token: string;
+  action?: React.ReactNode;
 };
 
-const CouponQR = ({ cuid, token }: CouponQRProps) => {
+const CouponQR = ({ cuid, token, action }: CouponQRProps) => {
   const { SVG } = useQRCode();
 
   return (
@@ -31,9 +32,14 @@ const CouponQR = ({ cuid, token }: CouponQRProps) => {
           },
         }}
       />
-      <div className="relative flex w-full items-center justify-evenly rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
-        <span className="font-semibold">ID : {cuid}</span>
+      <div className="relative flex w-fit items-center justify-evenly gap-4 rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
+        {/* <span className="absolute -top-4 left-4 rounded-sm bg-accent px-3 py-2 font-semibold">
+          Coupon ID
+        </span> */}
+        <span className="font-medium">ID : {cuid}</span>
       </div>
+
+      {action}
     </div>
   );
 };
