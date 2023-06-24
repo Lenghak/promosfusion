@@ -9,13 +9,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
 
 import { Filter, Plus, Search } from "lucide-react";
 
 export default function Campaigns() {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row items-center justify-between py-6 font-bold">
+      <div>
+        <CampaignTitle />
+      </div>
+      <div className="flex flex-row items-center justify-between px-4 py-6 font-bold">
         <div className="flex flex-row items-center gap-2">
           <div>
             <Select>
@@ -57,7 +61,7 @@ export default function Campaigns() {
           <div>
             <Button variant="default">
               <Link
-                className="flex flex-row gap-2"
+                className="flex flex-row gap-2 items-center "
                 href={"/campaigns/add"}
               >
                 <Plus />
@@ -66,6 +70,9 @@ export default function Campaigns() {
             </Button>
           </div>
         </div>
+      </div>
+      <div>
+        <CampaignTable />
       </div>
     </div>
   );
