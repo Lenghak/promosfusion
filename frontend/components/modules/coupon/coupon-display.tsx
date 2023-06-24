@@ -5,8 +5,8 @@ import { useGetCouponService } from "@/services/coupon";
 import { Loader2 } from "lucide-react";
 
 import { CouponContent } from "./coupon-content";
-import { CouponQR } from "./coupon-qr";
 import CouponError from "./coupon-error";
+import { CouponQR } from "./coupon-qr";
 
 type Props = {
   couponId: string;
@@ -47,9 +47,9 @@ const CouponDisplay = ({ couponId }: Props) => {
         className="animate-spin"
       />
     </div>
-  ) : (
-    isError && <CouponError />
-  );
+  ) : isError ? (
+    <CouponError />
+  ) : null;
 };
 
 export { CouponDisplay };
