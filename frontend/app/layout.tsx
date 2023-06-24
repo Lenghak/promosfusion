@@ -11,13 +11,7 @@ const firaMono = Fira_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
-  fallback: [
-    "Courier New",
-    "Courier",
-    "Lucida Sans Typewriter",
-    "Lucida Typewriter",
-    "monospace",
-  ],
+  fallback: ["monospace"],
 });
 
 export const metadata = {
