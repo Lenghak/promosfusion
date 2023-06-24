@@ -2,34 +2,53 @@
 
 import { useGetCouponService } from "@/services/coupon";
 
+import { Loader2 } from "lucide-react";
+
 import { CouponContent } from "./coupon-content";
 import { CouponQR } from "./coupon-qr";
+import CouponError from "./coupon-error";
 
 type Props = {
   couponId: string;
 };
 
+//! This page is only for the SSR
 const CouponDisplay = ({ couponId }: Props) => {
-  const { data: axiosResponse, isLoading } = useGetCouponService(couponId);
-
-  return (
+  const {
+    data: axiosResponse,
+    isError,
+    isLoading,
+  } = useGetCouponService(couponId);
+  return axiosResponse?.cuid && !isError && !isLoading ? (
     <div
       className={
         "relative flex h-fit w-full max-w-xs flex-col place-self-center"
       }
     >
-      {/*//* Coupon Content */}
+      {/* Coupon Content */}
       <CouponContent
-        cuid={axiosResponse?.data?.cuid}
-        logo={axiosResponse?.data?.couponDisplay.logo}
-        companyName={axiosResponse?.data?.couponDisplay.campany}
-        couponType={axiosResponse?.data?.couponDisplay.promotion}
-        title={axiosResponse?.data?.couponDisplay.title}
-        description={axiosResponse?.data?.couponDisplay.description}
+        cuid={axiosResponse?.cuid}
+        logo={axiosResponse?.couponDisplay?.logo}
+        companyName={axiosResponse?.couponDisplay?.campany}
+        couponType={axiosResponse?.couponDisplay?.promotion}
+        title={axiosResponse?.couponDisplay?.title}
+        description={axiosResponse?.couponDisplay?.description}
       />
 
-      <CouponQR cuid={axiosResponse?.data?.cuid} />
+      <CouponQR
+        cuid={couponId}
+        token={couponId} // This is the token
+      />
     </div>
+  ) : isLoading ? (
+    <div className="flex h-full w-full items-center justify-center">
+      <Loader2
+        size={48}
+        className="animate-spin"
+      />
+    </div>
+  ) : (
+    isError && <CouponError />
   );
 };
 
