@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +25,7 @@ import {
 
 import { useProvideCouponService } from "@/services/coupon";
 
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import { CouponContent } from "./coupon-content";
 import { CouponQR } from "./coupon-qr";
@@ -34,8 +35,12 @@ type CouponProvideProps = {
 };
 
 const CouponProvide = ({ campaignId }: CouponProvideProps) => {
-  const { mutate: provideCoupon, data: provideResponse } =
-    useProvideCouponService(campaignId);
+  const {
+    mutate: generateCoupon,
+    data: generateResponse,
+    isError: isGenerateError,
+    isLoading: isGenerating,
+  } = useProvideCouponService(campaignId);
 
   const [dialogs, setDialogs] = useState({
     dialogOpen: false,
@@ -43,7 +48,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
     confirmClose: false,
   });
 
-  const data = provideResponse?.data.data;
+  const data = generateResponse?.data.data;
 
   return (
     <>
@@ -60,40 +65,66 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
       >
         <DialogTrigger
           className="p-2"
-          onClick={() => provideCoupon()}
+          onClick={() => generateCoupon()}
         >
           <Plus size={18} />
         </DialogTrigger>
         <DialogContent className="h-screen sm:h-fit">
           <DialogHeader>
-            <DialogTitle>Providing Coupon</DialogTitle>
+            <DialogTitle>
+              {isGenerateError ? "Generate Error" : "Providing Coupon"}
+            </DialogTitle>
             <DialogDescription>
-              The customer must scan this coupon to claim.
+              {isGenerateError
+                ? "There was a problem generating the coupon."
+                : "The customer must scan this coupon to claim."}
             </DialogDescription>
           </DialogHeader>
 
-          {data ? (
-            <div
-              className={
-                "relative flex h-fit w-full max-w-xs flex-col place-self-center"
-              }
-            >
-              {/*//* Coupon Content */}
-              <CouponContent
-                cuid={data?.cuid}
-                logo={data?.couponDisplay.logo}
-                companyName={data?.couponDisplay.campany}
-                couponType={data?.couponDisplay.promotion}
-                title={data?.couponDisplay.title}
-                description={data?.couponDisplay.description}
-              />
+          <div
+            className={
+              "relative flex h-fit w-full max-w-xs flex-col items-center justify-center place-self-center"
+            }
+          >
+            {isGenerating ? (
+              <>
+                <Loader2
+                  size={48}
+                  className="my-4 animate-spin"
+                />
+                <span>Generating Coupon ...</span>
+              </>
+            ) : data ? (
+              <>
+                {/*//* Coupon Content */}
+                <CouponContent
+                  cuid={data?.cuid}
+                  logo={data?.couponDisplay.logo}
+                  companyName={data?.couponDisplay.campany}
+                  couponType={data?.couponDisplay.promotion}
+                  title={data?.couponDisplay.title}
+                  description={data?.couponDisplay.description}
+                />
 
-              <CouponQR
-                cuid={data.cuid}
-                token={data.cuid}
-              />
-            </div>
-          ) : null}
+                <CouponQR
+                  cuid={data.cuid}
+                  token={data.cuid}
+                />
+              </>
+            ) : isGenerateError ? (
+              <>
+                <div className="flex w-full gap-4">
+                  <Button
+                    variant={"outline"}
+                    className="w-40"
+                  >
+                    Cancel
+                  </Button>
+                  <Button className="w-40">Rety</Button>
+                </div>
+              </>
+            ) : null}
+          </div>
         </DialogContent>
       </Dialog>
 
