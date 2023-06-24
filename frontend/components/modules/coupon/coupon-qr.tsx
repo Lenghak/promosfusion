@@ -1,17 +1,15 @@
 "use client";
 
-import React from "react";
-
 import { cn } from "@/lib/utils";
 
 import { useQRCode } from "next-qrcode";
 
 type CouponQRProps = {
-  action?: React.ReactNode;
-  cuid?: string;
+  cuid: string;
+  token: string;
 };
 
-const CouponQR = ({ cuid, action }: CouponQRProps) => {
+const CouponQR = ({ cuid, token }: CouponQRProps) => {
   const { SVG } = useQRCode();
 
   return (
@@ -23,7 +21,7 @@ const CouponQR = ({ cuid, action }: CouponQRProps) => {
     >
       {/*//* QR Code */}
       <SVG
-        text={cuid ?? "* This QR is just a placeholder *"}
+        text={token}
         options={{
           margin: 2,
           width: 160,
@@ -35,7 +33,6 @@ const CouponQR = ({ cuid, action }: CouponQRProps) => {
       />
       <div className="relative flex w-full items-center justify-evenly rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
         <span className="font-semibold">ID : {cuid}</span>
-        {action}
       </div>
     </div>
   );
