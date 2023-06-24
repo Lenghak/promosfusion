@@ -23,7 +23,7 @@ import * as z from "zod";
 
 type CampaignFormProps = {};
 
-export default function CampaignForm({}: CampaignFormProps) {
+const CampaignForm = ({}: CampaignFormProps) => {
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -53,3 +53,5 @@ export default function CampaignForm({}: CampaignFormProps) {
     </div>
   );
 }
+
+export { CampaignForm };
