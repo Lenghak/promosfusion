@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 
 import { axios } from "./axios";
 
-import { CouponProvideResponse } from "@/types/coupon";
+import { CouponProvideResponse, CouponRequestResponse } from "@/types/coupon";
 
 const useProvideCoupon: (
   campaignId: string
@@ -26,9 +26,13 @@ const getCoupon: (couponId: string) => Promise<CouponProvideResponse> = async (
   return axios.get(`/coupons/${couponId}`).then((res) => res.data);
 };
 
-const useRequestCoupon = (couponId: string) => {
+const useRequestCoupon: (
+  couponId: string
+) => () => Promise<AxiosResponse<CouponRequestResponse>> = (
+  couponId: string
+) => {
   const authorizedAxios = useAxiosAuth();
-  return () => authorizedAxios.post(`/coupons/${couponId}/request`);
+  return () => authorizedAxios.post(`/coupons/${couponId}/requset`);
 };
 
 const useVerifyCoupon = (couponId: string, token: string) => {
