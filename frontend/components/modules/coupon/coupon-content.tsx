@@ -29,7 +29,7 @@ const CouponContent = ({
   description,
   expireDate,
   title,
-  companyName = "Coupon Flare",
+  companyName,
   logo,
   status,
 }: CouponProps) => {
@@ -138,20 +138,6 @@ const CouponContent = ({
       </div>
 
       {/* Ribbon */}
-
-      <Ribbon
-        side="right"
-        type="corner"
-        size="large"
-        backgroundColor="hsl(var(--secondary))"
-        color="hsl(var(--secondary-foreground))"
-        fontFamily="Fira Mono, monospace"
-        withStripes={false}
-      >
-        <span className="text-sm font-bold uppercase text-secondary-foreground">
-          {status === "verified" ? "used" : status}
-        </span>
-      </Ribbon>
     </div>
   );
 };
