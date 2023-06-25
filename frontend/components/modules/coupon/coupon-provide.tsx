@@ -108,7 +108,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
 
                 <CouponQR
                   cuid={data.cuid}
-                  token={data.cuid}
+                  token={`${process.env.NEXT_PUBLIC_URL}/coupons/${data.cuid}`}
                 />
               </>
             ) : isGenerateError ? (
