@@ -1,8 +1,9 @@
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
-import { CouponProvideResponse } from "@/types/coupon";
 import { AxiosResponse } from "axios";
 
 import { axios } from "./axios";
+
+import { CouponProvideResponse, CouponRequestResponse } from "@/types/coupon";
 
 const useProvideCoupon: (
   campaignId: string
@@ -19,10 +20,27 @@ const useProvideCoupon: (
       });
 };
 
-const getCoupon: (id: string) => Promise<CouponProvideResponse> = async (
-  id: string
+const getCoupon: (couponId: string) => Promise<CouponProvideResponse> = async (
+  couponId: string
 ) => {
-  return axios.get(`/coupons/${id}`).then((res) => res.data);
+  return axios.get(`/coupons/${couponId}`).then((res) => res.data);
 };
 
-export { useProvideCoupon, getCoupon };
+const useRequestCoupon: (
+  couponId: string
+) => () => Promise<AxiosResponse<CouponRequestResponse>> = (
+  couponId: string
+) => {
+  const authorizedAxios = useAxiosAuth();
+  return () => authorizedAxios.post(`/coupons/${couponId}/requset`);
+};
+
+const useVerifyCoupon = (couponId: string, token: string) => {
+  const authorizedAxios = useAxiosAuth();
+  return () =>
+    authorizedAxios.post(`/coupons/${couponId}/verify`, {
+      token: token,
+    });
+};
+
+export { useProvideCoupon, useRequestCoupon, getCoupon, useVerifyCoupon };

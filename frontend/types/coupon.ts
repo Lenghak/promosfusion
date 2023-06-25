@@ -27,3 +27,10 @@ export type CouponDisplay = {
   promotion: string;
   html: string;
 };
+
+export type CouponRequestResponse = {
+  message: string;
+  data: {
+    token: string;
+  };
+};

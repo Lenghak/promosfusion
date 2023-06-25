@@ -1,36 +1,102 @@
 "use client";
 
-import { useGetCouponService } from "@/services/coupon";
+import { useEffect } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+
+import {
+  useGetCouponService,
+  useRequestCouponService,
+  useVerifyCouponService,
+} from "@/services/coupon";
+
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { CouponContent } from "./coupon-content";
+import { CouponError } from "./coupon-error";
 import { CouponQR } from "./coupon-qr";
 
-type Props = {
+type CouponDisplayProps = {
   couponId: string;
 };
 
-const CouponDisplay = ({ couponId }: Props) => {
-  const { data: axiosResponse, isLoading } = useGetCouponService(couponId);
+//! This page is only for the SSR
+const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
+  const pathName = usePathname();
 
-  return (
+  const { replace } = useRouter();
+
+  const { data: session } = useSession();
+
+  const {
+    data: coupon,
+    isError: isGetCouponError,
+    isLoading: isGettingCoupon,
+    isFetching: isFetchingCoupon,
+  } = useGetCouponService(couponId);
+
+  const {
+    mutate: requestCoupon,
+    isLoading: isRequesting,
+    isSuccess: isRequested,
+    data: response,
+  } = useRequestCouponService(coupon?.cuid!!);
+
+  useEffect(() => {
+    if (isRequested)
+      replace(`${pathName}/?token=${response.data.token}`, {
+        forceOptimisticNavigation: true,
+      });
+  }, [isRequested, pathName, response, replace]);
+
+  return coupon ? (
     <div
       className={
         "relative flex h-fit w-full max-w-xs flex-col place-self-center"
       }
     >
-      {/*//* Coupon Content */}
+      {/* Coupon Content */}
       <CouponContent
-        cuid={axiosResponse?.data?.cuid}
-        logo={axiosResponse?.data?.couponDisplay.logo}
-        companyName={axiosResponse?.data?.couponDisplay.campany}
-        couponType={axiosResponse?.data?.couponDisplay.promotion}
-        title={axiosResponse?.data?.couponDisplay.title}
-        description={axiosResponse?.data?.couponDisplay.description}
+        cuid={coupon?.cuid}
+        logo={coupon?.couponDisplay?.logo}
+        companyName={coupon?.couponDisplay?.campany}
+        couponType={coupon?.couponDisplay?.promotion}
+        title={coupon?.couponDisplay?.title}
+        description={coupon?.couponDisplay?.description}
       />
 
-      <CouponQR cuid={axiosResponse?.data?.cuid} />
+      <CouponQR
+        cuid={couponId}
+        token={response?.data.token ?? couponId} // This is the token
+        action={
+          coupon?.currentStatus === "valid" && session ? (
+            <Button>Verify</Button>
+          ) : coupon?.currentStatus === "new" && !session ? (
+            <Button
+              onClick={() => requestCoupon()}
+              disabled={isRequesting}
+            >
+              {!isRequesting ? <Loader2 size={18} /> : "Claim"}
+            </Button>
+          ) : null
+        }
+      />
+
+      {/* Action Buttons */}
     </div>
-  );
+  ) : isGettingCoupon || isFetchingCoupon ? (
+    <div className="flex h-full w-full items-center justify-center">
+      <Loader2
+        size={48}
+        className="animate-spin"
+      />
+    </div>
+  ) : isGetCouponError ? (
+    <CouponError />
+  ) : null;
 };
 
 export { CouponDisplay };
