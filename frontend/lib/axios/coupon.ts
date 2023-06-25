@@ -23,16 +23,7 @@ const useProvideCoupon: (
 const getCoupon: (couponId: string) => Promise<CouponProvideResponse> = async (
   couponId: string
 ) => {
-  const authorizedAxios = await authorizeAxios();
-  return authorizedAxios.get(`/coupons/${couponId}`).then((res) => res.data);
-};
-
-const useGetCoupon: (
-  couponId: string
-) => () => Promise<CouponProvideResponse> = (couponId: string) => {
-  const authorizedAxios = useAxiosAuth();
-  return () =>
-    authorizedAxios.get(`/coupons/${couponId}`).then((res) => res.data);
+  return axios.get(`/coupons/${couponId}`).then((res) => res.data);
 };
 
 const useRequestCoupon: (
