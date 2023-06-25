@@ -48,5 +48,5 @@ export {
   useRequestCoupon,
   getCoupon,
   useVerifyCoupon,
-  useGetCoupon,
+  
 };
