@@ -1,7 +1,5 @@
 "use client";
 
-import { Ribbon } from "react-ribbons";
-
 import Image from "next/image";
 
 import { Logo } from "@/components/modules/logo";
@@ -77,7 +75,7 @@ const CouponContent = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg",
+        "relative flex w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg",
         status === "verified" ? "border-0" : ""
       )}
     >
@@ -138,6 +136,13 @@ const CouponContent = ({
       </div>
 
       {/* Ribbon */}
+      <div className="absolute right-0 top-0 h-28 w-28 overflow-hidden">
+        <div className="absolute -right-8 top-4 flex h-5 w-full  rotate-45 items-center justify-center bg-white">
+          <span className="text-center text-sm font-semibold uppercase text-secondary-foreground">
+            {status === "verified" ? "used" : status}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
