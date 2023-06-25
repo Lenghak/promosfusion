@@ -56,7 +56,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
   } = useVerifyCouponService(coupon?.cuid!!, getParam("token")!!);
 
   useHandleVerifyEffect(isVerifyError, isVerified);
-  useHandleRequestEffect(isGetCouponError, isRequested);
+  useHandleRequestEffect(isRequesting, isRequested);
 
   useEffect(() => {
     if (isRequested)
