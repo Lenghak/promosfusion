@@ -79,31 +79,32 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
         couponType={coupon?.couponDisplay?.promotion}
         title={coupon?.couponDisplay?.title}
         description={coupon?.couponDisplay?.description}
+        status={coupon?.currentStatus}
       />
 
-      <CouponQR
-        cuid={couponId}
-        token={`${
-          process.env.NEXT_PUBLIC_URL
-        }/coupons/${couponId}?token=${getParam("token")}`} // This is the token
-        action={
-          coupon?.currentStatus === "valid" &&
-          session &&
-          !isVerifying &&
-          !isVerified ? (
-            <Button onClick={() => verifyCoupon()}>Verify</Button>
-          ) : coupon?.currentStatus === "new" && !session && !isRequesting ? (
-            <Button
-              onClick={() => requestCoupon()}
-              disabled={isRequesting}
-            >
-              {isRequesting ? <Loader2 size={18} /> : "Claim"}
-            </Button>
-          ) : null
-        }
-      />
-
-      {/* Action Buttons */}
+      {coupon?.currentStatus !== "verified" && (
+        <CouponQR
+          cuid={couponId}
+          token={`${
+            process.env.NEXT_PUBLIC_URL
+          }/coupons/${couponId}?token=${getParam("token")}`} // This is the token
+          action={
+            coupon?.currentStatus === "valid" &&
+            session &&
+            !isVerifying &&
+            !isVerified ? (
+              <Button onClick={() => verifyCoupon()}>Verify</Button>
+            ) : coupon?.currentStatus === "new" && !session && !isRequesting ? (
+              <Button
+                onClick={() => requestCoupon()}
+                disabled={isRequesting}
+              >
+                {isRequesting ? <Loader2 size={18} /> : "Claim"}
+              </Button>
+            ) : null
+          }
+        />
+      )}
     </div>
   ) : isGettingCoupon || isFetchingCoupon ? (
     <div className="flex h-full w-full items-center justify-center">
