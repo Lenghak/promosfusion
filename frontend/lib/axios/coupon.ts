@@ -1,7 +1,6 @@
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
 import { AxiosResponse } from "axios";
 
-import { authorizeAxios } from "./authorize";
 import { axios } from "./axios";
 
 import { CouponProvideResponse, CouponRequestResponse } from "@/types/coupon";
@@ -43,10 +42,4 @@ const useVerifyCoupon = (couponId: string, token: string) => {
     });
 };
 
-export {
-  useProvideCoupon,
-  useRequestCoupon,
-  getCoupon,
-  useVerifyCoupon,
-  
-};
+export { useProvideCoupon, useRequestCoupon, getCoupon, useVerifyCoupon };
