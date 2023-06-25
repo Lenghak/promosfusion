@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
+import {
+  Campaign,
+  columns,
+} from "@/components/modules/campaign/campaign-table-columns";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,11 +14,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
+import { getCampaigns } from "@/lib/axios/campaign";
+import { getQueryClient } from "@/lib/react-query";
 
+import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
 import { Filter, Plus, Search } from "lucide-react";
 
-export default function Campaigns() {
+// async function getData(): Promise<Campaign[]> {
+//   const { data: tableData, setData } = useCampaignTableStore();
+
+//   const { data, isLoading, isError } = useQuery(["data"], fetchData, {
+//     onSuccess: (data) => {
+//       setData(data);
+//     },
+//   });
+
+//   return [
+
+//   ]
+// }
+
+export default async function Campaigns() {
+  // const data = await getData()
+
+  await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
+  const dehydratedState = dehydrate(getQueryClient());
+
   return (
     <div className="flex flex-col">
       <div>
@@ -61,7 +87,7 @@ export default function Campaigns() {
           <div>
             <Button variant="default">
               <Link
-                className="flex flex-row gap-2 items-center "
+                className="flex flex-row items-center gap-2 "
                 href={"/campaigns/add"}
               >
                 <Plus />
@@ -72,7 +98,9 @@ export default function Campaigns() {
         </div>
       </div>
       <div>
-        <CampaignTable />
+        <Hydrate state={dehydratedState}>
+          <CampaignTable />
+        </Hydrate>
       </div>
     </div>
   );
