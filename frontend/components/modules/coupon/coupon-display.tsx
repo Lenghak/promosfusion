@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +12,7 @@ import {
   useVerifyCouponService,
 } from "@/services/coupon";
 
+import { useHandleRequestEffect, useHandleVerifyEffect } from "@/hooks/coupon";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -26,6 +27,8 @@ type CouponDisplayProps = {
 //! This page is only for the SSR
 const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
   const pathName = usePathname();
+
+  const { get: getParam } = useSearchParams();
 
   const { replace } = useRouter();
 
@@ -44,6 +47,16 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     isSuccess: isRequested,
     data: response,
   } = useRequestCouponService(coupon?.cuid!!);
+
+  const {
+    mutate: verifyCoupon,
+    isLoading: isVerifying,
+    isError: isVerifyError,
+    isSuccess: isVerified,
+  } = useVerifyCouponService(coupon?.cuid!!, getParam("token")!!);
+
+  useHandleVerifyEffect(isVerifyError, isVerified);
+  useHandleRequestEffect(isGetCouponError, isRequested);
 
   useEffect(() => {
     if (isRequested)
@@ -70,16 +83,21 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
 
       <CouponQR
         cuid={couponId}
-        token={response?.data.token ?? couponId} // This is the token
+        token={`${
+          process.env.NEXT_PUBLIC_URL
+        }/coupons/${couponId}?token=${getParam("token")}`} // This is the token
         action={
-          coupon?.currentStatus === "valid" && session ? (
-            <Button>Verify</Button>
-          ) : coupon?.currentStatus === "new" && !session ? (
+          coupon?.currentStatus === "valid" &&
+          session &&
+          !isVerifying &&
+          !isVerified ? (
+            <Button onClick={() => verifyCoupon()}>Verify</Button>
+          ) : coupon?.currentStatus === "new" && !session && !isRequesting ? (
             <Button
               onClick={() => requestCoupon()}
               disabled={isRequesting}
             >
-              {!isRequesting ? <Loader2 size={18} /> : "Claim"}
+              {isRequesting ? <Loader2 size={18} /> : "Claim"}
             </Button>
           ) : null
         }
