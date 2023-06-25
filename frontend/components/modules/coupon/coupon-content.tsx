@@ -1,5 +1,7 @@
 "use client";
 
+import { Ribbon } from "react-ribbons";
+
 import Image from "next/image";
 
 import { Logo } from "@/components/modules/logo";
@@ -18,6 +20,7 @@ type CouponProps = {
   logo?: string;
   expireDate?: string;
   cuid?: string;
+  status?: string;
 };
 
 const CouponContent = ({
@@ -28,6 +31,7 @@ const CouponContent = ({
   title,
   companyName = "Coupon Flare",
   logo,
+  status,
 }: CouponProps) => {
   const { toast } = useToast();
 
@@ -73,7 +77,8 @@ const CouponContent = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg"
+        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg",
+        status === "verified" ? "border-0" : ""
       )}
     >
       <div className="flex items-center justify-center gap-8">
@@ -131,6 +136,22 @@ const CouponContent = ({
           <Copy size={18} />
         </Button>
       </div>
+
+      {/* Ribbon */}
+
+      <Ribbon
+        side="right"
+        type="corner"
+        size="large"
+        backgroundColor="hsl(var(--secondary))"
+        color="hsl(var(--secondary-foreground))"
+        fontFamily="Fira Mono, monospace"
+        withStripes={false}
+      >
+        <span className="text-sm font-bold uppercase text-secondary-foreground">
+          {status === "verified" ? "used" : status}
+        </span>
+      </Ribbon>
     </div>
   );
 };

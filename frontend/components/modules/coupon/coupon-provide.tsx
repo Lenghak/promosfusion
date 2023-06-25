@@ -48,7 +48,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
     confirmClose: false,
   });
 
-  const data = generateResponse?.data.data;
+  const coupon = generateResponse?.data.data;
 
   return (
     <>
@@ -94,21 +94,22 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
                 />
                 <span>Generating Coupon ...</span>
               </>
-            ) : data ? (
+            ) : coupon ? (
               <>
                 {/*//* Coupon Content */}
                 <CouponContent
-                  cuid={data?.cuid}
-                  logo={data?.couponDisplay.logo}
-                  companyName={data?.couponDisplay.campany}
-                  couponType={data?.couponDisplay.promotion}
-                  title={data?.couponDisplay.title}
-                  description={data?.couponDisplay.description}
+                  cuid={coupon?.cuid}
+                  logo={coupon?.couponDisplay.logo}
+                  companyName={coupon?.couponDisplay.campany}
+                  couponType={coupon?.couponDisplay.promotion}
+                  title={coupon?.couponDisplay.title}
+                  description={coupon?.couponDisplay.description}
+                  status={coupon.currentStatus}
                 />
 
                 <CouponQR
-                  cuid={data.cuid}
-                  token={`${process.env.NEXT_PUBLIC_URL}/coupons/${data.cuid}`}
+                  cuid={coupon.cuid}
+                  token={`${process.env.NEXT_PUBLIC_URL}/coupons/${coupon.cuid}`}
                 />
               </>
             ) : isGenerateError ? (
