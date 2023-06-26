@@ -11,7 +11,7 @@ const useProvideCouponService = (campaignId: string) => {
   const provideCoupon = useProvideCoupon(campaignId);
 
   return useMutation({
-    mutationKey: ["coupon", "provide"],
+    mutationKey: ["coupon-provide"],
     mutationFn: async () => await provideCoupon(),
   });
 };
