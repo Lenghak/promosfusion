@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Shop } from "@/types/shops";
+import { Shop } from "@/types/shop";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
