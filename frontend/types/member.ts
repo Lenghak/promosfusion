@@ -13,7 +13,7 @@ export type Member = {
   role: string;
   status: string;
   type: string;
-  avatar: any;
+  avatar: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -21,8 +21,8 @@ export type Member = {
 export type MembersLink = {
   first: string;
   last: string;
-  prev: any;
-  next: any;
+  prev: string;
+  next: string;
 };
 
 export type Meta = {
