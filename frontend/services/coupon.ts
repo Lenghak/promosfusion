@@ -28,25 +28,17 @@ const useGetCouponService = (couponId: string) => {
 
 const useRequestCouponService = (couponId: string, token: string) => {
   const requestCoupon = useRequestCoupon(couponId, token);
-  const queryClient = getQueryClient();
   return useMutation({
     mutationKey: ["coupon-request"],
     mutationFn: async () => (await requestCoupon()).data,
-    onSettled: () => {
-      queryClient.invalidateQueries(["coupon"]);
-    },
   });
 };
 
 const useVerifyCouponService = (couponId: string, token: string) => {
   const verifyCoupon = useVerifyCoupon(couponId, token);
-  const queryClient = getQueryClient();
   return useMutation({
     mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
-    onSettled: () => {
-      queryClient.invalidateQueries(["coupon"]);
-    },
   });
 };
 
