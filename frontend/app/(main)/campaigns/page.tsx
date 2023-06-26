@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
+import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
+import {
+  Campaign,
+  columns,
+} from "@/components/modules/campaign/campaign-table-columns";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,28 +13,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
-import { Edit, Filter, MoreVertical, Plus, Search } from "lucide-react";
+import { getCampaigns } from "@/lib/axios/campaign";
+import { getQueryClient } from "@/lib/react-query";
 
-// type CampaignsProps = {
-//   campaignCount: number;
-// };
+import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
+import { Filter, Plus, Search } from "lucide-react";
 
-export default function Campaigns() {
-  // const [date, setDate] = useState<Date>();
+// async function getData(): Promise<Campaign[]> {
+//   const { data: tableData, setData } = useCampaignTableStore();
+
+//   const { data, isLoading, isError } = useQuery(["data"], fetchData, {
+//     onSuccess: (data) => {
+//       setData(data);
+//     },
+//   });
+
+//   return [
+
+//   ]
+// }
+
+export default async function Campaigns() {
+  // const data = await getData()
+
+  await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
+  const dehydratedState = dehydrate(getQueryClient());
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row items-center justify-between py-6 font-bold">
+      <div>
+        <CampaignTitle />
+      </div>
+      <div className="flex flex-row items-center justify-between px-4 py-6 font-bold">
         <div className="flex flex-row items-center gap-2">
           <div>
             <Select>
@@ -68,12 +83,11 @@ export default function Campaigns() {
         <div className="flex flex-row items-center gap-2">
           <div>
             <div className="text-neutral-400">Showing&nbsp;</div>{" "}
-            {/* <div>{campaignCount}</div> */}
           </div>
           <div>
             <Button variant="default">
               <Link
-                className="flex flex-row gap-2"
+                className="flex flex-row items-center gap-2 "
                 href={"/campaigns/add"}
               >
                 <Plus />
@@ -83,55 +97,10 @@ export default function Campaigns() {
           </div>
         </div>
       </div>
-      <div className="p-4">
-        <Table>
-          <TableCaption>A list of all of your Campaigns.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="font-bold">No</TableHead>
-              <TableHead className="font-bold">Name</TableHead>
-              <TableHead className="font-bold">Description</TableHead>
-              <TableHead className="font-bold">Coupons</TableHead>
-              <TableHead className="font-bold">Created At</TableHead>
-              <TableHead className="font-bold">Valide From</TableHead>
-              <TableHead className="font-bold">Expire At</TableHead>
-              <TableHead className="font-bold">Status</TableHead>
-              <TableHead className="text-center font-bold">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-bold">1</TableCell>
-              <TableCell className="font-bold">Lorem</TableCell>
-              <TableCell className="font-bold">Lorem</TableCell>
-              <TableCell className="font-bold">6/16</TableCell>
-              <TableCell className="font-bold">01-May-2023</TableCell>
-              <TableCell className="font-bold">02-May-2023</TableCell>
-              <TableCell className="font-bold">02-May-2023</TableCell>
-              <TableCell className="font-bold">
-                <Badge variant="outline">Available</Badge>
-              </TableCell>
-              <TableCell className="flex flex-row justify-center gap-1">
-                <div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Edit size={20} />
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <MoreVertical size={20} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+      <div>
+        <Hydrate state={dehydratedState}>
+          <CampaignTable />
+        </Hydrate>
       </div>
     </div>
   );
