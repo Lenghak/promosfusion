@@ -12,11 +12,9 @@ const useProvideCoupon: (
 ) => {
   const authorizedAxios = useAxiosAuth();
   return () =>
-    authorizedAxios
-      .post(`/campagins/${campaignId}/provide`, null)
-      .then((res) => {
-        return res;
-      });
+    authorizedAxios.post(`/campagins/${campaignId}/provide`).then((res) => {
+      return res;
+    });
 };
 
 const getCoupon: (couponId: string) => Promise<CouponProvideResponse> = async (
