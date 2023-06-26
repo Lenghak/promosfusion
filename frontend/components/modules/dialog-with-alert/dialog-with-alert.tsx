@@ -25,7 +25,7 @@ type DialogWithAlertProps = {
   dialogTrigger: React.ReactNode;
   dialogTitle?: React.ReactNode;
   dialogDescription?: React.ReactNode;
-  dialogContent?: React.ReactNode;
+  children?: React.ReactNode;
   alertTitle?: React.ReactNode;
   alertDescription?: React.ReactNode;
 };
@@ -34,7 +34,7 @@ const DialogWithAlert = ({
   dialogTrigger,
   dialogDescription,
   dialogTitle,
-  dialogContent,
+  children,
   alertTitle,
   alertDescription,
 }: DialogWithAlertProps) => {
@@ -63,7 +63,7 @@ const DialogWithAlert = ({
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>
           </DialogHeader>
-          {dialogContent}
+          {children}
         </DialogContent>
       </Dialog>
 
