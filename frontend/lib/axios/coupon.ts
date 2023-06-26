@@ -29,7 +29,7 @@ const useRequestCoupon: (
   couponId: string
 ) => {
   const authorizedAxios = useAxiosAuth();
-  return () => authorizedAxios.post(`/coupons/${couponId}/requset`);
+  return () => authorizedAxios.post(`/coupons/${couponId}/request`);
 };
 
 const useVerifyCoupon = (couponId: string, token: string) => {

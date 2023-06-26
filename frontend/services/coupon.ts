@@ -41,7 +41,7 @@ const useRequestCouponService = (couponId: string) => {
       const previousCoupon = queryClient.getQueryData(["coupon"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["coupon-request"], (old) => old);
+      queryClient.setQueryData(["coupon"], (old) => old);
 
       // Return a context object with the snapshotted value
       return { previousCoupon };
@@ -63,7 +63,7 @@ const useVerifyCouponService = (couponId: string, token: string) => {
   const verifyCoupon = useVerifyCoupon(couponId, token);
 
   return useMutation({
-    mutationKey: ["coupon-request"],
+    mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
   });
 };
