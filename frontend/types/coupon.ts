@@ -1,12 +1,12 @@
-export type CouponProvideResponse = {
-  message: string;
-  data: CouponProvideData;
+export type CouponResponse = {
+  data: Coupon;
 };
 
-export type CouponProvideData = {
+export type Coupon = {
   id: number;
   currentStatus: string;
   cuid: string;
+  token: string;
   description: any;
   createdBy: number;
   updatedBy: number;
@@ -33,4 +33,8 @@ export type CouponRequestResponse = {
   data: {
     token: string;
   };
+};
+
+export type CouponVerifyResponse = {
+  message: string;
 };

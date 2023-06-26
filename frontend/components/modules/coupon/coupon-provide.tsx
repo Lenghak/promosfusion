@@ -64,18 +64,18 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
             <>
               {/*//* Coupon Content */}
               <CouponContent
-                cuid={coupon?.cuid}
-                logo={coupon?.couponDisplay.logo}
-                companyName={coupon?.couponDisplay.campany}
-                couponType={coupon?.couponDisplay.promotion}
-                title={coupon?.couponDisplay.title}
-                description={coupon?.couponDisplay.description}
+                cuid={coupon.cuid}
+                logo={coupon.couponDisplay.logo}
+                companyName={coupon.couponDisplay.campany}
+                couponType={coupon.couponDisplay.promotion}
+                title={coupon.couponDisplay.title}
+                description={coupon.couponDisplay.description}
                 status={coupon.currentStatus}
               />
 
               <CouponQR
                 cuid={coupon.cuid}
-                token={`${process.env.NEXT_PUBLIC_URL}/coupons/${coupon.cuid}`}
+                token={`${process.env.NEXT_PUBLIC_URL}/coupons/${coupon.cuid}?token=${coupon.token}`}
               />
             </>
           ) : isGenerateError ? (
