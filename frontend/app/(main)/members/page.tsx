@@ -1,5 +1,6 @@
 // This members page fetch the data & show he list of members
 import { MemberCreateForm } from "@/components/modules/member/member-create-form";
+import { MemberDataTable } from "@/components/modules/member/member-data-table";
 import { PageTitle } from "@/components/modules/page-title";
 
 import { getMembers } from "@/lib/axios/member";
@@ -20,6 +21,7 @@ export default async function Members() {
       />
       <Hydrate state={dehydratedState}>
         <MemberCreateForm />
+        <MemberDataTable />
       </Hydrate>
     </div>
   );
