@@ -2,18 +2,27 @@ import { useAxiosAuth } from "@/hooks/use-axios-auth";
 
 import { authorizeAxios } from "./authorize";
 
-import { Members } from "@/types/member";
+import {
+  CreatedMemberResponse,
+  CreateMemberData,
+  Members,
+} from "@/types/member";
 
 //* get member function for SSR
 const getMembers = async () => {
   const authorizedAxios = await authorizeAxios();
-  return authorizedAxios.get<Members>("/users");
+  return (await authorizedAxios.get<Members>("/users")).data;
 };
 
 //* get memeber function for client side
-const useGetMembers = async () => {
+const useGetMembers = () => {
   const authorizedAxios = useAxiosAuth();
   return () => authorizedAxios.get<Members>("/users");
 };
 
-export { getMembers, useGetMembers };
+const useCreateMember = (member: CreateMemberData) => {
+  const authorizedAxios = useAxiosAuth();
+  return () => authorizedAxios.post<CreatedMemberResponse>("/users", member);
+};
+
+export { getMembers, useGetMembers, useCreateMember };

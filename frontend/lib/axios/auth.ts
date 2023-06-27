@@ -1,7 +1,9 @@
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
-import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 
+import { unsetAccessTokenAttachedToAxiosDefaults } from "./authorize";
 import { axios } from "./axios";
+
+import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 
 const signUpService = (data: UserRegisterCredentials) =>
   axios.post("/auth/register", data, {
@@ -15,6 +17,7 @@ const signInService = (data: UserSignInCredentails) =>
 
 const useSignOut = () => {
   const authorizedAxios = useAxiosAuth();
+  unsetAccessTokenAttachedToAxiosDefaults();
   return () => authorizedAxios.get("/auth/logout");
 };
 

@@ -1,5 +1,6 @@
 // This members page fetch the data & show he list of members
 import { MemberCreateForm } from "@/components/modules/member/member-create-form";
+import { MemberDataTable } from "@/components/modules/member/member-data-table";
 import { PageTitle } from "@/components/modules/page-title";
 
 import { getMembers } from "@/lib/axios/member";
@@ -19,9 +20,8 @@ export default async function Members() {
         description="View all your visual data associated with coupons"
       />
       <Hydrate state={dehydratedState}>
-        <div className="h-[80vh] max-h-screen scroll-m-8 overflow-y-auto overflow-x-hidden">
-          <MemberCreateForm />
-          </div>
+        <MemberCreateForm />
+        <MemberDataTable />
       </Hydrate>
     </div>
   );

@@ -45,6 +45,13 @@ export type MemberMetaLinks = {
 export type CreateMemberData = {
   name: string;
   email: string;
-  role: string;
+  role: "member" | "seller";
   password: string;
 };
+
+export type CreatedMemberResponse = {
+  message: string;
+  data: Member;
+};
+
+

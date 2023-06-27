@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import {
   AlertDialog,
@@ -28,6 +28,18 @@ type DialogWithAlertProps = {
   children?: React.ReactNode;
   alertTitle?: React.ReactNode;
   alertDescription?: React.ReactNode;
+  dialogState: {
+    dialogOpen: boolean;
+    alertOpen: boolean;
+    confirmClose: boolean;
+  };
+  setDialogStates: Dispatch<
+    SetStateAction<{
+      dialogOpen: boolean;
+      alertOpen: boolean;
+      confirmClose: boolean;
+    }>
+  >;
 };
 
 const DialogWithAlert = ({
@@ -37,28 +49,24 @@ const DialogWithAlert = ({
   children,
   alertTitle,
   alertDescription,
+  dialogState,
+  setDialogStates,
 }: DialogWithAlertProps) => {
-  const [dialogs, setDialogs] = useState({
-    dialogOpen: false,
-    alertOpen: false,
-    confirmClose: false,
-  });
-
   return (
     <>
       <Dialog
         onOpenChange={(open) => {
           open
-            ? setDialogs((prev) => ({ ...prev, dialogOpen: true }))
-            : setDialogs((prev) => ({
+            ? setDialogStates((prev) => ({ ...prev, dialogOpen: true }))
+            : setDialogStates((prev) => ({
                 ...prev,
                 alertOpen: true,
               }));
         }}
-        open={dialogs.dialogOpen}
+        open={dialogState?.dialogOpen}
       >
         {dialogTrigger}
-        <DialogContent className="h-screen sm:h-fit">
+        <DialogContent className="flex h-screen flex-col gap-4 sm:h-fit ">
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>
@@ -67,7 +75,7 @@ const DialogWithAlert = ({
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={dialogs.alertOpen}>
+      <AlertDialog open={dialogState?.alertOpen}>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -77,7 +85,7 @@ const DialogWithAlert = ({
           <AlertDialogFooter>
             <AlertDialogCancel
               onClick={() =>
-                setDialogs((prev) => ({
+                setDialogStates((prev) => ({
                   ...prev,
                   dialogOpen: true,
                   alertOpen: false,
@@ -88,7 +96,7 @@ const DialogWithAlert = ({
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() =>
-                setDialogs((prev) => ({
+                setDialogStates((prev) => ({
                   ...prev,
                   dialogOpen: false,
                   alertOpen: false,

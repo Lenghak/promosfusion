@@ -4,7 +4,6 @@ import {
   useRequestCoupon,
   useVerifyCoupon,
 } from "@/lib/axios/coupon";
-import { getQueryClient } from "@/lib/react-query";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 

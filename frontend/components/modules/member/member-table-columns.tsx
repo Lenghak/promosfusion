@@ -54,10 +54,7 @@ const MemberColumns: ColumnDef<Member>[] = [
       />
     ),
   },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
+
   {
     accessorKey: "role",
     header: "Role",
@@ -68,7 +65,7 @@ const MemberColumns: ColumnDef<Member>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
