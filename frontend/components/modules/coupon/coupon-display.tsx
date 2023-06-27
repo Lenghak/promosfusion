@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +12,7 @@ import {
   useVerifyCouponService,
 } from "@/services/coupon";
 
+import { useHandleRequestEffect, useHandleVerifyEffect } from "@/hooks/coupon";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -27,7 +28,9 @@ type CouponDisplayProps = {
 const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
   const pathName = usePathname();
 
-  const { replace } = useRouter();
+  const { get: getParam } = useSearchParams();
+
+  const { replace, refresh } = useRouter();
 
   const { data: session } = useSession();
 
@@ -35,22 +38,31 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     data: coupon,
     isError: isGetCouponError,
     isLoading: isGettingCoupon,
-    isFetching: isFetchingCoupon,
+    refetch,
   } = useGetCouponService(couponId);
 
   const {
-    mutate: requestCoupon,
-    isLoading: isRequesting,
-    isSuccess: isRequested,
     data: response,
-  } = useRequestCouponService(coupon?.cuid!!);
+    mutate: claimCoupon,
+    isLoading: isClaiming,
+    isSuccess: isClaimed,
+    isError: isClaimError,
+  } = useRequestCouponService(coupon?.data.cuid!!, getParam("token")!!);
+
+  const {
+    mutate: verifyCoupon,
+    isLoading: isVerifying,
+    isError: isVerifyError,
+    isSuccess: isVerified,
+  } = useVerifyCouponService(coupon?.data.cuid!!, getParam("token")!!);
+
+  useHandleVerifyEffect(isVerifyError, isVerified);
+  useHandleRequestEffect(isClaimError, isClaimed);
 
   useEffect(() => {
-    if (isRequested)
-      replace(`${pathName}/?token=${response.data.token}`, {
-        forceOptimisticNavigation: true,
-      });
-  }, [isRequested, pathName, response, replace]);
+    if (isClaimed) replace(`${pathName}/?token=${response.data.token}`);
+    if(isVerified) refresh()
+  }, [isClaimed, isVerified, pathName, response, replace, refetch, refresh]);
 
   return coupon ? (
     <div
@@ -59,35 +71,45 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
       }
     >
       {/* Coupon Content */}
-      <CouponContent
-        cuid={coupon?.cuid}
-        logo={coupon?.couponDisplay?.logo}
-        companyName={coupon?.couponDisplay?.campany}
-        couponType={coupon?.couponDisplay?.promotion}
-        title={coupon?.couponDisplay?.title}
-        description={coupon?.couponDisplay?.description}
-      />
+      {coupon ? (
+        <CouponContent
+          cuid={coupon.data.cuid}
+          logo={coupon.data.couponDisplay?.logo}
+          companyName={coupon.data.couponDisplay?.campany}
+          couponType={coupon.data.couponDisplay?.promotion}
+          title={coupon.data.couponDisplay?.title}
+          description={coupon.data.couponDisplay?.description}
+          status={coupon.data.currentStatus}
+        />
+      ) : null}
 
-      <CouponQR
-        cuid={couponId}
-        token={response?.data.token ?? couponId} // This is the token
-        action={
-          coupon?.currentStatus === "valid" && session ? (
-            <Button>Verify</Button>
-          ) : coupon?.currentStatus === "new" && !session ? (
-            <Button
-              onClick={() => requestCoupon()}
-              disabled={isRequesting}
-            >
-              {!isRequesting ? <Loader2 size={18} /> : "Claim"}
-            </Button>
-          ) : null
-        }
-      />
-
-      {/* Action Buttons */}
+      {coupon?.data.currentStatus !== "verified" && (
+        <CouponQR
+          cuid={couponId}
+          token={`${
+            process.env.NEXT_PUBLIC_URL
+          }/coupons/${couponId}?token=${getParam("token")}`} // This is the token
+          action={
+            coupon?.data.currentStatus === "valid" &&
+            session &&
+            !isVerifying &&
+            !isVerified ? (
+              <Button onClick={() => verifyCoupon()}>Verify</Button>
+            ) : coupon?.data.currentStatus === "new" &&
+              !session &&
+              !isClaiming ? (
+              <Button
+                onClick={() => claimCoupon()}
+                disabled={isClaiming}
+              >
+                {isClaiming ? <Loader2 size={18} /> : "Claim"}
+              </Button>
+            ) : null
+          }
+        />
+      )}
     </div>
-  ) : isGettingCoupon || isFetchingCoupon ? (
+  ) : isGettingCoupon ? (
     <div className="flex h-full w-full items-center justify-center">
       <Loader2
         size={48}

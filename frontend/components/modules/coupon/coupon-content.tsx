@@ -18,6 +18,7 @@ type CouponProps = {
   logo?: string;
   expireDate?: string;
   cuid?: string;
+  status?: string;
 };
 
 const CouponContent = ({
@@ -26,8 +27,9 @@ const CouponContent = ({
   description,
   expireDate,
   title,
-  companyName = "Coupon Flare",
+  companyName,
   logo,
+  status,
 }: CouponProps) => {
   const { toast } = useToast();
 
@@ -73,7 +75,8 @@ const CouponContent = ({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center justify-center gap-3 rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg"
+        "relative flex w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border-b-2 border-dashed bg-accent p-6 shadow-lg",
+        status === "verified" ? "border-0" : ""
       )}
     >
       <div className="flex items-center justify-center gap-8">
@@ -130,6 +133,15 @@ const CouponContent = ({
         >
           <Copy size={18} />
         </Button>
+      </div>
+
+      {/* Ribbon */}
+      <div className="absolute right-0 top-0 h-28 w-28 overflow-hidden">
+        <div className="absolute -right-8 top-4 flex h-5 w-full  rotate-45 items-center justify-center bg-white">
+          <span className="text-center text-sm font-semibold uppercase text-secondary-foreground">
+            {status === "verified" ? "used" : status}
+          </span>
+        </div>
       </div>
     </div>
   );

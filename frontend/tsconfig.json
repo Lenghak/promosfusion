@@ -37,6 +37,6 @@
     "app/(auth)/ForgetPassword.jsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules", ".next"
   ]
 }
