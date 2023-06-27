@@ -10,7 +10,7 @@ export type Member = {
   name: string;
   phone: string;
   email: string;
-  role: string;
+  role: "manager" | "seller";
   status: string;
   type: string;
   avatar: string;

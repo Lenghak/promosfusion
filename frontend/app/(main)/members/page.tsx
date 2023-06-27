@@ -13,13 +13,15 @@ export default async function Members() {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col overflow-y-auto">
       <PageTitle
         title="Dashboard"
         description="View all your visual data associated with coupons"
       />
       <Hydrate state={dehydratedState}>
-        <MemberCreateForm />
+        <div className="h-[80vh] max-h-screen scroll-m-8 overflow-y-auto overflow-x-hidden">
+          <MemberCreateForm />
+          </div>
       </Hydrate>
     </div>
   );

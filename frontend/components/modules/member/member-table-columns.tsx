@@ -18,7 +18,7 @@ import { AvatarCard } from "../avatar-card";
 
 import { Member } from "@/types/member";
 
-export const columns: ColumnDef<Member>[] = [
+const MemberColumns: ColumnDef<Member>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -42,18 +42,17 @@ export const columns: ColumnDef<Member>[] = [
     accessorKey: "uuid",
     header: "ID",
   },
+
   {
     accessorKey: "name",
     header: "User",
-    cell: ({ row }) => {
-      return (
-        <AvatarCard
-          name={row.getValue("name")}
-          image={row.getValue("avatar")}
-          info={row.getValue("email")}
-        />
-      );
-    },
+    cell: ({ row }) => (
+      <AvatarCard
+        name={row.original.name}
+        image={row.original.avatar}
+        info={row.original.email}
+      />
+    ),
   },
   {
     accessorKey: "email",
@@ -93,3 +92,5 @@ export const columns: ColumnDef<Member>[] = [
     },
   },
 ];
+
+export { MemberColumns };
