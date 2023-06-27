@@ -48,3 +48,10 @@ export type CreateMemberData = {
   role: "member" | "seller";
   password: string;
 };
+
+export type CreatedMemberResponse = {
+  message: string;
+  data: Member;
+};
+
+
