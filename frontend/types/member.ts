@@ -10,7 +10,7 @@ export type Member = {
   name: string;
   phone: string;
   email: string;
-  role: string;
+  role: "manager" | "saller";
   status: string;
   type: string;
   avatar: string;
@@ -45,6 +45,6 @@ export type MemberMetaLinks = {
 export type CreateMemberData = {
   name: string;
   email: string;
-  role: string;
+  role: "member" | "seller";
   password: string;
 };
