@@ -19,6 +19,7 @@ type CouponProps = {
   expireDate?: string;
   cuid?: string;
   status?: string;
+  token?: string;
 };
 
 const CouponContent = ({
@@ -30,13 +31,16 @@ const CouponContent = ({
   companyName,
   logo,
   status,
+  token,
 }: CouponProps) => {
   const { toast } = useToast();
 
   //* copy to clipboard hanler
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(`http://coupon-flare.vercel.app/coupons/${cuid}`)
+      .writeText(
+        `${process.env.NEXT_PUBLIC_URL}/coupons/${cuid}?token=${token}`
+      )
       .then(() =>
         toast({
           description: (
