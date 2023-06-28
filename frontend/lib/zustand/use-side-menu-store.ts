@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type sideMenuState = {
+type SideMenuState = {
   isSideMenuOpen: boolean;
   setSideMenu: (state: boolean) => void;
 };
@@ -9,7 +9,7 @@ type sideMenuState = {
  * @description the side-menu state
  * @returns useSideMenuStore
  */
-const useSideMenuStore = create<sideMenuState>((set) => ({
+const useSideMenuStore = create<SideMenuState>((set) => ({
   isSideMenuOpen: true,
   setSideMenu: (state: boolean) =>
     set((prev) => ({
