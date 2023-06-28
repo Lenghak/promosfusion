@@ -5,7 +5,7 @@ import {
   useVerifyCoupon,
 } from "@/lib/axios/coupon";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useProvideCouponService = (campaignId: string) => {
   const provideCoupon = useProvideCoupon(campaignId);
@@ -27,17 +27,27 @@ const useGetCouponService = (couponId: string) => {
 
 const useRequestCouponService = (couponId: string, token: string) => {
   const requestCoupon = useRequestCoupon(couponId, token);
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["coupon-request"],
     mutationFn: async () => (await requestCoupon()).data,
+    onSettled: () => {
+      queryClient.invalidateQueries(["coupon"]);
+    },
   });
 };
 
 const useVerifyCouponService = (couponId: string, token: string) => {
   const verifyCoupon = useVerifyCoupon(couponId, token);
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
+    onSettled: () => {
+      queryClient.invalidateQueries(["coupon"]);
+    },
   });
 };
 

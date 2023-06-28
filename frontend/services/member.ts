@@ -1,14 +1,20 @@
 import { useCreateMember, useGetMembers } from "@/lib/axios/member";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { CreateMemberData } from "@/types/member";
 
-const useCreateMemberService = (member: CreateMemberData) => {
-  const createMember = useCreateMember(member);
+const useCreateMemberService = () => {
+  const createMember = useCreateMember();
+
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["member-create"],
-    mutationFn: async () => await createMember(),
+    mutationFn: async (member: CreateMemberData) => await createMember(member),
+    onSettled: () => {
+      queryClient.invalidateQueries(["members"]);
+    },
   });
 };
 
@@ -18,7 +24,8 @@ const useGetMembersService = () => {
     queryKey: ["members"],
     queryFn: async () => (await getMembers()).data,
     refetchOnMount: true,
-    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
   });
 };
 
