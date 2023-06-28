@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 
@@ -26,16 +24,9 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
   } = useProvideCouponService(campaignId);
 
   const coupon = generateResponse?.data.data;
-  const [dialogStates, setDialogStates] = useState({
-    dialogOpen: false,
-    alertOpen: false,
-    confirmClose: false,
-  });
 
   return (
     <DialogWithAlert
-      setDialogStates={setDialogStates}
-      dialogState={dialogStates}
       dialogTitle={isGenerateError ? "Generate Error" : "Providing Coupon"}
       dialogDescription={
         isGenerateError
