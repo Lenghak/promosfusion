@@ -27,6 +27,7 @@ const QrScannerView = () => {
             action: (
               <Link
                 href={result}
+                target="_blank"
                 className={buttonVariants({ variant: "link" })}
               >
                 View Coupon
