@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import {  useRouter } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -37,6 +37,7 @@ export function SignInForm({}: SignInFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
 
+  const { replace } = useRouter();
   //* form return object from useForm from react-hook-form integrated with zod
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
@@ -81,124 +82,129 @@ export function SignInForm({}: SignInFormProps) {
       });
     }
 
-    if (!signInResponse?.error) {
-      redirect("/dashboard");
+    if (signInResponse?.error === null) {
+      replace("/dashboard");
     }
-  }, [signInResponse, form, toast]);
+  }, [signInResponse, form, toast, replace]);
 
   return (
-    <Form {...form}>
-      <form
-        className="flex h-fit w-full max-w-sm flex-col items-center gap-4 self-center"
-        onSubmit={form.handleSubmit((values) => formSubmitHandler(values))}
-      >
-        {/*//* Email input field  */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormControl>
-                <div className="relative">
-                  <Mail
-                    size={18}
-                    className="absolute left-4 h-full text-accent-foreground"
-                  />
-                  <Input
-                    type="email"
-                    placeholder="someone@example.com"
-                    {...field}
-                    autoComplete="on"
-                    className="pl-12"
-                  />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/*//* Password input field  */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="relative w-full">
-              <FormControl>
-                <div className="relative">
-                  <Key
-                    size={18}
-                    className="absolute left-4 h-full text-accent-foreground"
-                  />
-                  <Input
-                    placeholder="Password"
-                    {...field}
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    className="px-12"
-                    autoComplete="password"
-                  />
-                  <Button
-                    variant={"link"}
-                    type="button"
-                    className="absolute right-0 top-0 text-neutral-900 dark:text-white"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {!showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <section className="flex w-full items-center justify-end">
-          <Link
-            href={"/forgot-password"}
-            className={cn([
-              buttonVariants({ variant: "link", size: "lg" }),
-              "h-fit w-fit p-0 text-right",
-            ])}
-          >
-            Forgot Password?
-          </Link>
-        </section>
-
-        {/*//* Submit button  */}
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={isSigningIn}
+    <Fragment>
+      <Form {...form}>
+        <form
+          className="flex h-fit w-full max-w-sm flex-col items-center gap-4 self-center"
+          onSubmit={form.handleSubmit((values) => formSubmitHandler(values))}
         >
-          {isSigningIn ? (
-            <Loader2
-              size={18}
-              className="animate-spin"
-            />
-          ) : (
-            "Sign In"
-          )}
-        </Button>
+          {/*//* Email input field  */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <div className="relative">
+                    <Mail
+                      size={18}
+                      className="absolute left-4 h-full text-accent-foreground"
+                    />
+                    <Input
+                      type="email"
+                      placeholder="someone@example.com"
+                      {...field}
+                      autoComplete="on"
+                      className="pl-12"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/*//* No account link  */}
-        <span className="text-center text-sm">
-          Don&apos;t have an account yet?{" "}
-          <Link
-            href={"/sign-up"}
-            className={cn([buttonVariants({ variant: "link" }), "p-0 px-2"])}
+          {/*//* Password input field  */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="relative w-full">
+                <FormControl>
+                  <div className="relative">
+                    <Key
+                      size={18}
+                      className="absolute left-4 h-full text-accent-foreground"
+                    />
+                    <Input
+                      placeholder="Password"
+                      {...field}
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      className="px-12"
+                      autoComplete="password"
+                    />
+                    <Button
+                      variant={"link"}
+                      type="button"
+                      className="absolute right-0 top-0 text-neutral-900 dark:text-white"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {!showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <section className="flex w-full items-center justify-end">
+            <Link
+              href={"/forgot-password"}
+              className={cn([
+                buttonVariants({ variant: "link", size: "lg" }),
+                "h-fit w-fit p-0 text-right",
+              ])}
+            >
+              Forgot Password?
+            </Link>
+          </section>
+
+          {/*//* Submit button  */}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSigningIn}
           >
-            Create One
-          </Link>
-        </span>
-      </form>
-    </Form>
+            {isSigningIn ? (
+              <Loader2
+                size={18}
+                className="animate-spin"
+              />
+            ) : (
+              "Sign In"
+            )}
+          </Button>
+
+          {/*//* No account link  */}
+          <span className="text-center text-sm">
+            Don&apos;t have an account yet?{" "}
+            <Link
+              href={"/sign-up"}
+              className={cn([buttonVariants({ variant: "link" }), "p-0 px-2"])}
+            >
+              Create One
+            </Link>
+          </span>
+        </form>
+      </Form>
+
+      {isSigningIn || signInResponse?.error === null ? (
+        <div className="fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 bg-background">
+          <Loader2
+            size={48}
+            className="animate-spin"
+          />
+          <span>Signing In...</span>
+        </div>
+      ) : null}
+    </Fragment>
   );
 }
-
-// : (
-//   <div className="fixed flex h-full w-full flex-col items-center justify-center gap-4">
-//     <Loader2 size={48} />
-//     <span>Redirecting...</span>
-//   </div>
-// );
