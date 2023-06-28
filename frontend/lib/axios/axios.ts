@@ -7,6 +7,7 @@ import axios, { AxiosInstance } from "axios";
 const instance: AxiosInstance = axios.create({
   baseURL: "http://couponapi.textura-art.com",
   headers: {
+    "X-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",
   },
 });
@@ -14,6 +15,7 @@ const instance: AxiosInstance = axios.create({
 const authorizedInstance: AxiosInstance = axios.create({
   baseURL: "http://couponapi.textura-art.com",
   headers: {
+    "X-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",
   },
   withCredentials: true,
