@@ -1,4 +1,5 @@
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
+import { AxiosError } from "axios";
 
 import { authorizeAxios } from "./authorize";
 
@@ -20,9 +21,10 @@ const useGetMembers = () => {
   return () => authorizedAxios.get<Members>("/users");
 };
 
-const useCreateMember = (member: CreateMemberData) => {
+const useCreateMember = () => {
   const authorizedAxios = useAxiosAuth();
-  return () => authorizedAxios.post<CreatedMemberResponse>("/users", member);
+  return (member: CreateMemberData) =>
+    authorizedAxios.post<CreatedMemberResponse>("/users", member);
 };
 
 export { getMembers, useGetMembers, useCreateMember };
