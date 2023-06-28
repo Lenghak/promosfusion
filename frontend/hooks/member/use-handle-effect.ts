@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import { useToast } from "@/hooks/use-toast";
@@ -7,13 +7,7 @@ import { AxiosError, isAxiosError } from "axios";
 const useHandleCreatedEffect = (
   isError: boolean,
   isSuccess: boolean,
-  setDialogStates: Dispatch<
-    SetStateAction<{
-      dialogOpen: boolean;
-      alertOpen: boolean;
-      confirmClose: boolean;
-    }>
-  >,
+  openDialog: (state: boolean) => void,
   error: Error | AxiosError,
   form: UseFormReturn<
     {
@@ -42,12 +36,12 @@ const useHandleCreatedEffect = (
     }
 
     if (isSuccess) {
-      setDialogStates((prev) => ({ ...prev, dialogOpen: false }));
+      openDialog(false);
       toast({
         title: "Member Created Successfully",
       });
     }
-  }, [isError, isSuccess, toast, setDialogStates, form, error]);
+  }, [isError, isSuccess, toast, openDialog, form, error]);
 };
 
 export { useHandleCreatedEffect };
