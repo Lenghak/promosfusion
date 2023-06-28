@@ -45,7 +45,7 @@ export type MemberMetaLinks = {
 export type CreateMemberData = {
   name: string;
   email: string;
-  role: "member" | "seller";
+  role: "manager" | "seller";
   password: string;
 };
 
@@ -53,5 +53,3 @@ export type CreatedMemberResponse = {
   message: string;
   data: Member;
 };
-
-
