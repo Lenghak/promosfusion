@@ -13,6 +13,7 @@ export type Coupon = {
   campaign_id: number;
   belongTo: any;
   createdAt: string;
+  expiredAt: string;
   updatedAt: string;
   couponDisplay: CouponDisplay;
 };
