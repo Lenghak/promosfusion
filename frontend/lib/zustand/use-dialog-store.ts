@@ -4,8 +4,8 @@ type UseDialogStoreStates = {
   dialogOpen: boolean;
   alertOpen: boolean;
 
-  setDialog: (state: boolean) => void;
-  openConfirm: (state: boolean) => void;
+  openDialog: (state: boolean) => void;
+  openAlert: (state: boolean) => void;
 };
 
 /**
@@ -17,18 +17,16 @@ const useDialogStore: UseBoundStore<StoreApi<UseDialogStoreStates>> =
     dialogOpen: false,
     alertOpen: false,
 
-    setDialog: (state: boolean) =>
+    openDialog: (state: boolean) =>
       set((prev) => ({
         ...prev,
         dialogOpen: state,
-        alertOpen: false,
       })),
 
-    openConfirm: () =>
+    openAlert: (state: boolean) =>
       set((prev) => ({
         ...prev,
-        dialogOpen: false,
-        alertOpen: true,
+        alertOpen: state,
       })),
   }));
 
