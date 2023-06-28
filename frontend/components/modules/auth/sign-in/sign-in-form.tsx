@@ -86,7 +86,7 @@ export function SignInForm({}: SignInFormProps) {
     }
   }, [signInResponse, form, toast]);
 
-  return signInResponse?.error ? (
+  return (
     <Form {...form}>
       <form
         className="flex h-fit w-full max-w-sm flex-col items-center gap-4 self-center"
@@ -193,10 +193,12 @@ export function SignInForm({}: SignInFormProps) {
         </span>
       </form>
     </Form>
-  ) : (
-    <div className="fixed flex h-full w-full flex-col items-center justify-center gap-4">
-      <Loader2 size={48} />
-      <span>Redirecting...</span>
-    </div>
   );
 }
+
+// : (
+//   <div className="fixed flex h-full w-full flex-col items-center justify-center gap-4">
+//     <Loader2 size={48} />
+//     <span>Redirecting...</span>
+//   </div>
+// );
