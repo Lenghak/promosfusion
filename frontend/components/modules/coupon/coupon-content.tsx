@@ -137,7 +137,7 @@ const CouponContent = ({
 
       {/* Ribbon */}
       <div className="absolute right-0 top-0 h-28 w-28 overflow-hidden">
-        <div className="absolute -right-8 top-4 flex h-5 w-full  rotate-45 items-center justify-center bg-white">
+        <div className="absolute -right-8 top-4 flex h-5 w-full rotate-45 items-center justify-center bg-secondary">
           <span className="text-center text-sm font-semibold uppercase text-secondary-foreground">
             {status === "verified" ? "used" : status}
           </span>
