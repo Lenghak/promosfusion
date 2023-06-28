@@ -19,6 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { cn } from "@/lib/utils";
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -35,11 +37,17 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterBy?: string;
+  widget?: React.ReactNode;
+  tableContainerClass?: string;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
+  filterBy,
+  widget,
+  tableContainerClass,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -70,15 +78,21 @@ const DataTable = <TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex items-center gap-4 py-4">
+        {filterBy && (
+          <Input
+            placeholder={`Filer by ${filterBy}`}
+            value={
+              (table.getColumn(filterBy)?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn(filterBy)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+
+        {widget}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -109,7 +123,7 @@ const DataTable = <TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className={cn("rounded-md border", tableContainerClass)}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
