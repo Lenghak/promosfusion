@@ -23,6 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { useDialogStore } from "@/lib/zustand";
+
 import { useCreateMemberService } from "@/services/member";
 
 import { useHandleCreatedEffect } from "@/hooks/member";
@@ -33,7 +35,7 @@ import * as z from "zod";
 
 type MemberCreateFormProps = {};
 
-const memberFormSchema = z.object({
+export const memberFormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
@@ -48,12 +50,6 @@ const memberFormSchema = z.object({
 });
 
 const MemberCreateForm = ({}: MemberCreateFormProps) => {
-  const [dialogStates, setDialogStates] = useState({
-    dialogOpen: false,
-    alertOpen: false,
-    confirmClose: false,
-  });
-
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
@@ -72,24 +68,24 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
     isLoading: isCreatingMember,
   } = useCreateMemberService();
 
+  const { openDialog, openAlert } = useDialogStore((state) => state);
+
   useHandleCreatedEffect(
     isMemberCreatedError,
     isMemberCreated,
-    setDialogStates,
+    openDialog,
     memberError as Error,
     form
   );
 
   return (
     <DialogWithAlert
-      dialogState={dialogStates}
-      setDialogStates={setDialogStates}
       dialogTrigger={
         <DialogTrigger
           className="p-2"
           asChild
         >
-          <Button className="w-fit gap-4 lg:px-4 px-3">
+          <Button className="w-fit gap-4 px-3 lg:px-4">
             <UserPlus size={18} />
             <span className="hidden lg:inline-block">Add Member</span>
           </Button>
@@ -189,9 +185,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
             <Button
               type="button"
               variant={"outline"}
-              onClick={() =>
-                setDialogStates((prev) => ({ ...prev, alertOpen: true }))
-              }
+              onClick={() => openAlert(true)}
             >
               Cancel
             </Button>
