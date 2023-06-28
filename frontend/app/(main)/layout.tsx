@@ -1,11 +1,17 @@
+"use client";
+
 import { SideMenu } from "@/components/modules/side-menu";
 import { TopBar } from "@/components/modules/top-bar";
+
+import { useLockedBody } from "usehooks-ts";
 
 type MainLayoutProps = {
   children: React.ReactNode;
 };
 
 export default function MainLayout({ children }: MainLayoutProps) {
+  useLockedBody(true);
+
   return (
     <main className="flex items-start overflow-hidden">
       <SideMenu />
