@@ -8,37 +8,33 @@ import { useGetCampaignsService } from "@/services/campaign";
 
 import { columns } from "./campaign-table-columns";
 
-type CampaignTableProps = {
+type CampaignCouponsTableProps = {
   id?: number;
-  name?: string;
-  description?: string;
-  createdCoupon?: number;
-  creatableCoupon?: number;
-  type?: string;
+  cid?: string;
   createdDate?: string;
-  startDate?: string;
-  endDate?: string;
-  status?: string;
+  verifyDate?: string;
+  Phone?: number;
+  verifiedBy?: string;
 };
 
-const CampaignTable = ({}: CampaignTableProps) => {
+const CampaignCouponsTable = ({}: CampaignCouponsTableProps) => {
   const {
-    data: campaigns,
+    data: coupons,
     isError: isGetCampaignsError,
     isLoading: isGettingCampaigns,
     isFetching: isFetchingCampaigns,
   } = useGetCampaignsService();
 
-  console.log(campaigns?.data);
+  console.log(coupons?.data);
 
   return (
     <div className="p-4">
       <DataTable
         columns={columns}
-        data={campaigns?.data || []}
+        data={coupons?.data || []}
       />
     </div>
   );
 };
 
-export { CampaignTable };
+export { CampaignCouponsTable };

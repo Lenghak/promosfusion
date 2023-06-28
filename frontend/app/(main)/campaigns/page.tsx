@@ -20,22 +20,7 @@ import { getQueryClient } from "@/lib/react-query";
 import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
 import { Filter, Plus, Search } from "lucide-react";
 
-// async function getData(): Promise<Campaign[]> {
-//   const { data: tableData, setData } = useCampaignTableStore();
-
-//   const { data, isLoading, isError } = useQuery(["data"], fetchData, {
-//     onSuccess: (data) => {
-//       setData(data);
-//     },
-//   });
-
-//   return [
-
-//   ]
-// }
-
 export default async function Campaigns() {
-  // const data = await getData()
 
   await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
   const dehydratedState = dehydrate(getQueryClient());
