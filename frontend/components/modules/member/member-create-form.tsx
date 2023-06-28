@@ -89,9 +89,9 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
           className="p-2"
           asChild
         >
-          <Button className="w-fit gap-4 px-4">
+          <Button className="w-fit gap-4 lg:px-4 px-3">
             <UserPlus size={18} />
-            <span>Add Member</span>
+            <span className="hidden lg:inline-block">Add Member</span>
           </Button>
         </DialogTrigger>
       }
