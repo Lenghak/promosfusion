@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 
@@ -10,7 +12,6 @@ import { Loader2, Plus } from "lucide-react";
 import { DialogWithAlert } from "../dialog-with-alert";
 import { CouponContent } from "./coupon-content";
 import { CouponQR } from "./coupon-qr";
-import { useState } from "react";
 
 type CouponProvideProps = {
   campaignId: string;
@@ -78,6 +79,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
                 title={coupon.couponDisplay.title}
                 description={coupon.couponDisplay.description}
                 status={coupon.currentStatus}
+                expiredAt={coupon.expiredAt}
               />
 
               <CouponQR

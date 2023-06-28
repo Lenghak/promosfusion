@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Logo } from "@/components/modules/logo";
 import { Button } from "@/components/ui/button";
 
-import { cn } from "@/lib/utils";
+import { cn, dateFormat } from "@/lib/utils";
 
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Copy, Download, XCircle } from "lucide-react";
@@ -16,7 +16,7 @@ type CouponProps = {
   couponType?: string;
   companyName?: string;
   logo?: string;
-  expireDate?: string;
+  expiredAt?: string;
   cuid?: string;
   status?: string;
   token?: string;
@@ -26,7 +26,7 @@ const CouponContent = ({
   cuid,
   couponType,
   description,
-  expireDate,
+  expiredAt,
   title,
   companyName,
   logo,
@@ -126,7 +126,7 @@ const CouponContent = ({
         </Button>
 
         <span className="rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
-          EXP : <span className="font-semibold">{expireDate}</span>
+          EXP : <span className="font-semibold">{dateFormat(expiredAt ?? '')}</span>
         </span>
 
         <Button

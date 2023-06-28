@@ -80,6 +80,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
           description={coupon.data.couponDisplay?.description}
           status={coupon.data.currentStatus}
           token={coupon.data.token}
+          expiredAt={coupon.data.expiredAt}
         />
       ) : null}
 
