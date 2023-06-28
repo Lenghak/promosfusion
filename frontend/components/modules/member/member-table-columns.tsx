@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -55,6 +56,7 @@ const MemberColumns: ColumnDef<Member>[] = [
     cell: ({ row }) => (
       <div className="h-full w-full px-4">{row.index + 1}</div>
     ),
+    enableHiding: false,
   },
 
   {
@@ -77,6 +79,7 @@ const MemberColumns: ColumnDef<Member>[] = [
         info={row.original.email}
       />
     ),
+    enableHiding: false,
   },
   {
     accessorKey: "phone",
@@ -115,6 +118,15 @@ const MemberColumns: ColumnDef<Member>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => (
+      <>
+        {row.getValue("status") === "active" ? (
+          <Badge className="bg-green-600 hover:bg-green-500 dark:bg-green-950 dark:text-success dark:hover:bg-green-900">
+            Active
+          </Badge>
+        ) : null}
+      </>
+    ),
   },
   {
     id: "actions",
