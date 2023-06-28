@@ -31,6 +31,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
     alertOpen: false,
     confirmClose: false,
   });
+
   return (
     <DialogWithAlert
       setDialogStates={setDialogStates}
@@ -80,6 +81,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
                 description={coupon.couponDisplay.description}
                 status={coupon.currentStatus}
                 expiredAt={coupon.expiredAt}
+                token={coupon.token}
               />
 
               <CouponQR
@@ -98,7 +100,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
                   className="w-40"
                   onClick={() => generateCoupon()}
                 >
-                  Rety
+                  Retry
                 </Button>
               </div>
             </>
