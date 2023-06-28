@@ -21,6 +21,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+import { useDialogStore } from "@/lib/zustand";
+
 type DialogWithAlertProps = {
   dialogTrigger: React.ReactNode;
   dialogTitle?: React.ReactNode;
@@ -28,18 +30,6 @@ type DialogWithAlertProps = {
   children?: React.ReactNode;
   alertTitle?: React.ReactNode;
   alertDescription?: React.ReactNode;
-  dialogState: {
-    dialogOpen: boolean;
-    alertOpen: boolean;
-    confirmClose: boolean;
-  };
-  setDialogStates: Dispatch<
-    SetStateAction<{
-      dialogOpen: boolean;
-      alertOpen: boolean;
-      confirmClose: boolean;
-    }>
-  >;
 };
 
 const DialogWithAlert = ({
@@ -49,21 +39,18 @@ const DialogWithAlert = ({
   children,
   alertTitle,
   alertDescription,
-  dialogState,
-  setDialogStates,
 }: DialogWithAlertProps) => {
+  const { alertOpen, dialogOpen, openAlert, openDialog } = useDialogStore(
+    (state) => state
+  );
+
   return (
     <>
       <Dialog
         onOpenChange={(open) => {
-          open
-            ? setDialogStates((prev) => ({ ...prev, dialogOpen: true }))
-            : setDialogStates((prev) => ({
-                ...prev,
-                alertOpen: true,
-              }));
+          open ? openDialog(true) : openAlert(true);
         }}
-        open={dialogState?.dialogOpen}
+        open={dialogOpen}
       >
         {dialogTrigger}
         <DialogContent className="flex h-screen flex-col gap-4 sm:h-fit ">
@@ -75,7 +62,7 @@ const DialogWithAlert = ({
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={dialogState?.alertOpen}>
+      <AlertDialog open={alertOpen}>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -84,24 +71,18 @@ const DialogWithAlert = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel
-              onClick={() =>
-                setDialogStates((prev) => ({
-                  ...prev,
-                  dialogOpen: true,
-                  alertOpen: false,
-                }))
-              }
+              onClick={() => {
+                openDialog(true);
+                openAlert(false);
+              }}
             >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              onClick={() =>
-                setDialogStates((prev) => ({
-                  ...prev,
-                  dialogOpen: false,
-                  alertOpen: false,
-                }))
-              }
+              onClick={() => {
+                openDialog(false);
+                openAlert(false);
+              }}
             >
               Continue
             </AlertDialogAction>
