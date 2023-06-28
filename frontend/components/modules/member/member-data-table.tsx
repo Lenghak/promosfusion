@@ -10,16 +10,17 @@ import { MemberColumns } from "./member-table-columns";
 type MemberDataTableProps = {};
 
 const MemberDataTable = ({}: MemberDataTableProps) => {
-  const { data: members } = useGetMembersService();
+  const {
+    data: members,
+    isLoading: isQueryingMember,
+    isError: isQueryMemberError,
+    isSuccess: isMemberQueried,
+  } = useGetMembersService();
 
   return (
     <div className="h-full">
       <DataTable
-        widget={
-          <>
-            <MemberCreateForm />
-          </>
-        }
+        widget={<MemberCreateForm />}
         data={members?.data ?? []}
         columns={MemberColumns}
         filterBy="name"
