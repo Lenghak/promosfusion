@@ -30,7 +30,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
 
   const { get: getParam } = useSearchParams();
 
-  const { replace, refresh } = useRouter();
+  const { replace } = useRouter();
 
   const { data: session } = useSession();
 
@@ -61,8 +61,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
 
   useEffect(() => {
     if (isClaimed) replace(`${pathName}/?token=${response.data.token}`);
-    if(isVerified) refresh()
-  }, [isClaimed, isVerified, pathName, response, replace, refetch, refresh]);
+  }, [isClaimed, pathName, response, replace]);
 
   return coupon ? (
     <div
@@ -80,6 +79,8 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
           title={coupon.data.couponDisplay?.title}
           description={coupon.data.couponDisplay?.description}
           status={coupon.data.currentStatus}
+          token={coupon.data.token}
+          expiredAt={coupon.data.expiredAt}
         />
       ) : null}
 

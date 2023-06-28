@@ -23,8 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { useCreateMemberService } from "@/services/member";
+
+import { useHandleCreatedEffect } from "@/hooks/member";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import * as z from "zod";
 
 type MemberCreateFormProps = {};
@@ -37,8 +41,9 @@ const memberFormSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters." }),
-  role: z.string({
-    required_error: "Please select a role.",
+  role: z.enum(["manager", "seller"], {
+    required_error: "Please select a role",
+    invalid_type_error: "Select either manager or seller",
   }),
 });
 
@@ -59,9 +64,21 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
     shouldUnregister: true,
   });
 
-  const handleSubmit = (values: z.infer<typeof memberFormSchema>) => {
-    console.log(values);
-  };
+  const {
+    mutate: createMember,
+    isSuccess: isMemberCreated,
+    isError: isMemberCreatedError,
+    error: memberError,
+    isLoading: isCreatingMember,
+  } = useCreateMemberService();
+
+  useHandleCreatedEffect(
+    isMemberCreatedError,
+    isMemberCreated,
+    setDialogStates,
+    memberError as Error,
+    form
+  );
 
   return (
     <DialogWithAlert
@@ -72,9 +89,9 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
           className="p-2"
           asChild
         >
-          <Button className="w-fit gap-4 px-4">
+          <Button className="w-fit gap-4 lg:px-4 px-3">
             <UserPlus size={18} />
-            <span>Add Member</span>
+            <span className="hidden lg:inline-block">Add Member</span>
           </Button>
         </DialogTrigger>
       }
@@ -87,7 +104,9 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
     >
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmit)}
+          onSubmit={form.handleSubmit(
+            (values: z.infer<typeof memberFormSchema>) => createMember(values)
+          )}
           className="space-y-4"
         >
           <FormField
@@ -180,6 +199,16 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
           </div>
         </form>
       </Form>
+
+      {isCreatingMember ? (
+        <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background">
+          <Loader2
+            size={24}
+            className="animate-spin"
+          />
+          <span>Creating Member ...</span>
+        </div>
+      ) : null}
     </DialogWithAlert>
   );
 };

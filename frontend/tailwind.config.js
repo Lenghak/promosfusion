@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './sass/**/*.{ts,tsx}'
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./sass/**/*.{ts,tsx}",
   ],
   theme: {
     container: {
@@ -19,9 +19,8 @@ module.exports = {
       },
     },
     extend: {
-
       screens: {
-        "xs": "475px",
+        xs: "475px",
         "2xl": "1400px",
         ...defaultTheme.screens,
       },
@@ -39,6 +38,10 @@ module.exports = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -77,13 +80,13 @@ module.exports = {
         },
         "up-down": {
           "0%, 100%": { transform: "translateY(0)" },
-          '50%': { transform: 'translateY(100%)' },
+          "50%": { transform: "translateY(100%)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "up-down": "up-down 3s ease-in-out infinite"
+        "up-down": "up-down 3s ease-in-out infinite",
       },
     },
   },

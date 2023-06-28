@@ -1,72 +1,136 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { AvatarCard } from "../avatar-card";
 
 import { Member } from "@/types/member";
 
-export const columns: ColumnDef<Member>[] = [
+const MemberColumns: ColumnDef<Member>[] = [
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
+
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "uuid",
-    header: "ID",
-  },
-  {
-    accessorKey: "name",
-    header: "User",
-    cell: ({ row }) => {
+    id: "id",
+    header: ({ column }) => {
       return (
-        <AvatarCard
-          name={row.getValue("name")}
-          image={row.getValue("avatar")}
-          info={row.getValue("email")}
-        />
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="w-fit"
+        >
+          #
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="h-full w-full px-4">{row.index + 1}</div>
+    ),
+    enableHiding: false,
   },
 
   {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <AvatarCard
+        name={row.original.name}
+        image={row.original.avatar}
+        info={row.original.email}
+      />
+    ),
+    enableHiding: false,
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Phone Number
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-full px-4">{row.getValue("phone")}</div>
+    ),
+  },
+  {
     accessorKey: "role",
-    header: "Role",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-full px-4">{row.getValue("role")}</div>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => (
+      <>
+        {row.getValue("status") === "active" ? (
+          <Badge className="bg-green-600 hover:bg-green-500 dark:bg-green-950 dark:text-success dark:hover:bg-green-900">
+            Active
+          </Badge>
+        ) : null}
+      </>
+    ),
   },
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -79,14 +143,19 @@ export const columns: ColumnDef<Member>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Assign Shop</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(row.original.email)}
+            >
+              Copy Email
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>Assign Shop</DropdownMenuItem>
             <DropdownMenuItem>View Member</DropdownMenuItem>
-            <DropdownMenuItem>Copy Email</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
     },
   },
 ];
+
+export { MemberColumns };

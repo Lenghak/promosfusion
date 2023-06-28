@@ -1,8 +1,9 @@
 import { signInService } from "@/lib/axios/auth";
 
-import { User } from "@/types/auth";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import { User } from "@/types/auth";
 
 const authOptions: AuthOptions = {
   providers: [
@@ -51,6 +52,7 @@ const authOptions: AuthOptions = {
   callbacks: {
     async session({ session, token }) {
       session.user = token as User;
+      console.log(session);
       return session;
     },
 

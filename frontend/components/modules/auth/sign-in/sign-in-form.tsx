@@ -18,8 +18,9 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
-import { useToast } from "@/hooks/use-toast";
 import { useSignInService } from "@/services/auth";
+
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Key, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
@@ -80,12 +81,12 @@ export function SignInForm({}: SignInFormProps) {
       });
     }
 
-    if (signInResponse?.error === null) {
+    if (!signInResponse?.error) {
       redirect("/dashboard");
     }
   }, [signInResponse, form, toast]);
 
-  return (
+  return signInResponse?.error ? (
     <Form {...form}>
       <form
         className="flex h-fit w-full max-w-sm flex-col items-center gap-4 self-center"
@@ -192,5 +193,10 @@ export function SignInForm({}: SignInFormProps) {
         </span>
       </form>
     </Form>
+  ) : (
+    <div className="fixed flex h-full w-full flex-col items-center justify-center gap-4">
+      <Loader2 size={48} />
+      <span>Redirecting...</span>
+    </div>
   );
 }

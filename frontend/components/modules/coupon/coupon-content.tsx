@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Logo } from "@/components/modules/logo";
 import { Button } from "@/components/ui/button";
 
-import { cn } from "@/lib/utils";
+import { cn, dateFormat } from "@/lib/utils";
 
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, Copy, Download, XCircle } from "lucide-react";
@@ -16,27 +16,31 @@ type CouponProps = {
   couponType?: string;
   companyName?: string;
   logo?: string;
-  expireDate?: string;
+  expiredAt?: string;
   cuid?: string;
   status?: string;
+  token?: string;
 };
 
 const CouponContent = ({
   cuid,
   couponType,
   description,
-  expireDate,
+  expiredAt,
   title,
   companyName,
   logo,
   status,
+  token,
 }: CouponProps) => {
   const { toast } = useToast();
 
   //* copy to clipboard hanler
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(`http://coupon-flare.vercel.app/coupons/${cuid}`)
+      .writeText(
+        `${process.env.NEXT_PUBLIC_URL}/coupons/${cuid}?token=${token}`
+      )
       .then(() =>
         toast({
           description: (
@@ -122,7 +126,7 @@ const CouponContent = ({
         </Button>
 
         <span className="rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
-          EXP : <span className="font-semibold">{expireDate}</span>
+          EXP : <span className="font-semibold">{dateFormat(expiredAt ?? '')}</span>
         </span>
 
         <Button
@@ -137,7 +141,7 @@ const CouponContent = ({
 
       {/* Ribbon */}
       <div className="absolute right-0 top-0 h-28 w-28 overflow-hidden">
-        <div className="absolute -right-8 top-4 flex h-5 w-full  rotate-45 items-center justify-center bg-white">
+        <div className="absolute -right-8 top-4 flex h-5 w-full rotate-45 items-center justify-center bg-secondary">
           <span className="text-center text-sm font-semibold uppercase text-secondary-foreground">
             {status === "verified" ? "used" : status}
           </span>

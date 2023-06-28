@@ -24,7 +24,7 @@ const PageTitle = ({ title, description }: PageTitleProps) => {
   }, [pathName]);
 
   return (
-    <section className="flex w-full items-center justify-between p-4">
+    <section className="flex w-full items-center justify-between gap-1 py-4">
       <div className="flex flex-col items-start justify-center">
         <span className="text-2xl font-bold">{title}</span>
         <span className="text-sm text-muted-foreground">{description}</span>

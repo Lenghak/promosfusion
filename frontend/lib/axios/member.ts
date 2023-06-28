@@ -20,9 +20,10 @@ const useGetMembers = () => {
   return () => authorizedAxios.get<Members>("/users");
 };
 
-const useCreateMember = (member: CreateMemberData) => {
+const useCreateMember = () => {
   const authorizedAxios = useAxiosAuth();
-  return () => authorizedAxios.post<CreatedMemberResponse>("/users", member);
+  return (member: CreateMemberData) =>
+    authorizedAxios.post<CreatedMemberResponse>("/users", member);
 };
 
 export { getMembers, useGetMembers, useCreateMember };
