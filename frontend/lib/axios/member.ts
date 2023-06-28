@@ -1,5 +1,4 @@
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
-import { AxiosError } from "axios";
 
 import { authorizeAxios } from "./authorize";
 
