@@ -5,9 +5,10 @@ import { useToast } from "@/hooks/use-toast";
 import { AxiosError, isAxiosError } from "axios";
 
 const useHandleCreatedEffect = (
+  dialogID: string,
   isError: boolean,
   isSuccess: boolean,
-  openDialog: (state: boolean) => void,
+  openDialog: (state: boolean, id?: string) => void,
   error: Error | AxiosError,
   form: UseFormReturn<
     {
@@ -36,7 +37,7 @@ const useHandleCreatedEffect = (
     }
 
     if (isSuccess) {
-      openDialog(false);
+      openDialog(false, dialogID);
       toast({
         title: "Member Created Successfully",
       });
