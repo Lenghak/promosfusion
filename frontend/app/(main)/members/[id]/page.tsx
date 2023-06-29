@@ -1,3 +1,6 @@
+import { MemberInfoView } from "@/components/modules/member";
+import { PageTitle } from "@/components/modules/page-title";
+
 import { getMember } from "@/lib/axios/member";
 import { getQueryClient } from "@/lib/react-query";
 
@@ -17,8 +20,13 @@ export default function MemberView({ params }: MemberViewProps) {
 
   return (
     <section className="h-full w-full p-0">
+      <PageTitle
+        title="Member Profile"
+        description="View gathered basic information on member all in one place."
+      />
       <Hydrate state={dehydratedState}>
-        
+        {/* The Data Components */}
+        <MemberInfoView id={params.id} />
       </Hydrate>
     </section>
   );
