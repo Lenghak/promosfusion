@@ -1,15 +1,16 @@
+import z from "zod";
 import { create } from "zustand";
 
-type SideMenuState = {
-  isSideMenuOpen: boolean;
-  setSideMenu: (state: boolean) => void;
-};
+const SideMenuStates = z.object({
+  isSideMenuOpen: z.boolean(),
+  setSideMenu: z.function().args(z.boolean()).returns(z.void()),
+});
 
 /**
  * @description the side-menu state
  * @returns useSideMenuStore
  */
-const useSideMenuStore = create<SideMenuState>((set) => ({
+const useSideMenuStore = create<z.infer<typeof SideMenuStates>>((set) => ({
   isSideMenuOpen: true,
   setSideMenu: (state: boolean) =>
     set((prev) => ({

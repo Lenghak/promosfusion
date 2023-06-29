@@ -1,33 +1,45 @@
+import * as z from "zod";
 import { create, StoreApi, UseBoundStore } from "zustand";
 
-type UseDialogStoreStates = {
-  dialogOpen: boolean;
-  alertOpen: boolean;
+const UseDialogStoreStates = z.object({
+  dialogOpen: z.boolean(),
+  alertOpen: z.boolean(),
+  id: z.string(),
 
-  openDialog: (state: boolean) => void;
-  openAlert: (state: boolean) => void;
-};
+  openDialog: z
+    .function()
+    .args(z.boolean(), z.string().optional())
+    .returns(z.void()),
+  openAlert: z
+    .function()
+    .args(z.boolean(), z.string().optional())
+    .returns(z.void()),
+});
 
 /**
  * @description This global store is for general usage of dialog with confirm alert
  * @return useDialogStore
  */
-const useDialogStore: UseBoundStore<StoreApi<UseDialogStoreStates>> =
-  create<UseDialogStoreStates>((set) => ({
-    dialogOpen: false,
-    alertOpen: false,
+const useDialogStore: UseBoundStore<
+  StoreApi<z.infer<typeof UseDialogStoreStates>>
+> = create<z.infer<typeof UseDialogStoreStates>>((set) => ({
+  dialogOpen: false,
+  alertOpen: false,
+  id: "",
 
-    openDialog: (state: boolean) =>
-      set((prev) => ({
-        ...prev,
-        dialogOpen: state,
-      })),
+  openDialog: (state: boolean, id: string = "") =>
+    set((prev) => ({
+      ...prev,
+      dialogOpen: state,
+      id: id,
+    })),
 
-    openAlert: (state: boolean) =>
-      set((prev) => ({
-        ...prev,
-        alertOpen: state,
-      })),
-  }));
+  openAlert: (state: boolean, id: string = "") =>
+    set((prev) => ({
+      ...prev,
+      alertOpen: state,
+      id: id,
+    })),
+}));
 
 export { useDialogStore };
