@@ -16,8 +16,8 @@ export default async function Members() {
   return (
     <div className="flex h-full w-full flex-col overflow-y-auto">
       <PageTitle
-        title="Dashboard"
-        description="View all your visual data associated with coupons"
+        title="Members"
+        description="View your list of teams and members"
       />
       <Hydrate state={dehydratedState}>
         <MemberDataTable />
