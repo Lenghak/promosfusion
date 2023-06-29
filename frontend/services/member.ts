@@ -1,6 +1,7 @@
 import { useCreateMember, useGetMembers } from "@/lib/axios/member";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 import { CreateMemberData } from "@/types/member";
 
@@ -20,12 +21,14 @@ const useCreateMemberService = () => {
 
 const useGetMembersService = () => {
   const getMembers = useGetMembers();
+  const { data: session } = useSession();
   return useQuery({
     queryKey: ["members"],
     queryFn: async () => (await getMembers()).data,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
+    enabled: !!session,
   });
 };
 
