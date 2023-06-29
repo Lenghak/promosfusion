@@ -52,7 +52,7 @@ const MemberUpdateForm = ({
     defaultValues: {
       name: member.name,
       email: member.email,
-      role: member.role,
+      role: member.role as "manager" | "seller",
       password: "",
     },
     shouldUnregister: true,
