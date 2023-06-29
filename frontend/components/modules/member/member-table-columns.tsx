@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Checkbox } from "@/components/ui/checkbox";
@@ -11,10 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useDialogStore } from "@/lib/zustand";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { AvatarCard } from "../avatar-card";
+import { MemberUpdateForm } from "./member-update-form";
 
 import { Member } from "@/types/member";
 
@@ -48,7 +53,7 @@ const MemberColumns: ColumnDef<Member>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="w-fit"
         >
-          #
+          No
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -131,28 +136,56 @@ const MemberColumns: ColumnDef<Member>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const { openDialog } = useDialogStore();
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(row.original.email)}
-            >
-              Copy Email
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Assign Shop</DropdownMenuItem>
-            <DropdownMenuItem>View Member</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-8 w-8 p-0"
+              >
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(row.original.email)
+                }
+              >
+                Copy Email
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Assigns Shop</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/members/${row.original.uuid}`}>View Member</Link>
+              </DropdownMenuItem>
+              {row.getValue("role") !== "root" ? (
+                <DropdownMenuItem
+                  onClick={() =>
+                    openDialog(true, `member-update-dialog-${row.index}`)
+                  }
+                >
+                  Update Member
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem disabled>Update Member</DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="font-medium text-destructive">
+                Delete Member
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {row.getValue("role") !== "root" && (
+            <MemberUpdateForm
+              member={row.original}
+              dialogID={`member-update-dialog-${row.index}`}
+            />
+          )}
+        </>
       );
     },
   },
