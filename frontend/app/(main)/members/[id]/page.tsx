@@ -1,10 +1,25 @@
+import { getMember } from "@/lib/axios/member";
 import { getQueryClient } from "@/lib/react-query";
 
-type MemberViewProps = {};
+import { dehydrate, Hydrate } from "@tanstack/react-query";
 
-export default function MemberView({}: MemberViewProps) {
+type MemberViewProps = {
+  params: { id: string };
+};
+
+export default function MemberView({ params }: MemberViewProps) {
   const queryClient = getQueryClient();
-  // queryClient.prefetchQuery(['member', "id"], async () => )
+  queryClient.prefetchQuery(
+    ["member", params.id],
+    async () => await getMember(params.id)
+  );
+  const dehydratedState = dehydrate(queryClient);
 
-  return <section className="h-full w-full p-0"></section>;
+  return (
+    <section className="h-full w-full p-0">
+      <Hydrate state={dehydratedState}>
+        
+      </Hydrate>
+    </section>
+  );
 }
