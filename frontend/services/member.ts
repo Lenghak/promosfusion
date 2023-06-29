@@ -1,9 +1,13 @@
-import { useCreateMember, useGetMembers } from "@/lib/axios/member";
+import {
+  useCreateMember,
+  useGetMembers,
+  useUpdateMember,
+} from "@/lib/axios/member";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-import { CreateMemberData } from "@/types/member";
+import { CreateMemberData, Member } from "@/types/member";
 
 const useCreateMemberService = () => {
   const createMember = useCreateMember();
@@ -32,4 +36,16 @@ const useGetMembersService = () => {
   });
 };
 
-export { useCreateMemberService, useGetMembersService };
+const useUpdateMemberService = () => {
+  const updateMember = useUpdateMember();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["member-update"],
+    mutationFn: async (member: Member) => await updateMember(member),
+    onSettled: () => {
+      queryClient.invalidateQueries(["members"]);
+    },
+  });
+};
+
+export { useCreateMemberService, useGetMembersService, useUpdateMemberService };
