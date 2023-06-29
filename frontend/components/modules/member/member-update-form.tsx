@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { DialogWithAlert } from "@/components/modules/dialog-with-alert";
@@ -23,58 +22,45 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { useDialogStore } from "@/lib/zustand";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import * as z from "zod";
 
-type MemberCreateFormProps = {};
+import { memberFormSchema } from "./member-create-form";
 
-const memberFormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({ message: "This is not a valid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters." }),
-  role: z.enum(["manager", "seller"], {
-    required_error: "Please select a role",
-    invalid_type_error: "Select either manager or seller",
-  }),
-});
+import { Member } from "@/types/member";
 
-const MemberCreateForm = ({}: MemberCreateFormProps) => {
-  const [dialogStates, setDialogStates] = useState({
-    dialogOpen: false,
-    alertOpen: false,
-    confirmClose: false,
-  });
+type MemberUpdateFormProps = {
+  member: Member;
+  dialogTrigger?: React.ReactNode;
+  dialogID: string;
+};
+
+const MemberUpdateForm = ({
+  member,
+  dialogTrigger,
+  dialogID,
+}: MemberUpdateFormProps) => {
+  const openAlert = useDialogStore((state) => state.openAlert);
+  console.log(member.id);
 
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
+      name: member.name,
+      email: member.email,
+      role: member.role,
       password: "",
     },
+    shouldUnregister: true,
   });
 
   return (
     <DialogWithAlert
-      dialogState={dialogStates}
-      setDialogStates={setDialogStates}
-      dialogTrigger={
-        <DialogTrigger
-          className="p-2"
-          asChild
-        >
-          <Button className="w-fit gap-4 px-3 lg:px-4">
-            <UserPlus size={18} />
-            <span className="hidden lg:inline-block">Add Member</span>
-          </Button>
-        </DialogTrigger>
-      }
+      id={dialogID}
+      dialogTrigger={dialogTrigger}
       dialogTitle={"Updating a Member"}
       dialogDescription={"Edit this form below to update a member"}
       alertTitle={"Are you absolutely sure?"}
@@ -169,13 +155,11 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
             <Button
               type="button"
               variant={"outline"}
-              onClick={() =>
-                setDialogStates((prev) => ({ ...prev, alertOpen: true }))
-              }
+              onClick={() => openAlert(true, dialogID)}
             >
               Cancel
             </Button>
-            <Button type="submit">Create</Button>
+            <Button type="submit">Update</Button>
           </div>
         </form>
       </Form>
@@ -186,11 +170,11 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
             size={24}
             className="animate-spin"
           />
-          <span>Creating Member ...</span>
+          <span>Updating Member...</span>
         </div>
       ) : null}
     </DialogWithAlert>
   );
 };
 
-export { MemberCreateForm };
+export { MemberUpdateForm };
