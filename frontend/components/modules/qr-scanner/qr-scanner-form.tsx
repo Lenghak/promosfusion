@@ -16,7 +16,22 @@ type QRScannerFormProps = {};
 
 const QRScannerForm = ({}: QRScannerFormProps) => {
   return (
-    <Sheet modal={false}>
+    <Sheet
+      modal={false}
+      onOpenChange={(open) => {
+        !open
+          ? navigator.mediaDevices
+              .getUserMedia({ video: true })
+              .then((stream) =>
+                stream.getTracks().forEach((track) => {
+                  if (track.readyState == "live" && track.kind === "video") {
+                    track.stop();
+                  }
+                })
+              )
+          : null;
+      }}
+    >
       <SheetTrigger
         className={buttonVariants({
           variant: "default",
@@ -28,7 +43,7 @@ const QRScannerForm = ({}: QRScannerFormProps) => {
           className="min-h-[1.125rem] min-w-[1.125rem]"
         />
 
-        <span className={"md:block hidden"}>Scan Coupon</span>
+        <span className={"hidden md:block"}>Scan Coupon</span>
       </SheetTrigger>
       <SheetContent className="w-full md:w-1/2 lg:w-1/3">
         <SheetHeader>
@@ -36,7 +51,6 @@ const QRScannerForm = ({}: QRScannerFormProps) => {
           <SheetDescription className="text-center">
             Display the QR code right inside the scanning box for scanning.
           </SheetDescription>
-
           <QrScannerView />
         </SheetHeader>
       </SheetContent>
