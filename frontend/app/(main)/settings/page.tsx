@@ -1,7 +1,7 @@
 import { PageTitle } from "@/components/modules/page-title";
 import { UnderConstruction } from "@/components/modules/under-construction/under-construction";
 
-export default function Chat() {
+export default function Settings() {
   return (
     <div>
       <PageTitle
