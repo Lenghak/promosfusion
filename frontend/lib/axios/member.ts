@@ -9,16 +9,28 @@ import {
   Members,
 } from "@/types/member";
 
-//* get member function for SSR
+//* get members list function for SSR
 const getMembers = async () => {
   const authorizedAxios = await authorizeAxios();
   return (await authorizedAxios.get<Members>("/users")).data;
 };
 
-//* get memeber function for client side
+//* get individual user by id for SSR
+const getMember = async (id: string) => {
+  const authorizedAxios = await authorizeAxios();
+  return (await authorizedAxios.get<{ data: Member }>(`/users/${id}`)).data;
+};
+
+//* get members list function for client side
 const useGetMembers = () => {
   const authorizedAxios = useAxiosAuth();
   return () => authorizedAxios.get<Members>("/users");
+};
+
+//* get individual user by id for client side
+const useGetMember = () => {
+  const authorizedAxios = useAxiosAuth();
+  return (id: string) => authorizedAxios.get<{ data: Member }>(`/users/${id}`);
 };
 
 //* create a member
@@ -32,7 +44,21 @@ const useCreateMember = () => {
 const useUpdateMember = () => {
   const authorizedAxios = useAxiosAuth();
   return (member: Member) =>
-    authorizedAxios.post(`/users/${member.uuid}`, member);
+    authorizedAxios.post(`/users/${member.id}`, member);
 };
 
-export { getMembers, useGetMembers, useCreateMember, useUpdateMember };
+//* delete an existing member
+const useDeleteMember = () => {
+  const authorizedAxios = useAxiosAuth();
+  return (id: string) => authorizedAxios.delete(`/users/${id}`);
+};
+
+export {
+  getMembers,
+  getMember,
+  useGetMembers,
+  useGetMember,
+  useCreateMember,
+  useUpdateMember,
+  useDeleteMember,
+};
