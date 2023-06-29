@@ -5,6 +5,7 @@ import { authorizeAxios } from "./authorize";
 import {
   CreatedMemberResponse,
   CreateMemberData,
+  Member,
   Members,
 } from "@/types/member";
 
@@ -20,10 +21,18 @@ const useGetMembers = () => {
   return () => authorizedAxios.get<Members>("/users");
 };
 
+//* create a member
 const useCreateMember = () => {
   const authorizedAxios = useAxiosAuth();
   return (member: CreateMemberData) =>
     authorizedAxios.post<CreatedMemberResponse>("/users", member);
 };
 
-export { getMembers, useGetMembers, useCreateMember };
+//* update an existing member
+const useUpdateMember = () => {
+  const authorizedAxios = useAxiosAuth();
+  return (member: Member) =>
+    authorizedAxios.post(`/users/${member.uuid}`, member);
+};
+
+export { getMembers, useGetMembers, useCreateMember, useUpdateMember };
