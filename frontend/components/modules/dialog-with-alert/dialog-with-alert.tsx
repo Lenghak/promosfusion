@@ -24,6 +24,7 @@ import {
 import { useDialogStore } from "@/lib/zustand";
 
 type DialogWithAlertProps = {
+  id: string;
   dialogTrigger: React.ReactNode;
   dialogTitle?: React.ReactNode;
   dialogDescription?: React.ReactNode;
@@ -33,6 +34,7 @@ type DialogWithAlertProps = {
 };
 
 const DialogWithAlert = ({
+  id,
   dialogTrigger,
   dialogDescription,
   dialogTitle,
@@ -40,17 +42,21 @@ const DialogWithAlert = ({
   alertTitle,
   alertDescription,
 }: DialogWithAlertProps) => {
-  const { alertOpen, dialogOpen, openAlert, openDialog } = useDialogStore(
-    (state) => state
-  );
+  const {
+    alertOpen,
+    dialogOpen,
+    openAlert,
+    openDialog,
+    id: dialogId,
+  } = useDialogStore((state) => state);
 
   return (
     <>
       <Dialog
         onOpenChange={(open) => {
-          open ? openDialog(true) : openAlert(true);
+          open ? openDialog(true, id) : openAlert(true, id);
         }}
-        open={dialogOpen}
+        open={dialogOpen && id === dialogId}
       >
         {dialogTrigger}
         <DialogContent className="flex h-screen flex-col gap-4 sm:h-fit ">
@@ -62,7 +68,7 @@ const DialogWithAlert = ({
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={alertOpen}>
+      <AlertDialog open={alertOpen && id === dialogId}>
         <AlertDialogTrigger />
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -72,16 +78,16 @@ const DialogWithAlert = ({
           <AlertDialogFooter>
             <AlertDialogCancel
               onClick={() => {
-                openDialog(true);
-                openAlert(false);
+                openDialog(true, id);
+                openAlert(false, id);
               }}
             >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                openDialog(false);
-                openAlert(false);
+                openDialog(false, id);
+                openAlert(false, id);
               }}
             >
               Continue
