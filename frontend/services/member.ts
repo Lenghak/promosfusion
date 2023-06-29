@@ -13,7 +13,6 @@ import { CreateMemberData, Member } from "@/types/member";
 
 const useCreateMemberService = () => {
   const createMember = useCreateMember();
-
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -26,8 +25,9 @@ const useCreateMemberService = () => {
 };
 
 const useGetMembersService = () => {
-  const getMembers = useGetMembers();
   const { data: session } = useSession();
+  const getMembers = useGetMembers();
+
   return useQuery({
     queryKey: ["members"],
     queryFn: async () => (await getMembers()).data,
@@ -39,10 +39,13 @@ const useGetMembersService = () => {
 };
 
 const useGetMemberService = (id: string) => {
+  const { data: session } = useSession();
   const getMember = useGetMember();
+
   return useQuery({
     queryKey: ["member", id],
     queryFn: async () => await getMember(id),
+    enabled: !!session,
   });
 };
 
