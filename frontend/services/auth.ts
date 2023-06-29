@@ -1,8 +1,9 @@
 import { signUpService, useSignOut } from "@/lib/axios/auth";
 
-import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { signIn, signOut } from "next-auth/react";
+
+import { UserRegisterCredentials, UserSignInCredentails } from "@/types/auth";
 
 const useSignUpService = () => {
   return useMutation({
