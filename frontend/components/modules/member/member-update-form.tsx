@@ -24,6 +24,8 @@ import {
 
 import { useDialogStore } from "@/lib/zustand";
 
+import { useUpdateMemberService } from "@/services/member";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import * as z from "zod";
@@ -44,7 +46,6 @@ const MemberUpdateForm = ({
   dialogID,
 }: MemberUpdateFormProps) => {
   const openAlert = useDialogStore((state) => state.openAlert);
-  console.log(member.id);
 
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
@@ -56,6 +57,13 @@ const MemberUpdateForm = ({
     },
     shouldUnregister: true,
   });
+
+  const {
+    mutate: updateMember,
+    isLoading: isUpdatingMember,
+    isError: isMemberUpdateError,
+    isSuccess: isMemberUpdated,
+  } = useUpdateMemberService();
 
   return (
     <DialogWithAlert
@@ -71,7 +79,7 @@ const MemberUpdateForm = ({
       <Form {...form}>
         <form
           // onSubmit={form.handleSubmit(
-          //   (values: z.infer<typeof memberFormSchema>) => createMember(values)
+          //   (values: z.infer<typeof memberFormSchema>) => updateMember(values)
           // )}
           className="space-y-4"
         >
