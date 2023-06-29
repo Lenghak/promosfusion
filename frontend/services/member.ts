@@ -1,5 +1,7 @@
 import {
   useCreateMember,
+  useDeleteMember,
+  useGetMember,
   useGetMembers,
   useUpdateMember,
 } from "@/lib/axios/member";
@@ -36,6 +38,14 @@ const useGetMembersService = () => {
   });
 };
 
+const useGetMemberService = (id: string) => {
+  const getMember = useGetMember();
+  return useQuery({
+    queryKey: ["member", id],
+    queryFn: async () => await getMember(id),
+  });
+};
+
 const useUpdateMemberService = () => {
   const updateMember = useUpdateMember();
   const queryClient = useQueryClient();
@@ -48,4 +58,22 @@ const useUpdateMemberService = () => {
   });
 };
 
-export { useCreateMemberService, useGetMembersService, useUpdateMemberService };
+const useDeleteMemberService = () => {
+  const deleteMember = useDeleteMember();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["member-delete"],
+    mutationFn: async (id: string) => await deleteMember(id),
+    onSettled: () => {
+      queryClient.invalidateQueries(["members"]);
+    },
+  });
+};
+
+export {
+  useCreateMemberService,
+  useGetMembersService,
+  useGetMemberService,
+  useUpdateMemberService,
+  useDeleteMemberService,
+};
