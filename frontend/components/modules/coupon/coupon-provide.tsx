@@ -27,6 +27,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
 
   return (
     <DialogWithAlert
+      id="coupon-provide-dialog"
       dialogTitle={isGenerateError ? "Generate Error" : "Providing Coupon"}
       dialogDescription={
         isGenerateError
