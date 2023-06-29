@@ -135,7 +135,7 @@ const MemberColumns: ColumnDef<Member>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
       return (
         <>
