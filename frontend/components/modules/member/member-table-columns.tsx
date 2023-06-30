@@ -160,7 +160,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
               <DropdownMenuItem>Assigns Shop</DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={`/members/${row.original.uuid}`}>View Member</Link>
+                <Link href={`/members/${row.original.id}`}>View Member</Link>
               </DropdownMenuItem>
               {row.getValue("role") !== "root" ? (
                 <DropdownMenuItem
