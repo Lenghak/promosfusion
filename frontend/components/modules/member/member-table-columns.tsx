@@ -165,7 +165,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               {row.getValue("role") !== "root" ? (
                 <DropdownMenuItem
                   onClick={() =>
-                    openDialog(true, `member-update-dialog-${row.index}`)
+                    openDialog(true, `member-update-dialog-${row.original.id}`)
                   }
                 >
                   Update Member
@@ -182,7 +182,7 @@ const MemberColumns: ColumnDef<Member>[] = [
           {row.getValue("role") !== "root" && (
             <MemberUpdateForm
               member={row.original}
-              dialogID={`member-update-dialog-${row.index}`}
+              dialogID={`member-update-dialog-${row.original.id}`}
             />
           )}
         </>
