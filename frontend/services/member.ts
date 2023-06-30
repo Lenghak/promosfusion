@@ -44,7 +44,7 @@ const useGetMemberService = (id: string) => {
 
   return useQuery({
     queryKey: ["member", id],
-    queryFn: async () => await getMember(id),
+    queryFn: async () => (await getMember(id)).data,
     enabled: !!session,
   });
 };
