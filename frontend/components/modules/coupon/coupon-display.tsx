@@ -38,7 +38,6 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     data: coupon,
     isError: isGetCouponError,
     isLoading: isGettingCoupon,
-    refetch,
   } = useGetCouponService(couponId);
 
   const {
