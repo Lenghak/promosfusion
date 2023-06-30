@@ -64,7 +64,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
         <div className="relative flex w-full flex-col gap-2">
           <Label className="text-sm text-muted-foreground">Phone Number</Label>
           <span className="relative min-h-[2.5rem] rounded-lg border px-3 py-2 text-sm">
-            {member?.email}
+            {member?.phone}
             <Phone
               className="absolute bottom-0 right-4 top-0 h-full place-self-center self-center"
               size={18}
