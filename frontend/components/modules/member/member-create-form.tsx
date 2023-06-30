@@ -35,9 +35,9 @@ import * as z from "zod";
 
 type MemberCreateFormProps = {};
 
-const MEMBER_CREATE_DIALOD_ID = "member-create-dialog";
+const MEMBER_CREATE_DIALOG_ID = "member-create-dialog";
 
-export const memberFormSchema = z.object({
+const memberFormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
@@ -73,7 +73,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
   const { openDialog, openAlert } = useDialogStore((state) => state);
 
   useHandleCreatedEffect(
-    MEMBER_CREATE_DIALOD_ID,
+    MEMBER_CREATE_DIALOG_ID,
     isMemberCreatedError,
     isMemberCreated,
     openDialog,
@@ -83,7 +83,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
 
   return (
     <DialogWithAlert
-      id={MEMBER_CREATE_DIALOD_ID}
+      id={MEMBER_CREATE_DIALOG_ID}
       dialogTrigger={
         <DialogTrigger
           className="p-2"
@@ -189,7 +189,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
             <Button
               type="button"
               variant={"outline"}
-              onClick={() => openAlert(true, MEMBER_CREATE_DIALOD_ID)}
+              onClick={() => openAlert(true, MEMBER_CREATE_DIALOG_ID)}
             >
               Cancel
             </Button>
