@@ -78,9 +78,15 @@ const MemberUpdateForm = ({
     >
       <Form {...form}>
         <form
-          // onSubmit={form.handleSubmit(
-          //   (values: z.infer<typeof memberFormSchema>) => updateMember(values)
-          // )}
+          onSubmit={form.handleSubmit(
+            (values: z.infer<typeof memberFormSchema>) =>
+              updateMember({
+                ...member,
+                name: values.name,
+                email: values.email,
+                role: values.role,
+              })
+          )}
           className="space-y-4"
         >
           <FormField
