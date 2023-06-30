@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -5,13 +7,18 @@ import { useDialogStore } from "@/lib/zustand";
 
 import { Edit, Mail, Phone, UserCog } from "lucide-react";
 import { User } from "lucide-react";
+import { useSession } from "next-auth/react";
+
+import { MemberUpdateForm } from "../member-update-form";
 
 import { Member } from "@/types/member";
 
-type MemberInfoProps = { member?: Member };
+type MemberInfoProps = { member: Member };
 
 export default function MemberInfo({ member }: MemberInfoProps) {
-  const openDialog = useDialogStore((state) => state.openDialog);
+  const { openDialog } = useDialogStore((state) => state);
+  const { data: session } = useSession();
+
   return (
     <div className="flex h-full w-full flex-col items-start justify-center gap-6 border-t py-4 lg:flex-row">
       <div className="flex w-full justify-between gap-2">
@@ -21,13 +28,17 @@ export default function MemberInfo({ member }: MemberInfoProps) {
             Here are the basic information of {member?.name}
           </span>
         </div>
-        <Button
-          variant={"ghost"}
-          className="h-fit w-fit p-3"
-          onClick={() => openDialog(true, `member-update-dialog-${member?.id}`)}
-        >
-          <Edit size={18} />
-        </Button>
+        {session?.user.role === "root" && (
+          <Button
+            variant={"ghost"}
+            className="h-fit w-fit p-3"
+            onClick={() =>
+              openDialog(true, `member-update-dialog-${member?.uuid}`)
+            }
+          >
+            <Edit size={18} />
+          </Button>
+        )}
       </div>
 
       <div className="flex w-full flex-col gap-4">
@@ -72,6 +83,12 @@ export default function MemberInfo({ member }: MemberInfoProps) {
           </span>
         </div>
       </div>
+      {session?.user.role === "root" && (
+        <MemberUpdateForm
+          member={member!!}
+          dialogID={`member-update-dialog-${member?.uuid}`}
+        />
+      )}
     </div>
   );
 }
