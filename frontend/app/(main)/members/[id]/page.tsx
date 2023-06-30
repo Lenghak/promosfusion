@@ -19,7 +19,7 @@ export default function MemberView({ params }: MemberViewProps) {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <section className="h-full w-full p-0">
+    <section className="h-full max-h-[90vh] w-full overflow-auto px-4">
       <PageTitle
         title="Member Profile"
         description="View gathered basic information on member all in one place."
