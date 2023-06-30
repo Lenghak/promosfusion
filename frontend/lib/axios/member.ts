@@ -43,8 +43,7 @@ const useCreateMember = () => {
 //* update an existing member
 const useUpdateMember = () => {
   const authorizedAxios = useAxiosAuth();
-  return (member: Member) =>
-    authorizedAxios.post(`/users/${member.id}`, member);
+  return (member: Member) => authorizedAxios.put(`/users/${member.id}`, member);
 };
 
 //* delete an existing member
