@@ -16,6 +16,7 @@ export type Member = {
   avatar: string;
   createdAt: string;
   updatedAt: string;
+  shopIds: number[];
 };
 
 export type MembersLink = {
