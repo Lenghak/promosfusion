@@ -30,8 +30,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import * as z from "zod";
 
-import { memberFormSchema } from "./member-create-form";
-
 import { Member } from "@/types/member";
 
 type MemberUpdateFormProps = {
@@ -40,6 +38,20 @@ type MemberUpdateFormProps = {
   dialogID: string;
 };
 
+const memberUpdateSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({ message: "This is not a valid email address" }),
+  // password: z
+  //   .string()
+  //   .min(8, { message: "Password must be at least 8 characters." }),
+  role: z.enum(["manager", "seller"], {
+    required_error: "Please select a role",
+    invalid_type_error: "Select either manager or seller",
+  }),
+});
+
 const MemberUpdateForm = ({
   member,
   dialogTrigger,
@@ -47,23 +59,18 @@ const MemberUpdateForm = ({
 }: MemberUpdateFormProps) => {
   const openAlert = useDialogStore((state) => state.openAlert);
 
-  const form = useForm<z.infer<typeof memberFormSchema>>({
-    resolver: zodResolver(memberFormSchema),
+  const form = useForm<z.infer<typeof memberUpdateSchema>>({
+    resolver: zodResolver(memberUpdateSchema),
     defaultValues: {
       name: member.name,
       email: member.email,
       role: member.role as "manager" | "seller",
-      password: "",
     },
     shouldUnregister: true,
   });
 
-  const {
-    mutate: updateMember,
-    isLoading: isUpdatingMember,
-    isError: isMemberUpdateError,
-    isSuccess: isMemberUpdated,
-  } = useUpdateMemberService();
+  const { mutate: updateMember, isLoading: isUpdatingMember } =
+    useUpdateMemberService();
 
   return (
     <DialogWithAlert
@@ -79,7 +86,7 @@ const MemberUpdateForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(
-            (values: z.infer<typeof memberFormSchema>) =>
+            (values: z.infer<typeof memberUpdateSchema>) =>
               updateMember({
                 ...member,
                 name: values.name,
@@ -148,23 +155,6 @@ const MemberUpdateForm = ({
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter Password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <div className="flex justify-end gap-4">
             <Button
               type="button"
@@ -178,7 +168,7 @@ const MemberUpdateForm = ({
         </form>
       </Form>
 
-      {false ? (
+      {isUpdatingMember ? (
         <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background">
           <Loader2
             size={24}
