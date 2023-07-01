@@ -12,10 +12,7 @@ type MemberViewProps = {
 
 export default function MemberView({ params }: MemberViewProps) {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery(
-    ["member", params.id],
-    async () => await getMember(params.id)
-  );
+  queryClient.prefetchQuery(["member"], async () => await getMember(params.id));
   const dehydratedState = dehydrate(queryClient);
 
   return (
