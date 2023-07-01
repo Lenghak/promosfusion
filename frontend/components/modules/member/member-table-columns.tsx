@@ -148,6 +148,24 @@ const MemberColumns: ColumnDef<Member>[] = [
       </>
     ),
   },
+
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-full px-4">{row.getValue("createdAt")}</div>
+    ),
+  },
   {
     id: "actions",
     cell: function Cell({ row }) {
