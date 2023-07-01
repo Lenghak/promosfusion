@@ -38,7 +38,7 @@ const useCreateShop = () => {
 const useUpdateShop = () => {
   const authorizedAxios = useAxiosAuth();
   return async (shopId: string, data: UpdateShopData) =>
-    authorizedAxios.put(`/shops/${shopId}`);
+    authorizedAxios.put(`/shops/${shopId}`, data);
 };
 
 //* shop deleter hook
