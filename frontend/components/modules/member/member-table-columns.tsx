@@ -2,6 +2,17 @@
 
 import Link from "next/link";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +26,10 @@ import {
 
 import { useDialogStore } from "@/lib/zustand";
 
+import { useDeleteMemberService } from "@/services/member";
+
+import { useHandleDeleteEffect } from "@/hooks/member/use-handle-effect";
+import { usePermission } from "@/hooks/member/use-permission";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
@@ -137,6 +152,18 @@ const MemberColumns: ColumnDef<Member>[] = [
     id: "actions",
     cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
+
+      const {
+        mutate: deleteMember,
+        isLoading: isDeletingMember,
+        isError: isMemberDeleteError,
+        isSuccess: isMemberDeleted,
+      } = useDeleteMemberService();
+
+      const permission = usePermission();
+
+      useHandleDeleteEffect(isMemberDeleteError, isMemberDeleted);
+
       return (
         <>
           <DropdownMenu>
@@ -158,11 +185,13 @@ const MemberColumns: ColumnDef<Member>[] = [
                 Copy Email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Assigns Shop</DropdownMenuItem>
+              {permission(row.original) && (
+                <DropdownMenuItem>Assigns Shop</DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 <Link href={`/members/${row.original.id}`}>View Member</Link>
               </DropdownMenuItem>
-              {row.getValue("role") !== "root" ? (
+              {permission(row.original) ? (
                 <DropdownMenuItem
                   onClick={() =>
                     openDialog(true, `member-update-dialog-${row.original.id}`)
@@ -174,16 +203,52 @@ const MemberColumns: ColumnDef<Member>[] = [
                 <DropdownMenuItem disabled>Update Member</DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="font-medium text-destructive">
-                Delete Member
-              </DropdownMenuItem>
+
+              {permission(row.original) ? (
+                <DropdownMenuItem className="font-medium text-destructive">
+                  <AlertDialog>
+                    <AlertDialogTrigger disabled={isDeletingMember}>
+                      Delete Member
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete the account and remove the data from our
+                          servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteMember(`${row.original.id}`)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  disabled
+                >
+                  Delete Member
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
-          {row.getValue("role") !== "root" && (
-            <MemberUpdateForm
-              member={row.original}
-              dialogID={`member-update-dialog-${row.original.id}`}
-            />
+          {permission(row.original) && (
+            <>
+              <MemberUpdateForm
+                member={row.original}
+                dialogID={`member-update-dialog-${row.original.id}`}
+              />
+            </>
           )}
         </>
       );
