@@ -1,5 +1,4 @@
-// This members page fetch the data & show he list of members
-import { MemberCreateForm } from "@/components/modules/member";
+// This members page fetch the data & show the list of members
 import { MemberDataTable } from "@/components/modules/member";
 import { PageTitle } from "@/components/modules/page-title";
 
