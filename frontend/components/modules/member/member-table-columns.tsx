@@ -77,6 +77,7 @@ const MemberColumns: ColumnDef<Member>[] = [
       <div className="h-full w-full px-4">{row.index + 1}</div>
     ),
     enableHiding: false,
+    enableSorting: true,
   },
 
   {
