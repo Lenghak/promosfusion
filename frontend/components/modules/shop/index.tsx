@@ -1,3 +1,3 @@
-export { ShopCoulmns } from "./shop-columns";
+export { ShopColumns } from "./shop-columns";
 export { ShopForm } from "./shop-form";
-export { ShopTable } from "./shop-table";
+export { ShopDataTable } from "./shop-data-table";
