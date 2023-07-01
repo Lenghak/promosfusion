@@ -78,10 +78,10 @@ export default function CampaignDetails({}: CampaignDetailsProps) {
             <Button variant="default">
               <Link
                 className="flex flex-row items-center gap-2 "
-                href={"/campaigns/add"}
+                href={""}
               >
                 <Plus />
-                <span>Add Campaign</span>
+                <span>Create Coupon</span>
               </Link>
             </Button>
           </div>
