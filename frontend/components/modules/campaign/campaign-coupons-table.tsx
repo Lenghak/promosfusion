@@ -4,34 +4,38 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetCampaignsService } from "@/services/campaign";
+import {
+  useGetCampaignService,
+  useGetCampaignsService,
+} from "@/services/campaign";
 
-import { columns } from "./campaign-table-columns";
+import { columns } from "./campaign-coupons-table-columns";
 
 type CampaignCouponsTableProps = {
   id?: number;
-  cid?: string;
+  cauid?: string;
+  status?: string;
   createdDate?: string;
   verifyDate?: string;
-  Phone?: number;
+  // Phone?: number;
   verifiedBy?: string;
 };
 
 const CampaignCouponsTable = ({}: CampaignCouponsTableProps) => {
   const {
-    data: coupons,
+    data: campaign,
     isError: isGetCampaignsError,
     isLoading: isGettingCampaigns,
     isFetching: isFetchingCampaigns,
-  } = useGetCampaignsService();
+  } = useGetCampaignService("campaignId");
 
-  console.log(coupons?.data);
+  console.log(campaign?.data);
 
   return (
     <div className="p-4">
       <DataTable
         columns={columns}
-        data={coupons?.data || []}
+        data={campaign?.data || []}
       />
     </div>
   );
