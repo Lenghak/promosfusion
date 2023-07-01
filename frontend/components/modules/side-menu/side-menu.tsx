@@ -12,14 +12,13 @@ import {
   Bell,
   Calendar,
   Flag,
-  HelpCircle,
   LayoutGrid,
   MessageCircle,
-  Settings,
   Store,
   Ticket,
   Users,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useLockedBody } from "usehooks-ts";
 
 import { MenuTab } from "./side-menu-tab";
@@ -27,6 +26,7 @@ import { MenuTitle } from "./side-menu-title";
 
 const SideMenu = () => {
   const { isSideMenuOpen } = useSideMenuStore((state) => state);
+  const { data: session } = useSession();
 
   useLockedBody(true);
 
@@ -59,11 +59,13 @@ const SideMenu = () => {
       <section className="flex flex-col gap-1 border-b border-solid py-3 max-md:items-center">
         <MenuTitle title={"General"} />
 
-        <MenuTab
-          href={"/dashboard"}
-          Icon={LayoutGrid}
-          name="Dashboard"
-        />
+        {session?.user.role !== "seller" && (
+          <MenuTab
+            href={"/dashboard"}
+            Icon={LayoutGrid}
+            name="Dashboard"
+          />
+        )}
 
         <MenuTab
           href={"/campaigns"}
@@ -77,11 +79,13 @@ const SideMenu = () => {
           name="Members"
         />
 
-        <MenuTab
-          href={"/shop"}
-          Icon={Store}
-          name="Shops"
-        />
+        {session?.user.role !== "seller" && (
+          <MenuTab
+            href={"/shop"}
+            Icon={Store}
+            name="Shops"
+          />
+        )}
       </section>
 
       <section
