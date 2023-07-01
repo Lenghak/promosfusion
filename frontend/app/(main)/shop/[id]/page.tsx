@@ -1,7 +1,10 @@
+import { PageTitle } from "@/components/modules/page-title";
+import { ShopDataTable } from "@/components/modules/shop";
+
 import { getShop } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate } from "@tanstack/react-query";
+import { dehydrate, Hydrate } from "@tanstack/react-query";
 
 type ShopProps = {
   params: {
@@ -14,5 +17,15 @@ export default function Shop({ params }: ShopProps) {
   queryClient.prefetchQuery(["shop"], async () => await getShop(params.id));
   const dehydratedState = dehydrate(queryClient);
 
-  return <div></div>;
+  return (
+    <div className="flex h-full w-full flex-col overflow-y-auto">
+      <PageTitle
+        title="Shops Profile"
+        description="View the detail of your shop"
+      />
+      <Hydrate state={dehydratedState}>
+        <ShopDataTable />
+      </Hydrate>
+    </div>
+  );
 }
