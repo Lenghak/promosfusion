@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 
 import { DialogWithAlert } from "@/components/modules/dialog-with-alert";
 import { Button } from "@/components/ui/button";
-import { DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -26,9 +25,10 @@ import { useDialogStore } from "@/lib/zustand";
 
 import { useUpdateMemberService } from "@/services/member";
 
+import { useHandleUpdatedEffect } from "@/hooks/member/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import * as z from "zod";
+import z from "zod";
 
 import { Member } from "@/types/member";
 
@@ -69,8 +69,14 @@ const MemberUpdateForm = ({
     shouldUnregister: true,
   });
 
-  const { mutate: updateMember, isLoading: isUpdatingMember } =
-    useUpdateMemberService();
+  const {
+    mutate: updateMember,
+    isLoading: isUpdatingMember,
+    isSuccess: isMemberUpdated,
+    isError: isMemberUpdateError,
+  } = useUpdateMemberService();
+
+  useHandleUpdatedEffect(isMemberUpdateError, isMemberUpdated, dialogID);
 
   return (
     <DialogWithAlert
