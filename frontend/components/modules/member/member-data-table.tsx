@@ -12,11 +12,7 @@ import { MemberColumns } from "./member-table-columns";
 type MemberDataTableProps = {};
 
 const MemberDataTable = ({}: MemberDataTableProps) => {
-  const {
-    data: members,
-    isLoading: isQueryingMember,
-    isError: isQueryMemberError,
-  } = useGetMembersService();
+  const { data: members, isError: isQueryMemberError } = useGetMembersService();
 
   const { toast } = useToast();
 
