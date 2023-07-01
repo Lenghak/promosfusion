@@ -61,6 +61,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
       toast({
         title: "Account deleted Successfully",
         description: "User that the account can no longer logged in",
+        variant: "destructive",
       });
     }
   }, [isError, isSuccess, toast]);
@@ -79,6 +80,7 @@ const useHandleUpdatedEffect = (
       toast({
         title: "Member Update Failed",
         description: "There was a problem updating the member",
+        variant: "destructive",
       });
 
     if (isSuccess) {
