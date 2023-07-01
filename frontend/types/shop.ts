@@ -1,10 +1,3 @@
-// export type Shop = ={
-//   id: string;
-//   description: string;
-//   status: "pending" | "processing" | "success" | "failed";
-//   logo: string;
-// };
-
 export type Shops = {
   data: Shop[];
   links: ShopsLinks;
@@ -16,16 +9,16 @@ export type Shop = {
   created_at: string;
   updated_at: string;
   name: string;
-  description: any;
+  description: string;
   logo: string;
-  deleted_at: any;
+  deleted_at: string;
 };
 
 export type ShopsLinks = {
   first: string;
   last: string;
-  prev: any;
-  next: any;
+  prev: string;
+  next: string;
 };
 
 export type Meta = {
@@ -44,3 +37,10 @@ export type ShopMetaLink = {
   label: string;
   active: boolean;
 };
+
+export type CreateShopData = {
+  name: string;
+  logo: string;
+};
+
+export type UpdateShopData = CreateShopData;
