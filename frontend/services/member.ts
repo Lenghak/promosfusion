@@ -38,13 +38,13 @@ const useGetMembersService = () => {
   });
 };
 
-const useGetMemberService = (id: string) => {
+const useGetMemberService = (memberId: string) => {
   const { data: session } = useSession();
   const getMember = useGetMember();
 
   return useQuery({
-    queryKey: ["member", id],
-    queryFn: async () => (await getMember(id)).data,
+    queryKey: ["member"],
+    queryFn: async () => (await getMember(memberId)).data,
     enabled: !!session,
   });
 };
@@ -57,6 +57,7 @@ const useUpdateMemberService = () => {
     mutationFn: async (member: Member) => await updateMember(member),
     onSettled: async () => {
       await queryClient.invalidateQueries(["members"]);
+      await queryClient.invalidateQueries(["member"]);
     },
   });
 };
