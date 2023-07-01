@@ -30,7 +30,7 @@ const useGetShopService = (shopId: string) => {
 
   return useQuery({
     queryKey: ["shop", shopId],
-    queryFn: async () => await getShop(shopId),
+    queryFn: async () => (await getShop(shopId)).data,
     enabled: !!session,
   });
 };
