@@ -1,5 +1,7 @@
 "use client";
 
+import { MemberInfoDelete } from "@/components/modules/member/member-info-view/member-info-delete";
+
 import { useGetMemberService } from "@/services/member";
 
 import { Loader2 } from "lucide-react";
@@ -29,6 +31,9 @@ const MemberInfoView = ({ id }: MemberInfoViewProps) => {
 
       {/* Information in the of cards in sequence  */}
       <MemberInfo member={member.data!!} />
+
+      {/* Delete user section */}
+      <MemberInfoDelete member={member.data!!} />
     </section>
   ) : isQueryingError ? (
     <MemberError />
