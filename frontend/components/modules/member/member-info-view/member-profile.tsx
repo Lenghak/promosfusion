@@ -17,7 +17,7 @@ const MemberProfile = ({ member, isQueryingMember }: MemberProfileProps) => {
   return (
     <div className="flex h-fit w-full gap-1 border-t py-4">
       <div className="flex w-full flex-col gap-2">
-        <span className="text-lg font-semibold">Profile Picture</span>
+        <span className="font-semibold">Profile Picture</span>
         <span className="text-sm capitalize text-muted-foreground">
           {member?.name}&apos;s Profile Picture
         </span>
