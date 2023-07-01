@@ -18,8 +18,8 @@ const useCreateMemberService = () => {
   return useMutation({
     mutationKey: ["member-create"],
     mutationFn: async (member: CreateMemberData) => await createMember(member),
-    onSettled: () => {
-      queryClient.invalidateQueries(["members"]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };
@@ -55,8 +55,8 @@ const useUpdateMemberService = () => {
   return useMutation({
     mutationKey: ["member-update"],
     mutationFn: async (member: Member) => await updateMember(member),
-    onSettled: () => {
-      queryClient.invalidateQueries(["members"]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };
@@ -67,8 +67,8 @@ const useDeleteMemberService = () => {
   return useMutation({
     mutationKey: ["member-delete"],
     mutationFn: async (id: string) => await deleteMember(id),
-    onSettled: () => {
-      queryClient.invalidateQueries(["members"]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };
