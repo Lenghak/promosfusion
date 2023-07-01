@@ -89,7 +89,7 @@ const useHandleUpdatedEffect = (
       });
       openDialog(false, dialogId);
     }
-  }, [toast, isError, isSuccess, dialogId]);
+  }, [toast, isError, isSuccess, dialogId, openDialog]);
 };
 
 export {

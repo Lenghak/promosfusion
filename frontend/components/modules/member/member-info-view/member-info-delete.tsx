@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,7 +22,6 @@ import { Member } from "@/types/member";
 
 const MemberInfoDelete = ({ member }: { member: Member }) => {
   const permission = usePermission();
-  const router = useRouter();
 
   const {
     mutate: deleteMember,
