@@ -43,7 +43,7 @@ const useGetMemberService = (memberId: string) => {
   const getMember = useGetMember();
 
   return useQuery({
-    queryKey: ["member"],
+    queryKey: ["members", memberId],
     queryFn: async () => (await getMember(memberId)).data,
     enabled: !!session,
   });
@@ -56,7 +56,7 @@ const useUpdateMemberService = () => {
     mutationKey: ["member-update"],
     mutationFn: async (member: Member) => await updateMember(member),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["members", "member"]);
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };

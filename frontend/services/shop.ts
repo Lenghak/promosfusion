@@ -36,7 +36,7 @@ const useGetShopService = (shopId: string) => {
   const { data: session } = useSession();
 
   return useQuery({
-    queryKey: ["shop", shopId],
+    queryKey: ["shops", shopId],
     queryFn: async () => (await getShop(shopId)).data,
     enabled: !!session,
   });
@@ -70,8 +70,8 @@ const useUpdateShopService = () => {
       shopId: string;
       data: UpdateShopData;
     }) => await updateShop(shopId, data),
-    onSettled: async () => {
-      await queryClient.invalidateQueries(["shops", "shop"]);
+    onSettled: async (data, error, variables, context) => {
+      await queryClient.invalidateQueries(["shops"]);
     },
   });
 };
@@ -98,17 +98,12 @@ const useAssignShopService = () => {
     mutationKey: ["shop-assign"],
     mutationFn: async (data: AssignShopData) => await assignShop(data),
     onSettled: async () => {
-      await queryClient.invalidateQueries([
-        "shops",
-        "shop",
-        "members",
-        "member",
-      ]);
+      await queryClient.invalidateQueries(["shops", "members"]);
     },
   });
 };
 
-const useDimissShopService = () => {
+const useDismissShopService = () => {
   const queryClient = useQueryClient();
   const dismissShop = useDismissShop();
 
@@ -116,19 +111,14 @@ const useDimissShopService = () => {
     mutationKey: ["shop-assign"],
     mutationFn: async (data: DismissShopData) => await dismissShop(data),
     onSettled: async () => {
-      await queryClient.invalidateQueries([
-        "shops",
-        "shop",
-        "members",
-        "member",
-      ]);
+      await queryClient.invalidateQueries(["shops", "members"]);
     },
   });
 };
 
 export {
   useAssignShopService,
-  useDimissShopService, 
+  useDismissShopService,
   useDeleteShopService,
   useCreateShopService,
   useUpdateShopService,

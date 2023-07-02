@@ -9,7 +9,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useProvideCouponService = (campaignId: string) => {
   const provideCoupon = useProvideCoupon(campaignId);
-
   return useMutation({
     mutationKey: ["coupon-provide"],
     mutationFn: async () => await provideCoupon(),
@@ -18,7 +17,7 @@ const useProvideCouponService = (campaignId: string) => {
 
 const useGetCouponService = (couponId: string) => {
   return useQuery({
-    queryKey: ["coupon"],
+    queryKey: ["coupons", couponId],
     queryFn: async () => await getCoupon(couponId),
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -32,8 +31,8 @@ const useRequestCouponService = (couponId: string, token: string) => {
   return useMutation({
     mutationKey: ["coupon-request"],
     mutationFn: async () => (await requestCoupon()).data,
-    onSettled: () => {
-      queryClient.invalidateQueries(["coupon"]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["coupons"]);
     },
   });
 };
@@ -45,8 +44,8 @@ const useVerifyCouponService = (couponId: string, token: string) => {
   return useMutation({
     mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
-    onSettled: () => {
-      queryClient.invalidateQueries(["coupon"]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["coupons"]);
     },
   });
 };
