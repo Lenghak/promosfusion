@@ -33,6 +33,7 @@ const useHandleCreatedEffect = (
             message: "This email has already been taken",
           })
         : toast({
+            title: "Member Created Failed",
             description: "There was an error while creating the member.",
             variant: "destructive",
           });
@@ -42,6 +43,7 @@ const useHandleCreatedEffect = (
       openDialog(false, dialogID);
       toast({
         title: "Member Created Successfully",
+        description: "User can now sign in with this account.",
       });
     }
   }, [isError, isSuccess, toast, openDialog, form, error, dialogID]);
