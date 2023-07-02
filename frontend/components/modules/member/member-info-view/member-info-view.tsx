@@ -4,6 +4,7 @@ import { MemberInfoDelete } from "@/components/modules/member/member-info-view/m
 
 import { useGetMemberService } from "@/services/member";
 
+import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 
 import { MemberError } from "./member-error";
@@ -19,6 +20,7 @@ const MemberInfoView = ({ id }: MemberInfoViewProps) => {
     data: member,
     isLoading: isQueryingMember,
     isError: isQueryingError,
+    error: queryMemberError,
   } = useGetMemberService(id);
 
   return !isQueryingError && member?.data ? (
@@ -36,7 +38,13 @@ const MemberInfoView = ({ id }: MemberInfoViewProps) => {
       <MemberInfoDelete member={member.data!!} />
     </section>
   ) : isQueryingError ? (
-    <MemberError />
+    <MemberError
+      status={
+        isAxiosError(queryMemberError)
+          ? `${queryMemberError?.response?.status}`
+          : "400"
+      }
+    />
   ) : (
     <div className="flex h-full w-full flex-col place-content-center place-items-center gap-4">
       <Loader2
