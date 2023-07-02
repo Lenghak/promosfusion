@@ -67,9 +67,6 @@ const useDeleteMemberService = () => {
   return useMutation({
     mutationKey: ["member-delete"],
     mutationFn: async (id: string) => await deleteMember(id),
-    onSettled: async () => {
-      await queryClient.invalidateQueries(["members"]);
-    },
   });
 };
 
