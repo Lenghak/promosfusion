@@ -23,9 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import z from "zod";
 
-type ShopFormProps = {};
+type ShopCreateFormProps = {};
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -33,7 +33,7 @@ const formSchema = z.object({
   }),
 });
 
-const ShopForm = ({}: ShopFormProps) => {
+const ShopCreateForm = ({}: ShopCreateFormProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -53,4 +53,4 @@ const ShopForm = ({}: ShopFormProps) => {
   );
 };
 
-export { ShopForm };
+export { ShopCreateForm };
