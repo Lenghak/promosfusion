@@ -35,7 +35,7 @@ const CouponContent = ({
 }: CouponProps) => {
   const { toast } = useToast();
 
-  //* copy to clipboard hanler
+  //* copy to clipboard handler
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(
@@ -52,7 +52,7 @@ const CouponContent = ({
                 />
                 <span className="font-bold">Link Copied to Clipboard</span>
               </div>
-              You can paste the link in your brower to view this coupon.
+              You can paste the link in your browser to view this coupon.
             </div>
           ),
         })
@@ -90,13 +90,13 @@ const CouponContent = ({
             width={80}
             height={80}
             alt="Company Logo"
-            className="my-2 h-20 w-20"
+            className="my-2 h-20 w-20 object-cover"
           />
         ) : (
           <Logo
             width={80}
             height={80}
-            className={"my-2 h-20 w-20"}
+            className={"my-2 h-20 w-20 object-cover"}
           />
         )}
         <div className="flex flex-col items-center justify-center gap-4 text-center">
@@ -126,7 +126,8 @@ const CouponContent = ({
         </Button>
 
         <span className="rounded-lg border border-dashed px-4 py-2 text-center text-xs font-medium">
-          EXP : <span className="font-semibold">{dateFormat(expiredAt ?? '')}</span>
+          EXP :{" "}
+          <span className="font-semibold">{dateFormat(expiredAt ?? "")}</span>
         </span>
 
         <Button
