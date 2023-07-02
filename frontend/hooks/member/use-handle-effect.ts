@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { useDialogStore } from "@/lib/zustand";
 
@@ -47,6 +49,7 @@ const useHandleCreatedEffect = (
 
 const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
   const { toast } = useToast();
+  const { replace } = useRouter();
 
   useEffect(() => {
     if (isSuccess) {
@@ -54,7 +57,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         title: "Account deleted failed",
         description: "There was an error deleting the account.",
       });
-      redirect("/members");
+      replace("/members");
     }
 
     if (isError) {
@@ -64,7 +67,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         variant: "destructive",
       });
     }
-  }, [isError, isSuccess, toast]);
+  }, [replace, isError, isSuccess, toast]);
 };
 
 const useHandleUpdatedEffect = (
