@@ -13,11 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import { useDialogStore } from "@/lib/zustand";
 
 import { useCreateShopService } from "@/services/shop";
 
+import { useHandleCreateEffect } from "@/hooks/shop";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, PlusCircle } from "lucide-react";
 import z from "zod";
@@ -30,7 +32,10 @@ const shopCreateFormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  logo: z.string().url({ message: "This URL is invalid" }).optional(),
+  logo: z.string().optional(),
+  description: z
+    .string({ required_error: "Describe something about your shop" })
+    .min(5, "Enter at least 5 characters."),
 });
 
 const SHOP_CREATE_DIALOG_ID = "shop-create-dialog-id";
@@ -40,6 +45,8 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
     resolver: zodResolver(shopCreateFormSchema),
     defaultValues: {
       name: "",
+      logo: "",
+      description: "",
     },
     shouldUnregister: true,
   });
@@ -52,6 +59,12 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
     isError: isCreateShopFailed,
     isSuccess: isShopCreated,
   } = useCreateShopService();
+
+  useHandleCreateEffect(
+    isCreateShopFailed,
+    isShopCreated,
+    SHOP_CREATE_DIALOG_ID
+  );
 
   return (
     <DialogWithAlert
@@ -77,8 +90,7 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(
-            (values: z.infer<typeof shopCreateFormSchema>) =>
-              console.log(values)
+            (values: z.infer<typeof shopCreateFormSchema>) => createShop(values)
           )}
           className="space-y-4"
         >
@@ -104,10 +116,27 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
             name="logo"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>URL</FormLabel>
+                <FormLabel>Logo URL</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Image URL"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Describe your shop"
                     {...field}
                   />
                 </FormControl>
