@@ -63,7 +63,6 @@ const useUpdateMemberService = () => {
 
 const useDeleteMemberService = () => {
   const deleteMember = useDeleteMember();
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["member-delete"],
     mutationFn: async (id: string) => await deleteMember(id),
