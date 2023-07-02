@@ -2,7 +2,12 @@ import { authorizeAxios } from "@/lib/axios/authorize";
 
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
 
-import { CreateShopData, UpdateShopData } from "@/types/shop";
+import {
+  AssignShopData,
+  CreateShopData,
+  DismissShopData,
+  UpdateShopData,
+} from "@/types/shop";
 
 //* shop list getter for SSR
 const getShops = async () => {
@@ -47,7 +52,23 @@ const useDeleteShop = () => {
   return async (shopId: string) => authorizedAxios.delete(`/shops/${shopId}`);
 };
 
+//* shop assigner
+const useAssignShop = () => {
+  const authorizedAxios = useAxiosAuth();
+  return async (data: AssignShopData) =>
+    authorizedAxios.post("/shops/assigns", data);
+};
+
+//* shop dimisser
+const useDismissShop = () => {
+  const authorizedAxios = useAxiosAuth();
+  return async (data: DismissShopData) =>
+    authorizedAxios.post("/shops/dismiss", data);
+};
+
 export {
+  useAssignShop,
+  useDismissShop,
   useGetShops,
   useDeleteShop,
   useUpdateShop,

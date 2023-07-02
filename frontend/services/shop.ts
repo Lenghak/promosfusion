@@ -1,6 +1,8 @@
 import {
+  useAssignShop,
   useCreateShop,
   useDeleteShop,
+  useDismissShop,
   useGetShop,
   useGetShops,
   useUpdateShop,
@@ -9,9 +11,14 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-import { CreateShopData, UpdateShopData } from "@/types/shop";
+import {
+  AssignShopData,
+  CreateShopData,
+  DismissShopData,
+  UpdateShopData,
+} from "@/types/shop";
 
-//* get shops services
+//* get shops services for client side
 const useGetShopsService = () => {
   const getShops = useGetShops();
   const { data: session } = useSession();
@@ -23,7 +30,7 @@ const useGetShopsService = () => {
   });
 };
 
-//* get individual shop service
+//* get individual shop service for client side
 const useGetShopService = (shopId: string) => {
   const getShop = useGetShop();
   const { data: session } = useSession();
@@ -35,7 +42,7 @@ const useGetShopService = (shopId: string) => {
   });
 };
 
-//* use create shop service
+//* use create shop service for creating a shop
 const useCreateShopService = () => {
   const createShop = useCreateShop();
   const queryClient = useQueryClient();
@@ -49,7 +56,7 @@ const useCreateShopService = () => {
   });
 };
 
-//* use update shop service
+//* use update shop service for updating shop info
 const useUpdateShopService = () => {
   const updateShop = useUpdateShop();
   const queryClient = useQueryClient();
@@ -64,13 +71,12 @@ const useUpdateShopService = () => {
       data: UpdateShopData;
     }) => await updateShop(shopId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
-      await queryClient.invalidateQueries(["shop"]);
+      await queryClient.invalidateQueries(["shops", "shop"]);
     },
   });
 };
 
-//* use delete shop service
+//* use delete shop service for deleting shop
 const useDeleteShopService = () => {
   const queryClient = useQueryClient();
   const deleteShop = useDeleteShop();
@@ -83,7 +89,46 @@ const useDeleteShopService = () => {
   });
 };
 
+//* use assign shop service for assigning shop to user
+const useAssignShopService = () => {
+  const queryClient = useQueryClient();
+  const assignShop = useAssignShop();
+
+  return useMutation({
+    mutationKey: ["shop-assign"],
+    mutationFn: async (data: AssignShopData) => await assignShop(data),
+    onSettled: async () => {
+      await queryClient.invalidateQueries([
+        "shops",
+        "shop",
+        "members",
+        "member",
+      ]);
+    },
+  });
+};
+
+const useDimissShopService = () => {
+  const queryClient = useQueryClient();
+  const dismissShop = useDismissShop();
+
+  return useMutation({
+    mutationKey: ["shop-assign"],
+    mutationFn: async (data: DismissShopData) => await dismissShop(data),
+    onSettled: async () => {
+      await queryClient.invalidateQueries([
+        "shops",
+        "shop",
+        "members",
+        "member",
+      ]);
+    },
+  });
+};
+
 export {
+  useAssignShopService,
+  useDimissShopService, 
   useDeleteShopService,
   useCreateShopService,
   useUpdateShopService,
