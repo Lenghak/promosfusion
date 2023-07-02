@@ -1,10 +1,11 @@
 "use client";
 
-import { MemberCreateForm } from "@/components/modules/member";
-import { ShopColumns } from "@/components/modules/shop";
+import { ShopColumns } from "@/components/modules/shop/shop-table-columns";
 import { DataTable } from "@/components/ui/data-table";
 
 import { useGetShopsService } from "@/services/shop";
+
+import { ShopCreateForm } from "./shop-create-form";
 
 type ShopTableProps = {};
 
@@ -14,7 +15,7 @@ const ShopDataTable = ({}: ShopTableProps) => {
   return (
     <div className="h-full">
       <DataTable
-        widget={<MemberCreateForm />}
+        widget={<ShopCreateForm />}
         data={shops?.data ?? []}
         columns={ShopColumns}
         filterBy="name"
