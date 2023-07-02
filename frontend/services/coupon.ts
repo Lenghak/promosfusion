@@ -1,11 +1,13 @@
 import {
   getCoupon,
+  useGetCoupons,
   useProvideCoupon,
   useRequestCoupon,
   useVerifyCoupon,
 } from "@/lib/axios/coupon";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 const useProvideCouponService = (campaignId: string) => {
   const provideCoupon = useProvideCoupon(campaignId);
@@ -50,9 +52,22 @@ const useVerifyCouponService = (couponId: string, token: string) => {
   });
 };
 
+const useGetCouponsService = (campaignId: string) => {
+  const getCoupons = useGetCoupons(campaignId);
+
+  const { data: session } = useSession();
+
+  return useQuery({
+    queryKey: ["coupons"],
+    queryFn: async () => await getCoupons(),
+    enabled: !!session,
+  });
+};
+
 export {
   useProvideCouponService,
   useGetCouponService,
   useRequestCouponService,
   useVerifyCouponService,
+  useGetCouponsService,
 };

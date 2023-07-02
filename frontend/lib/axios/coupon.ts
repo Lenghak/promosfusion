@@ -1,12 +1,14 @@
+import { authorizeAxios } from "@/lib/axios/authorize";
+
 import { useAxiosAuth } from "@/hooks/use-axios-auth";
 import { AxiosResponse } from "axios";
 
 import { axios } from "./axios";
 
 import {
-  Coupon,
   CouponRequestResponse,
   CouponResponse,
+  Coupons,
   CouponVerifyResponse,
 } from "@/types/coupon";
 
@@ -44,4 +46,25 @@ const useVerifyCoupon = (couponId: string, token: string) => {
     });
 };
 
-export { useProvideCoupon, useRequestCoupon, getCoupon, useVerifyCoupon };
+//* get coupon list for SSR
+const getCoupons = async (campaignId: string) => {
+  const authorizedAxios = await authorizeAxios();
+  return (
+    await authorizedAxios.get<Coupons>(`/campaigns/${campaignId}/coupons`)
+  ).data;
+};
+
+//* get coupon list for client side
+const useGetCoupons = (campaignId: string) => {
+  const authorizedAxios = useAxiosAuth();
+  return () => authorizedAxios.get<Coupons>(`/campaigns/${campaignId}/coupons`);
+};
+
+export {
+  useProvideCoupon,
+  useRequestCoupon,
+  getCoupon,
+  useGetCoupons,
+  useVerifyCoupon,
+  getCoupons,
+};
