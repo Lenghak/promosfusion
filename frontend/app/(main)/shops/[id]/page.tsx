@@ -1,5 +1,4 @@
 import { PageTitle } from "@/components/modules/page-title";
-import { ShopDataTable } from "@/components/modules/shop";
 
 import { getShop } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
@@ -14,7 +13,10 @@ type ShopProps = {
 
 export default function Shop({ params }: ShopProps) {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery(["shop"], async () => await getShop(params.id));
+  queryClient.prefetchQuery(
+    ["shops", params.id],
+    async () => await getShop(params.id)
+  );
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -23,9 +25,7 @@ export default function Shop({ params }: ShopProps) {
         title="Shops Profile"
         description="View the detail of your shop"
       />
-      <Hydrate state={dehydratedState}>
-        <ShopDataTable />
-      </Hydrate>
+      <Hydrate state={dehydratedState}>{/*<ShopDataTable />*/}</Hydrate>
     </div>
   );
 }
