@@ -166,7 +166,7 @@ const ShopColumns: ColumnDef<Shop>[] = [
               <DropdownMenuItem>
                 <Link href={`/members/${row.original.id}`}>View Member</Link>
               </DropdownMenuItem>
-              (
+
               <DropdownMenuItem
                 onClick={() =>
                   openDialog(true, `member-update-dialog-${row.original.id}`)
@@ -174,7 +174,7 @@ const ShopColumns: ColumnDef<Shop>[] = [
               >
                 Update Shop
               </DropdownMenuItem>
-              )
+
               <DropdownMenuSeparator />
               <DropdownMenuItem className="font-medium text-destructive">
                 <AlertDialog>
@@ -199,14 +199,15 @@ const ShopColumns: ColumnDef<Shop>[] = [
                   </AlertDialogContent>
                 </AlertDialog>
               </DropdownMenuItem>
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 className="font-medium text-destructive"
                 disabled
               >
                 Delete Shop
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
+          {/*<ShopUpdateForm />*/}
         </Fragment>
       );
     },
