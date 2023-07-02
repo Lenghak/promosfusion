@@ -1,29 +1,28 @@
-import Link from "next/link";
-
-import { PageTitle } from "@/components/modules/page-title";
 import { CampaignDetailsCard } from "@/components/modules/campaign";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CampaignCouponsTable } from "@/components/modules/campaign/campaign-coupons-table";
+import { PageTitle } from "@/components/modules/page-title";
 
-import { Filter, Plus, Search } from "lucide-react";
+import { getCoupons } from "@/lib/axios/coupon";
+import { getQueryClient } from "@/lib/react-query";
 
-type CampaignDetailsProps = {};
+import { dehydrate, Hydrate } from "@tanstack/react-query";
 
-export default function CampaignDetails({}: CampaignDetailsProps) {
+type CampaignDetailsProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function CampaignDetails({
+  params,
+}: CampaignDetailsProps) {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(
+    ["coupons"],
+    async () => await getCoupons(params.id)
+  );
+  const dehydratedState = dehydrate(queryClient);
+
   return (
     <div className="flex flex-col">
       <div>
@@ -35,58 +34,9 @@ export default function CampaignDetails({}: CampaignDetailsProps) {
       <div>
         <CampaignDetailsCard />
       </div>
-      <div className="flex flex-row items-center justify-between px-4 py-6 font-bold">
-        <div className="flex flex-row items-center gap-2">
-          <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="All Compaign" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all-campaign">All Campaign</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Created Date" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="created-date">Created Date</SelectItem>
-                <SelectItem value="valid-date">Valid Date</SelectItem>
-                <SelectItem value="expire-date">Expire Date</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Button variant="outline">
-              <Filter />
-            </Button>
-          </div>
-          <div>
-            <Button variant="outline">
-              <Search />
-            </Button>
-          </div>
-        </div>
-        <div className="flex flex-row items-center gap-2">
-          <div>
-            <div className="text-neutral-400">Showing&nbsp;</div>{" "}
-          </div>
-          <div>
-            <Button variant="default">
-              <Link
-                className="flex flex-row items-center gap-2 "
-                href={""}
-              >
-                <Plus />
-                <span>Create Coupon</span>
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
+      <Hydrate state={dehydratedState}>
+        <CampaignCouponsTable id={params.id} />
+      </Hydrate>
     </div>
   );
 }
