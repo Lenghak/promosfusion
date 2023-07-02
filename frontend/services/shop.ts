@@ -70,7 +70,7 @@ const useUpdateShopService = () => {
       shopId: string;
       data: UpdateShopData;
     }) => await updateShop(shopId, data),
-    onSettled: async (data, error, variables, context) => {
+    onSettled: async () => {
       await queryClient.invalidateQueries(["shops"]);
     },
   });
