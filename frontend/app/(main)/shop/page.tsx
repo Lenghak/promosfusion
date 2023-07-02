@@ -1,4 +1,5 @@
 import { PageTitle } from "@/components/modules/page-title";
+import { ShopDataTable } from "@/components/modules/shop";
 
 import { getShops } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
@@ -21,7 +22,9 @@ export default async function Shop() {
         title="Shops"
         description="View the list of your shops"
       />
-      <Hydrate state={dehydratedState}>{/*<MemberDataTable />*/}</Hydrate>
+      <Hydrate state={dehydratedState}>
+        <ShopDataTable />
+      </Hydrate>
     </div>
   );
 }
