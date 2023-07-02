@@ -40,7 +40,8 @@ export type ShopMetaLink = {
 
 export type CreateShopData = {
   name: string;
-  logo: string;
+  logo?: string;
+  description?: string;
 };
 
 export type UpdateShopData = CreateShopData;
@@ -50,4 +51,4 @@ export type AssignShopData = {
   userId: string | number;
 };
 
-export type DismissShopData = AssignShopData
+export type DismissShopData = AssignShopData;
