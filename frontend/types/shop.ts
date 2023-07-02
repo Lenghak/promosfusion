@@ -44,3 +44,10 @@ export type CreateShopData = {
 };
 
 export type UpdateShopData = CreateShopData;
+
+export type AssignShopData = {
+  shopId: string | number;
+  userId: string | number;
+};
+
+export type DismissShopData = AssignShopData
