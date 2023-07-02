@@ -1,10 +1,5 @@
-import Link from "next/link";
-
 import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
-import {
-  Campaign,
-  columns,
-} from "@/components/modules/campaign/campaign-table-columns";
+import { CampaignDialogCreationForm } from "@/components/modules/campaign";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -18,10 +13,9 @@ import { getCampaigns } from "@/lib/axios/campaign";
 import { getQueryClient } from "@/lib/react-query";
 
 import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
-import { Filter, Plus, Search } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 
 export default async function Campaigns() {
-
   await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
   const dehydratedState = dehydrate(getQueryClient());
 
@@ -70,15 +64,7 @@ export default async function Campaigns() {
             <div className="text-neutral-400">Showing&nbsp;</div>{" "}
           </div>
           <div>
-            <Button variant="default">
-              <Link
-                className="flex flex-row items-center gap-2 "
-                href={"/campaigns/add"}
-              >
-                <Plus />
-                <span>Add Campaign</span>
-              </Link>
-            </Button>
+            <CampaignDialogCreationForm />
           </div>
         </div>
       </div>

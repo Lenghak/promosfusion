@@ -15,12 +15,11 @@ const useGetCampaigns = () => {
   return async () => axios.get("/campagins").then((res) => res.data);
 };
 
-const getCampaign: (campaignId: string) => Promise<Campaign> = async (
-  campaignId: string
-) => {
-  return authorizedAxios
+const useGetCampaign = (campaignId: string) => {
+  const axios = useAxiosAuth();
+  return async () => axios
     .get(`/campaigns/${campaignId}`)
     .then((res) => res.data);
-};
+}
 
-export { useGetCampaigns, getCampaigns, getCampaign };
+export { useGetCampaigns, getCampaigns, useGetCampaign };

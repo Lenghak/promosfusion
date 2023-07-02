@@ -1,5 +1,5 @@
 import { Campaign } from "@/components/modules/campaign/campaign-table-columns";
-import { getCampaigns, getCampaign, useGetCampaigns } from "@/lib/axios/campaign";
+import { getCampaigns, useGetCampaign, useGetCampaigns } from "@/lib/axios/campaign";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -13,4 +13,14 @@ const useGetCampaignsService = () => {
   });
 };
 
-export { useGetCampaignsService };
+const useGetCampaignService = (campaignId: string) => {
+  const getCampaign = useGetCampaign(campaignId);
+  return useQuery({
+    queryKey: ["campaign"],
+    queryFn: async () => (await getCampaign()),
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+  });
+};
+
+export { useGetCampaignsService, useGetCampaignService };
