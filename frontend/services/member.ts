@@ -56,8 +56,7 @@ const useUpdateMemberService = () => {
     mutationKey: ["member-update"],
     mutationFn: async (member: Member) => await updateMember(member),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["members"]);
-      await queryClient.invalidateQueries(["member"]);
+      await queryClient.invalidateQueries(["members", "member"]);
     },
   });
 };
