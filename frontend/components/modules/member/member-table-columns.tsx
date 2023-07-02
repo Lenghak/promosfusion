@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useDeleteMemberService } from "@/services/member";
@@ -60,7 +61,7 @@ const MemberColumns: ColumnDef<Member>[] = [
   // },
 
   {
-    id: "id",
+    id: "ID",
     header: ({ column }) => {
       return (
         <Button
@@ -103,6 +104,7 @@ const MemberColumns: ColumnDef<Member>[] = [
     enableHiding: false,
   },
   {
+    id: "Phone Number",
     accessorKey: "phone",
     header: ({ column }) => {
       return (
@@ -116,10 +118,11 @@ const MemberColumns: ColumnDef<Member>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="h-full w-full px-4">{row.getValue("phone")}</div>
+      <div className="h-full w-full px-4">{row.original.phone}</div>
     ),
   },
   {
+    id: "Role",
     accessorKey: "role",
     header: ({ column }) => {
       return (
@@ -133,15 +136,16 @@ const MemberColumns: ColumnDef<Member>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="h-full w-full px-4">{row.getValue("role")}</div>
+      <div className="h-full w-full px-4">{row.original.role}</div>
     ),
   },
   {
+    id: "Status",
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
       <>
-        {row.getValue("status") === "active" ? (
+        {row.getValue("Status") === "active" ? (
           <Badge className="bg-green-600 hover:bg-green-500 dark:bg-green-950 dark:text-success dark:hover:bg-green-900">
             Active
           </Badge>
@@ -151,6 +155,7 @@ const MemberColumns: ColumnDef<Member>[] = [
   },
 
   {
+    id: "Created At",
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -164,7 +169,9 @@ const MemberColumns: ColumnDef<Member>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="h-full w-full px-4">{row.getValue("createdAt")}</div>
+      <div className="h-full w-full px-4">
+        {dateFormat(row.original.createdAt)}
+      </div>
     ),
   },
   {
