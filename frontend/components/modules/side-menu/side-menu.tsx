@@ -81,7 +81,7 @@ const SideMenu = () => {
 
         {session?.user.role !== "seller" && (
           <MenuTab
-            href={"/shop"}
+            href={"/shops"}
             Icon={Store}
             name="Shops"
           />
