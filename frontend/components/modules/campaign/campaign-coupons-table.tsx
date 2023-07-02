@@ -1,18 +1,14 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 
-import {
-  useGetCampaignService,
-  useGetCampaignsService,
-} from "@/services/campaign";
+import { useGetCampaignService } from "@/services/campaign";
+import { useGetCouponsService } from "@/services/coupon";
 
 import { columns } from "./campaign-coupons-table-columns";
 
 type CampaignCouponsTableProps = {
-  id?: number;
+  id?: number | string;
   cauid?: string;
   status?: string;
   createdDate?: string;
@@ -21,13 +17,17 @@ type CampaignCouponsTableProps = {
   verifiedBy?: string;
 };
 
-const CampaignCouponsTable = ({}: CampaignCouponsTableProps) => {
+const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
   const {
     data: campaign,
     isError: isGetCampaignsError,
     isLoading: isGettingCampaigns,
     isFetching: isFetchingCampaigns,
   } = useGetCampaignService("campaignId");
+
+  const { data } = useGetCouponsService(`${id!!}`);
+
+  console.log(data);
 
   console.log(campaign?.data);
 
