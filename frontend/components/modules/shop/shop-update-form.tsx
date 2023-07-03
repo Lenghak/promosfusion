@@ -90,7 +90,7 @@ const ShopUpdateForm = ({
             name="name"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Shop Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter shop name"
@@ -107,7 +107,7 @@ const ShopUpdateForm = ({
             name="logo"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>URL</FormLabel>
+                <FormLabel>Image URL</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Image URL"
