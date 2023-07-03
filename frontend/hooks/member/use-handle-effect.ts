@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError, isAxiosError } from "axios";
 
 const useHandleCreatedEffect = (
@@ -53,23 +54,26 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
   const { toast } = useToast();
   const { replace } = useRouter();
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
-    if (isSuccess) {
+    if (isError) {
       toast({
         title: "Account deleted failed",
         description: "There was an error deleting the account.",
       });
-      replace("/members");
     }
 
-    if (isError) {
+    if (isSuccess) {
       toast({
         title: "Account deleted Successfully",
         description: "User that the account can no longer logged in",
         variant: "destructive",
       });
+      queryClient.invalidateQueries(["members"]).then();
+      replace("/members");
     }
-  }, [replace, isError, isSuccess, toast]);
+  }, [replace, isError, isSuccess, toast, queryClient]);
 };
 
 const useHandleUpdatedEffect = (

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useHandleCreateEffect = (
   isError: boolean,
@@ -68,6 +69,7 @@ const useHandleDeleteEffect = (
   isSuccess: boolean,
   isLoading: boolean
 ) => {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -86,6 +88,7 @@ const useHandleDeleteEffect = (
           "The shop data has been removed along with its campaigns and coupons.",
         variant: "default",
       });
+      queryClient.invalidateQueries(["shops"]).then();
     }
   }, [isError, isSuccess, isLoading, toast]);
 };
