@@ -90,7 +90,7 @@ const useHandleDeleteEffect = (
       });
       queryClient.invalidateQueries(["shops"]).then();
     }
-  }, [isError, isSuccess, isLoading, toast]);
+  }, [isError, isSuccess, isLoading, toast, queryClient]);
 };
 
 export { useHandleCreateEffect, useHandleUpdatedEffect, useHandleDeleteEffect };
