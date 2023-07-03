@@ -6,31 +6,34 @@ import {
   AssignShopData,
   CreateShopData,
   DismissShopData,
+  Shop,
+  Shops,
   UpdateShopData,
 } from "@/types/shop";
 
 //* shop list getter for SSR
 const getShops = async () => {
   const authorizedAxios = await authorizeAxios();
-  return (await authorizedAxios.get("/shops")).data;
+  return (await authorizedAxios.get<Shops>("/shops")).data;
 };
 
 //* individual shop getter for SSR
 const getShop = async (shopID: string) => {
   const authorizedAxios = await authorizeAxios();
-  return (await authorizedAxios.get(`/shops/${shopID}`)).data;
+  return (await authorizedAxios.get<{ data: Shop }>(`/shops/${shopID}`)).data;
 };
 
 //* shops list getter hook for client side
 const useGetShops = () => {
   const authorizedAxios = useAxiosAuth();
-  return async () => authorizedAxios.get("/shops");
+  return async () => authorizedAxios.get<Shops>("/shops");
 };
 
 //* individual shop getter hook for client side
 const useGetShop = () => {
   const authorizedAxios = useAxiosAuth();
-  return async (shopId: string) => authorizedAxios.get(`/shops/${shopId}`);
+  return async (shopId: string) =>
+    authorizedAxios.get<{ data: Shop }  >(`/shops/${shopId}`);
 };
 
 //* shop creator hook
