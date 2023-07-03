@@ -25,7 +25,7 @@ const ShopInfo = ({ shop }: ShopInfoProps) => {
   const { openDialog } = useDialogStore((state) => state);
 
   return (
-    <div className="flex h-full w-full flex-col items-start justify-center gap-6 p-4 lg:flex-row">
+    <div className="flex h-full w-full flex-col items-start justify-center gap-6 border-t p-4 lg:flex-row">
       <div className="flex w-full justify-between gap-2">
         <div className="flex w-full flex-col gap-1">
           <span className="text-lg font-semibold">Shop Information</span>
@@ -47,11 +47,7 @@ const ShopInfo = ({ shop }: ShopInfoProps) => {
       <div className="flex w-full flex-col gap-4 lg:max-w-[50%]">
         <div className="relative flex w-full flex-col gap-2">
           <Label className="flex items-center gap-4 text-sm text-muted-foreground">
-            <Store
-              className="h-full min-h-[1.125rem] min-w-[1.125rem] place-self-center self-center"
-              size={18}
-            />
-            <span>Shop Name</span>
+            Shop Name
           </Label>
           <span className="relative min-h-[2.5rem] rounded-lg border px-3 py-2 text-sm">
             {shop?.name}
@@ -59,11 +55,7 @@ const ShopInfo = ({ shop }: ShopInfoProps) => {
         </div>
         <div className="relative flex w-full flex-col gap-2">
           <Label className="flex items-center gap-4 text-sm text-muted-foreground">
-            <FileText
-              className="h-full min-h-[1.125rem] min-w-[1.125rem] place-self-center self-center"
-              size={18}
-            />
-            <span>Description</span>
+            Description
           </Label>
           <span className="relative min-h-[2.5rem] rounded-lg border px-3 py-2 text-sm">
             {shop?.description}
