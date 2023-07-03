@@ -83,9 +83,9 @@ const useDeleteShopService = () => {
   return useMutation({
     mutationKey: ["shop-delete"],
     mutationFn: async (shopId: string) => await deleteShop(shopId),
-    onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
-    },
+    // onSettled: async () => {
+    //   await queryClient.invalidateQueries(["shops"]);
+    // },
   });
 };
 
