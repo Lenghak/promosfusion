@@ -185,7 +185,6 @@ const MemberColumns: ColumnDef<Member>[] = [
 
       const {
         mutate: deleteMember,
-        isLoading: isDeletingMember,
         isError: isMemberDeleteError,
         isSuccess: isMemberDeleted,
       } = useDeleteMemberService();
