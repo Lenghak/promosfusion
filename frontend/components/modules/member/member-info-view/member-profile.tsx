@@ -15,7 +15,7 @@ type MemberProfileProps = {
 
 const MemberProfile = ({ member, isQueryingMember }: MemberProfileProps) => {
   return (
-    <div className="flex h-fit w-full gap-1 border-t py-4">
+    <div className="flex h-fit w-full flex-col gap-1 border-t py-4 lg:flex-row">
       <div className="flex w-full flex-col gap-2">
         <span className="font-semibold">Profile Picture</span>
         <span className="text-sm capitalize text-muted-foreground">
@@ -30,14 +30,16 @@ const MemberProfile = ({ member, isQueryingMember }: MemberProfileProps) => {
                 src={member?.avatar}
                 alt={`@${member?.name}`}
               />
-              <AvatarFallback className="text-lg font-semibold uppercase">
+              <AvatarFallback className="font-semibold uppercase">
                 {member?.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
 
             <div className="flex flex-col justify-center">
-              <span className="text-lg font-semibold">{member?.name}</span>
-              <span className="text-muted-foreground">{member?.email}</span>
+              <span className="font-semibold">{member?.name}</span>
+              <span className="text-sm text-muted-foreground">
+                {member?.email}
+              </span>
             </div>
           </div>
           <Button className="absolute bottom-0 left-0  h-fit w-fit rounded-full p-2">
