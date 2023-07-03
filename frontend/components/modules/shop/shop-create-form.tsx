@@ -102,7 +102,7 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="John Doe"
+                    placeholder="Enter shop name"
                     {...field}
                   />
                 </FormControl>
