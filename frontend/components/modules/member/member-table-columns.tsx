@@ -1,19 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
 import Link from "next/link";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Checkbox } from "@/components/ui/checkbox";
@@ -36,9 +24,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { AvatarCard } from "../avatar-card";
+import { MemberDeleteForm } from "./member-delete-form";
 import { MemberUpdateForm } from "./member-update-form";
 
 import { Member } from "@/types/member";
+import { Fragment } from "react";
 
 const MemberColumns: ColumnDef<Member>[] = [
   // {
@@ -181,10 +171,8 @@ const MemberColumns: ColumnDef<Member>[] = [
     cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
 
-      const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
-
       const {
-        mutate: deleteMember,
+        // mutate: deleteMember,
         isError: isMemberDeleteError,
         isSuccess: isMemberDeleted,
       } = useDeleteMemberService();
@@ -236,7 +224,9 @@ const MemberColumns: ColumnDef<Member>[] = [
               {permission(row.original) ? (
                 <DropdownMenuItem
                   className="font-medium text-destructive"
-                  onClick={() => setOpenDeleteAlert(true)}
+                  onClick={() =>
+                    openDialog(true, `member-delete-dialog-${row.original.id}`)
+                  }
                 >
                   Delete Member
                 </DropdownMenuItem>
@@ -251,46 +241,16 @@ const MemberColumns: ColumnDef<Member>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
           {permission(row.original) && (
-            <>
+            <Fragment>
               <MemberUpdateForm
                 member={row.original}
                 dialogID={`member-update-dialog-${row.original.id}`}
               />
-              <AlertDialog open={openDeleteAlert}>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      the account and remove the data from our servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel
-                      onClick={() => setOpenDeleteAlert(false)}
-                    >
-                      Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction asChild>
-                      <Button
-                        className={
-                          "bg-destructive text-destructive-foreground hover:bg-destructive/80"
-                        }
-                        variant={"destructive"}
-                        onClick={() => {
-                          deleteMember(`${row.original.id}`);
-                          setOpenDeleteAlert(false);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
+              <MemberDeleteForm
+                memberId={`${row.original.id}`}
+                manual
+              />
+            </Fragment>
           )}
         </>
       );
