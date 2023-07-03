@@ -4,24 +4,13 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { useGetMembersService } from "@/services/member";
 
-import { useToast } from "@/hooks/use-toast";
-
 import { MemberCreateForm } from "./member-create-form";
 import { MemberColumns } from "./member-table-columns";
 
 type MemberDataTableProps = {};
 
 const MemberDataTable = ({}: MemberDataTableProps) => {
-  const { data: members, isError: isQueryMemberError } = useGetMembersService();
-
-  const { toast } = useToast();
-
-  if (isQueryMemberError)
-    toast({
-      title: "Getting Member Failed",
-      description: "There was a problem getting your data",
-      variant: "destructive",
-    });
+  const { data: members } = useGetMembersService();
 
   return (
     <div className="h-full">
