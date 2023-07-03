@@ -64,11 +64,7 @@ const useHandleUpdatedEffect = (
   );
 };
 
-const useHandleDeleteEffect = (
-  isError: boolean,
-  isSuccess: boolean,
-  isLoading: boolean
-) => {
+const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
@@ -90,7 +86,7 @@ const useHandleDeleteEffect = (
       });
       queryClient.invalidateQueries(["shops"]).then();
     }
-  }, [isError, isSuccess, isLoading, toast, queryClient]);
+  }, [isError, isSuccess, toast, queryClient]);
 };
 
 export { useHandleCreateEffect, useHandleUpdatedEffect, useHandleDeleteEffect };
