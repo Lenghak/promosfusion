@@ -35,6 +35,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 
+import { ShopDeleteForm } from "./shop-delete-form";
+
 import { Shop } from "@/types/shop";
 
 // This type is used to define the shape of our data.
@@ -155,20 +157,15 @@ const ShopColumns: ColumnDef<Shop>[] = [
     cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
 
-      const [deleteAlertOpen, openDeleteAlert] = useState<boolean>(false);
-
       const { data: session } = useSession();
 
-      const {
-        mutate: deleteShop,
-        isLoading: isDeleting,
-        isError: isDeletedError,
-        isSuccess: isDeleted,
-      } = useDeleteShopService();
+      const { isError: isDeletedError, isSuccess: isDeleted } =
+        useDeleteShopService();
 
       const UPDATE_ALERT_DIALOG_ID = `shop-update-dialog-${row.original.id}`;
+      const SHOP_DELETE_DIALOG_ID = `shop-delete-dialog-${row.original.id}`;
 
-      useHandleDeleteEffect(isDeletedError, isDeleted, isDeleting);
+      useHandleDeleteEffect(isDeletedError, isDeleted);
 
       return (
         <Fragment>
@@ -202,7 +199,9 @@ const ShopColumns: ColumnDef<Shop>[] = [
               {session?.user.role === "root" ? (
                 <DropdownMenuItem
                   className="font-medium text-destructive"
-                  onClick={() => openDeleteAlert(true)}
+                  onClick={() => {
+                    openDialog(true, SHOP_DELETE_DIALOG_ID);
+                  }}
                 >
                   Delete Shop
                 </DropdownMenuItem>
@@ -223,39 +222,10 @@ const ShopColumns: ColumnDef<Shop>[] = [
                 dialogID={UPDATE_ALERT_DIALOG_ID}
                 shop={row.original}
               />
-              <AlertDialog open={deleteAlertOpen}>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      the shop including its campaigns and coupons, and remove
-                      the data from our servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => openDeleteAlert(false)}>
-                      Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction asChild>
-                      <Button
-                        className={
-                          "bg-destructive text-destructive-foreground hover:bg-destructive/80"
-                        }
-                        variant={"destructive"}
-                        onClick={() => {
-                          deleteShop(`${row.original.id}`);
-                          openDeleteAlert(false);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <ShopDeleteForm
+                shopId={`${row.original.id}`}
+                manual
+              />
             </Fragment>
           ) : null}
         </Fragment>
