@@ -4,6 +4,7 @@ import { useGetShopService } from "@/services/shop";
 
 import { ShopBasicLogo } from "./shop-basic-logo";
 import { ShopInfo } from "./shop-info";
+import { ShopInfoDelete } from "./shop-info-delete";
 
 type ShopInfoBasicProps = { shopId: string };
 
@@ -15,6 +16,8 @@ const ShopInfoBasic = ({ shopId }: ShopInfoBasicProps) => {
       <ShopBasicLogo logo={shop?.data.logo} />
 
       <ShopInfo shop={shop?.data} />
+
+      <ShopInfoDelete shop={shop?.data}/>
     </section>
   );
 };
