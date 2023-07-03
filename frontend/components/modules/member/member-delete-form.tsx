@@ -15,12 +15,20 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
+import { useDialogStore } from "@/lib/zustand";
+
 import { useDeleteMemberService } from "@/services/member";
 
 import { useHandleDeleteEffect } from "@/hooks/member/use-handle-effect";
 import { Loader2 } from "lucide-react";
 
-const MemberDeleteForm = ({ memberId }: { memberId: string }) => {
+const MemberDeleteForm = ({
+  memberId,
+  manual,
+}: {
+  memberId: string;
+  manual?: boolean;
+}) => {
   const {
     mutate: deleteMember,
     isLoading: isDeletingMember,
@@ -30,20 +38,28 @@ const MemberDeleteForm = ({ memberId }: { memberId: string }) => {
 
   useHandleDeleteEffect(isDeleteError, isMemberDeleted);
 
+  const { openDialog, dialogOpen, id: dialogId } = useDialogStore();
+
+  const MEMBER_DELETE_DIALOG_ID = `member-delete-dialog-${memberId}`;
+
   return (
     <Fragment>
-      <AlertDialog>
-        <AlertDialogTrigger
-          disabled={isDeletingMember}
-          asChild
-        >
-          <Button
-            className={"whitespace-nowrap border-destructive text-destructive"}
-            variant={"outline"}
+      <AlertDialog open={dialogOpen && dialogId === MEMBER_DELETE_DIALOG_ID}>
+        {!manual ? (
+          <AlertDialogTrigger
+            disabled={isDeletingMember}
+            asChild
           >
-            Delete Account
-          </Button>
-        </AlertDialogTrigger>
+            <Button
+              className={
+                "whitespace-nowrap border-destructive text-destructive"
+              }
+              variant={"outline"}
+            >
+              Delete Account
+            </Button>
+          </AlertDialogTrigger>
+        ) : null}
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -53,14 +69,21 @@ const MemberDeleteForm = ({ memberId }: { memberId: string }) => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel
+              onClick={() => openDialog(false, MEMBER_DELETE_DIALOG_ID)}
+            >
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction asChild>
               <Button
                 className={
                   "bg-destructive text-destructive-foreground hover:bg-destructive/80"
                 }
                 variant={"destructive"}
-                onClick={() => deleteMember(memberId)}
+                onClick={() => {
+                  deleteMember(memberId);
+                  openDialog(false, MEMBER_DELETE_DIALOG_ID);
+                }}
               >
                 Delete
               </Button>
