@@ -61,6 +61,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
       toast({
         title: "Account deleted failed",
         description: "There was an error deleting the account.",
+        variant: "destructive",
       });
     }
 
@@ -68,7 +69,6 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
       toast({
         title: "Account deleted Successfully",
         description: "User that the account can no longer logged in",
-        variant: "destructive",
       });
       queryClient.invalidateQueries(["members"]).then();
       replace("/members");
