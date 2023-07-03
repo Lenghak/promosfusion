@@ -21,8 +21,9 @@ export default function Shop({ params }: ShopProps) {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto px-4">
+    <div className="flex h-full w-full flex-col overflow-y-auto">
       <PageTitle
+        className="px-4"
         title="Shop Detail"
         description="View the detail of your shop"
       />
