@@ -36,7 +36,7 @@ const shopUpdateSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  logo: z.string().url({ message: "This URL is invalid" }).optional(),
+  logo: z.string().optional(),
   description: z.string().optional(),
 });
 
@@ -128,7 +128,7 @@ const ShopUpdateForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Describe your shop"
-                    {...field}
+                    {...field}  
                   />
                 </FormControl>
                 <FormMessage />
