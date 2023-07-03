@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import Link from "next/link";
 
 import {
@@ -11,7 +13,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -162,6 +163,7 @@ const MemberColumns: ColumnDef<Member>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className={"w-max whitespace-nowrap"}
         >
           Created At
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -169,7 +171,7 @@ const MemberColumns: ColumnDef<Member>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="h-full w-full px-4">
+      <div className="h-full w-max whitespace-nowrap px-4">
         {dateFormat(row.original.createdAt)}
       </div>
     ),
@@ -178,6 +180,8 @@ const MemberColumns: ColumnDef<Member>[] = [
     id: "actions",
     cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
+
+      const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
 
       const {
         mutate: deleteMember,
@@ -231,32 +235,11 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {permission(row.original) ? (
-                <DropdownMenuItem className="font-medium text-destructive">
-                  <AlertDialog>
-                    <AlertDialogTrigger disabled={isDeletingMember}>
-                      Delete Member
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone. This will permanently
-                          delete the account and remove the data from our
-                          servers.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => deleteMember(`${row.original.id}`)}
-                        >
-                          Continue
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  onClick={() => setOpenDeleteAlert(true)}
+                >
+                  Delete Member
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
@@ -274,6 +257,40 @@ const MemberColumns: ColumnDef<Member>[] = [
                 member={row.original}
                 dialogID={`member-update-dialog-${row.original.id}`}
               />
+              <AlertDialog open={openDeleteAlert}>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      the account and remove the data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel
+                      onClick={() => setOpenDeleteAlert(false)}
+                    >
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <Button
+                        className={
+                          "bg-destructive text-destructive-foreground hover:bg-destructive/80"
+                        }
+                        variant={"destructive"}
+                        onClick={() => {
+                          deleteMember(`${row.original.id}`);
+                          setOpenDeleteAlert(false);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </>
           )}
         </>

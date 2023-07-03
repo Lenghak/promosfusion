@@ -136,6 +136,7 @@ const ShopColumns: ColumnDef<Shop>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className={"w-max whitespace-nowrap"}
         >
           Created At
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -143,7 +144,7 @@ const ShopColumns: ColumnDef<Shop>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="h-full w-full px-4">
+      <div className="h-full w-max whitespace-nowrap px-4">
         {dateFormat(row.original.created_at)}
       </div>
     ),
