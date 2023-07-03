@@ -1,4 +1,5 @@
 import { PageTitle } from "@/components/modules/page-title";
+import { ShopInfoView } from "@/components/modules/shop/shop-info-view";
 
 import { getShop } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
@@ -20,12 +21,14 @@ export default function Shop({ params }: ShopProps) {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto">
+    <div className="flex h-full w-full flex-col overflow-y-auto px-4">
       <PageTitle
-        title="Shops Profile"
+        title="Shop Detail"
         description="View the detail of your shop"
       />
-      <Hydrate state={dehydratedState}>{/*<ShopDataTable />*/}</Hydrate>
+      <Hydrate state={dehydratedState}>
+        <ShopInfoView shopId={params.id} />
+      </Hydrate>
     </div>
   );
 }
