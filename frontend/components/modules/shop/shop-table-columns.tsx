@@ -1,9 +1,10 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 import Link from "next/link";
 
+import { ShopUpdateForm } from "@/components/modules/shop/shop-update-form";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,7 +14,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,12 @@ import {
 import { dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
+import { useDeleteShopService } from "@/services/shop";
+
+import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { Shop } from "@/types/shop";
 
@@ -150,6 +154,21 @@ const ShopColumns: ColumnDef<Shop>[] = [
     cell: function Cell({ row }) {
       const { openDialog } = useDialogStore();
 
+      const [deleteAlertOpen, openDeleteAlert] = useState<boolean>(false);
+
+      const { data: session } = useSession();
+
+      const {
+        mutate: deleteShop,
+        isLoading: isDeleting,
+        isError: isDeletedError,
+        isSuccess: isDeleted,
+      } = useDeleteShopService();
+
+      const UPDATE_ALERT_DIALOG_ID = `shop-update-dialog-${row.original.id}`;
+
+      useHandleDeleteEffect(isDeletedError, isDeleted, isDeleting);
+
       return (
         <Fragment>
           <DropdownMenu>
@@ -164,50 +183,80 @@ const ShopColumns: ColumnDef<Shop>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                <Link href={`/members/${row.original.id}`}>View Member</Link>
+                <Link href={`/shops/${row.original.id}`}>View Shop</Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem
-                onClick={() =>
-                  openDialog(true, `member-update-dialog-${row.original.id}`)
-                }
-              >
-                Update Shop
-              </DropdownMenuItem>
+              {session?.user.role ? (
+                <DropdownMenuItem
+                  onClick={() => openDialog(true, UPDATE_ALERT_DIALOG_ID)}
+                >
+                  Update Shop
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem disabled={true}>Update Shop</DropdownMenuItem>
+              )}
 
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="font-medium text-destructive">
-                <AlertDialog>
-                  <AlertDialogTrigger className={"text-destructive"}>
-                    Delete Shop
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete the shop including its campaigns and coupons, and
-                        remove the data from our servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </DropdownMenuItem>
-              {/* <DropdownMenuItem
-                className="font-medium text-destructive"
-                disabled
-              >
-                Delete Shop
-              </DropdownMenuItem> */}
+
+              {session?.user.role === "root" ? (
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  onClick={() => openDeleteAlert(true)}
+                >
+                  Delete Shop
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  disabled
+                >
+                  Delete Shop
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
-          {/*<ShopUpdateForm />*/}
+
+          {session?.user.role === "root" ? (
+            <Fragment>
+              <ShopUpdateForm
+                dialogID={UPDATE_ALERT_DIALOG_ID}
+                shop={row.original}
+              />
+              <AlertDialog open={deleteAlertOpen}>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      the shop including its campaigns and coupons, and remove
+                      the data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => openDeleteAlert(false)}>
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <Button
+                        className={
+                          "bg-destructive text-destructive-foreground hover:bg-destructive/80"
+                        }
+                        variant={"destructive"}
+                        onClick={() => {
+                          deleteShop(`${row.original.id}`);
+                          openDeleteAlert(false);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </Fragment>
+          ) : null}
         </Fragment>
       );
     },
