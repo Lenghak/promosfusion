@@ -67,7 +67,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
               <CouponContent
                 cuid={coupon.cuid}
                 logo={coupon.couponDisplay.logo}
-                companyName={coupon.couponDisplay.campany}
+                companyName={coupon.couponDisplay.company}
                 couponType={coupon.couponDisplay.promotion}
                 title={coupon.couponDisplay.title}
                 description={coupon.couponDisplay.description}

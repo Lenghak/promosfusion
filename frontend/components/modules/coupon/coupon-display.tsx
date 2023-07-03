@@ -73,7 +73,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
         <CouponContent
           cuid={coupon.data.cuid}
           logo={coupon.data.couponDisplay?.logo}
-          companyName={coupon.data.couponDisplay?.campany}
+          companyName={coupon.data.couponDisplay?.company}
           couponType={coupon.data.couponDisplay?.promotion}
           title={coupon.data.couponDisplay?.title}
           description={coupon.data.couponDisplay?.description}

@@ -21,7 +21,7 @@ export type Coupon = {
 export type CouponDisplay = {
   id: number;
   logo: string;
-  campany: string;
+  company: string;
   title: string;
   description: string;
   name: string;
