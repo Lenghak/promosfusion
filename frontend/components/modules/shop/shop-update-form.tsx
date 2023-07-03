@@ -13,11 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 import { useDialogStore } from "@/lib/zustand";
 
 import { useUpdateShopService } from "@/services/shop";
 
+import { useHandleUpdatedEffect } from "@/hooks/shop/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import z from "zod";
@@ -50,12 +52,19 @@ const ShopUpdateForm = ({
     defaultValues: {
       name: shop.name,
       logo: shop.logo,
+      description: shop.description,
     },
     shouldUnregister: true,
   });
 
-  const { mutate: updateShop, isLoading: isUpdatingShop } =
-    useUpdateShopService();
+  const {
+    mutate: updateShop,
+    isLoading: isUpdatingShop,
+    isSuccess: isShopUpdated,
+    isError: isShopUpdatedError,
+  } = useUpdateShopService();
+
+  useHandleUpdatedEffect(isShopUpdatedError, isShopUpdated, dialogID);
 
   return (
     <DialogWithAlert
@@ -84,7 +93,7 @@ const ShopUpdateForm = ({
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="John Doe"
+                    placeholder="Enter shop name"
                     {...field}
                   />
                 </FormControl>
@@ -102,6 +111,23 @@ const ShopUpdateForm = ({
                 <FormControl>
                   <Input
                     placeholder="Image URL"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Describe your shop"
                     {...field}
                   />
                 </FormControl>
