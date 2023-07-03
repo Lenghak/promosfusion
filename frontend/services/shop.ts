@@ -78,7 +78,6 @@ const useUpdateShopService = () => {
 
 //* use delete shop service for deleting shop
 const useDeleteShopService = () => {
-  const queryClient = useQueryClient();
   const deleteShop = useDeleteShop();
   return useMutation({
     mutationKey: ["shop-delete"],
