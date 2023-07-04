@@ -37,13 +37,22 @@ const ShopInfoView = ({ shopId }: ShopInfoViewProps) => {
             Members
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="info">
+        <TabsContent
+          value="info"
+          className="max-h-[72.5vh] overflow-y-auto focus-visible:ring-0 focus-visible:ring-offset-0"
+        >
           <ShopInfoBasic shopId={shopId} />
         </TabsContent>
-        <TabsContent value="campaigns">
+        <TabsContent
+          value="campaigns"
+          className="max-h-[72.5vh] overflow-y-auto focus-visible:ring-0 focus-visible:ring-offset-0"
+        >
           <ShopInfoCampaigns />
         </TabsContent>
-        <TabsContent value="members">
+        <TabsContent
+          value="members"
+          className="max-h-[72.5vh] overflow-y-auto focus-visible:ring-0 focus-visible:ring-offset-0"
+        >
           <ShopInfoMembers />
         </TabsContent>
       </Tabs>
