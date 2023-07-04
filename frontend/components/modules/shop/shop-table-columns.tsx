@@ -1,20 +1,10 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 
 import Link from "next/link";
 
 import { ShopUpdateForm } from "@/components/modules/shop/shop-update-form";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
