@@ -12,6 +12,7 @@ export interface Campaign {
   name: string;
   description: string;
   isEnabled: number;
+  createdCoupon: number;
   creatableCoupon: number;
   maxCreatableCoupon: number;
   startAt: string;
