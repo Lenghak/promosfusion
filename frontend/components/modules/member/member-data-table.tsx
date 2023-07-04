@@ -13,15 +13,13 @@ const MemberDataTable = ({}: MemberDataTableProps) => {
   const { data: members } = useGetMembersService();
 
   return (
-    <div className="h-full">
-      <DataTable
-        widget={<MemberCreateForm />}
-        data={members?.data ?? []}
-        columns={MemberColumns}
-        filterBy="name"
-        tableContainerClass="h-[60vh] overflow-y-auto"
-      />
-    </div>
+    <DataTable
+      widget={<MemberCreateForm />}
+      data={members?.data ?? []}
+      columns={MemberColumns}
+      filterBy="name"
+      tableContainerClass="h-[60vh] overflow-y-auto"
+    />
   );
 };
 
