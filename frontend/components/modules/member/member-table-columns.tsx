@@ -1,34 +1,17 @@
 "use client";
 
-import { Fragment } from "react";
-
-import Link from "next/link";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
 // import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { dateFormat } from "@/lib/utils";
-import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteMemberService } from "@/services/member";
-
-import { useHandleDeleteEffect } from "@/hooks/member/use-handle-effect";
-import { usePermission } from "@/hooks/member/use-permission";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { AvatarCard } from "../avatar-card";
-import { MemberDeleteForm } from "./member-delete-form";
-import { MemberUpdateForm } from "./member-update-form";
 
+// import { MemberTableActionCell } from "./member-table-actions/member-table-actions";
 import { Member } from "@/types/member";
 
 const MemberColumns: ColumnDef<Member>[] = [
@@ -170,7 +153,7 @@ const MemberColumns: ColumnDef<Member>[] = [
     enableSorting: true,
   },
   {
-    id: "Created At",
+    id: "Updated At",
     accessorKey: "updatedAt",
     header: ({ column }) => {
       return (
@@ -194,93 +177,7 @@ const MemberColumns: ColumnDef<Member>[] = [
   },
   {
     id: "actions",
-    cell: function Cell({ row }) {
-      const { openDialog } = useDialogStore();
-
-      const {
-        // mutate: deleteMember,
-        isError: isMemberDeleteError,
-        isSuccess: isMemberDeleted,
-      } = useDeleteMemberService();
-
-      const permission = usePermission();
-
-      useHandleDeleteEffect(isMemberDeleteError, isMemberDeleted);
-
-      return (
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="h-8 w-8 p-0"
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(row.original.email)
-                }
-              >
-                Copy Email
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {permission(row.original) && (
-                <DropdownMenuItem>Assigns Shop</DropdownMenuItem>
-              )}
-              <DropdownMenuItem>
-                <Link href={`/members/${row.original.id}`}>View Member</Link>
-              </DropdownMenuItem>
-              {permission(row.original) ? (
-                <DropdownMenuItem
-                  onClick={() =>
-                    openDialog(true, `member-update-dialog-${row.original.id}`)
-                  }
-                >
-                  Update Member
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem disabled>Update Member</DropdownMenuItem>
-              )}
-              <DropdownMenuSeparator />
-
-              {permission(row.original) ? (
-                <DropdownMenuItem
-                  className="font-medium text-destructive"
-                  onClick={() =>
-                    openDialog(true, `member-delete-dialog-${row.original.id}`)
-                  }
-                >
-                  Delete Member
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem
-                  className="font-medium text-destructive"
-                  disabled
-                >
-                  Delete Member
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {permission(row.original) && (
-            <Fragment>
-              <MemberUpdateForm
-                member={row.original}
-                dialogID={`member-update-dialog-${row.original.id}`}
-              />
-              <MemberDeleteForm
-                memberId={`${row.original.id}`}
-                manual
-              />
-            </Fragment>
-          )}
-        </>
-      );
-    },
+    // cell: (args) => <MemberTableActionCell {...args} />,
   },
 ];
 
