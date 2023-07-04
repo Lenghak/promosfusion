@@ -1,5 +1,7 @@
 "use client";
 
+import { Fragment } from "react";
+
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -28,7 +30,6 @@ import { MemberDeleteForm } from "./member-delete-form";
 import { MemberUpdateForm } from "./member-update-form";
 
 import { Member } from "@/types/member";
-import { Fragment } from "react";
 
 const MemberColumns: ColumnDef<Member>[] = [
   // {
@@ -165,6 +166,31 @@ const MemberColumns: ColumnDef<Member>[] = [
         {dateFormat(row.original.createdAt)}
       </div>
     ),
+    enableHiding: true,
+    enableSorting: true,
+  },
+  {
+    id: "Created At",
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className={"w-max whitespace-nowrap"}
+        >
+          Updated At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-max whitespace-nowrap px-4">
+        {dateFormat(row.original.updatedAt)}
+      </div>
+    ),
+    enableHiding: true,
+    enableSorting: true,
   },
   {
     id: "actions",

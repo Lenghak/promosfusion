@@ -100,6 +100,8 @@ const ShopColumns: ColumnDef<Shop>[] = [
     cell: ({ row }) => (
       <div className="h-full w-full px-4">{row.getValue<string>("name")}</div>
     ),
+    enableHiding: true,
+    enableSorting: true,
   },
   {
     accessorKey: "description",
@@ -137,11 +139,34 @@ const ShopColumns: ColumnDef<Shop>[] = [
     },
     cell: ({ row }) => (
       <div className="h-full w-max whitespace-nowrap px-4">
-        {dateFormat(row.original.created_at)}
+        {dateFormat(row.original.createdAt)}
       </div>
     ),
+    enableHiding: true,
+    enableSorting: true,
   },
-
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className={"w-max whitespace-nowrap"}
+        >
+          Updated At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-max whitespace-nowrap px-4">
+        {dateFormat(row.original.updatedAt)}
+      </div>
+    ),
+    enableHiding: true,
+    enableSorting: true,
+  },
   {
     id: "actions",
     cell: function Cell({ row }) {
@@ -170,6 +195,12 @@ const ShopColumns: ColumnDef<Shop>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(row.original.logo)}
+              >
+                Copy Image URL
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link href={`/shops/${row.original.id}`}>View Shop</Link>
               </DropdownMenuItem>
