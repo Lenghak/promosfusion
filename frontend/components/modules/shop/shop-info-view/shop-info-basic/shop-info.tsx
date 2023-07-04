@@ -8,9 +8,7 @@ import { Label } from "@/components/ui/label";
 
 import { useDialogStore } from "@/lib/zustand";
 
-import { useGetShopService } from "@/services/shop";
-
-import { Edit, FileText, Link2, Store } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { Shop } from "@/types/shop";
