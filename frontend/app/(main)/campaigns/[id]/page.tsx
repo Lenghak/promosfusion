@@ -25,14 +25,14 @@ export default async function CampaignDetails({
 
   return (
     <div className="flex flex-col">
-      <div>
+      <div className="px-4">
         <PageTitle
           title="Campaign Detail"
           description="Views the details and lists of your coupons"
         />
       </div>
-      <div>
-        <CampaignDetailsCard />
+      <div className="px-4">
+        <CampaignDetailsCard id={params.id} />
       </div>
       <Hydrate state={dehydratedState}>
         <CampaignCouponsTable id={params.id} />
