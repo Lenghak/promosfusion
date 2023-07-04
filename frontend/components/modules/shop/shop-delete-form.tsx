@@ -51,10 +51,9 @@ const ShopDeleteForm = ({
             asChild
           >
             <Button
-              className={
-                "whitespace-nowrap border-destructive text-destructive"
-              }
+              className="whitespace-nowrap border-destructive text-destructive"
               variant={"outline"}
+              onClick={() => openDialog(true, SHOP_DELETE_DIALOG_ID)}
             >
               Delete Shop
             </Button>
