@@ -47,7 +47,7 @@ const ShopInfoView = ({ shopId }: ShopInfoViewProps) => {
           value="campaigns"
           className="max-h-[72.5vh] overflow-y-auto focus-visible:ring-0 focus-visible:ring-offset-0"
         >
-          <ShopInfoCampaigns />
+          <ShopInfoCampaigns shopId={shopId} />
         </TabsContent>
         <TabsContent
           value="members"
