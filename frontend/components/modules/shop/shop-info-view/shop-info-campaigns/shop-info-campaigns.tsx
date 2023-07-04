@@ -9,7 +9,7 @@ const ShopInfoCampaigns = ({ shopId }: { shopId: string }) => {
   const { data: shop } = useGetShopService(shopId);
   return (
     <section className="flex h-full w-full flex-col gap-4">
-      <div className="flex h-full w-full flex-col items-start justify-center gap-6 p-4">
+      <div className="flex h-full w-full flex-col items-start justify-center gap-2 px-4 py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="flex w-full flex-col gap-1">
             <span className="text-lg font-semibold">Campaigns</span>

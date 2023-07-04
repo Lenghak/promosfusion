@@ -11,7 +11,7 @@ type ShopBasicLogoProps = {
 
 const ShopBasicLogo = ({ logo, shopName }: ShopBasicLogoProps) => {
   return (
-    <div className="flex h-fit w-full flex-col gap-1 p-4 lg:flex-row">
+    <div className="flex h-fit w-full flex-col gap-1 px-4 py-2 lg:flex-row">
       <div className="flex w-full flex-col gap-2">
         <span className="font-semibold">Shop Logo</span>
         <span className="text-sm capitalize text-muted-foreground">
