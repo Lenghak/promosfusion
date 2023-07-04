@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useDialogStore } from "@/lib/zustand";
 
@@ -53,6 +53,7 @@ const useHandleCreatedEffect = (
 const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
   const { toast } = useToast();
   const { replace } = useRouter();
+  const pathName = usePathname();
 
   const queryClient = useQueryClient();
 
@@ -70,10 +71,10 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         title: "Account deleted Successfully",
         description: "User that the account can no longer logged in",
       });
+      pathName !== "/members" ? replace("/members") : null;
       queryClient.invalidateQueries(["members"]).then();
-      replace("/members");
     }
-  }, [replace, isError, isSuccess, toast, queryClient]);
+  }, [replace, isError, isSuccess, toast, queryClient, pathName]);
 };
 
 const useHandleUpdatedEffect = (

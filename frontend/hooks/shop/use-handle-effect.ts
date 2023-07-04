@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { usePathname, useRouter } from "next/navigation";
+
 import { useDialogStore } from "@/lib/zustand";
 
 import { useToast } from "@/hooks/use-toast";
@@ -68,6 +70,9 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
+  const { replace } = useRouter();
+  const pathName = usePathname();
+
   useEffect(() => {
     if (isError) {
       toast({
@@ -84,9 +89,10 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
           "The shop data has been removed along with its campaigns and coupons.",
         variant: "default",
       });
+      pathName !== "/shops" ? replace("/shops") : null;
       queryClient.invalidateQueries(["shops"]).then();
     }
-  }, [isError, isSuccess, toast, queryClient]);
+  }, [isError, isSuccess, toast, queryClient, replace, pathName]);
 };
 
 export { useHandleCreateEffect, useHandleUpdatedEffect, useHandleDeleteEffect };
