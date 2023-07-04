@@ -4,22 +4,28 @@ import { useAxiosAuth } from "@/hooks/use-axios-auth";
 
 import { authorizeAxios } from "./authorize";
 import { authorizedAxios } from "./axios";
+import { CreateCampaignData } from "@/types/campaign";
 
 const getCampaigns: () => Promise<Campaign[]> = async () => {
   const axios = await authorizeAxios();
-  return axios.get("/campagins").then((res) => res.data);
+  return axios.get("/campaigns").then((res) => res.data);
 };
 
 const useGetCampaigns = () => {
   const axios = useAxiosAuth();
-  return async () => axios.get("/campagins").then((res) => res.data);
+  return async () => axios.get("/campaigns").then((res) => res.data);
 };
 
 const useGetCampaign = (campaignId: string) => {
   const axios = useAxiosAuth();
   return async () => axios
-    .get(`/campaigns/${campaignId}`)
+    .get<{data: Campaign}>(`/campaigns/${campaignId}`)
     .then((res) => res.data);
 }
 
-export { useGetCampaigns, getCampaigns, useGetCampaign };
+const useCreateCampaign = () => {
+  const authorizedAxios = useAxiosAuth();
+  return async (data: CreateCampaignData) => authorizedAxios.post("/campaigns", data);
+};
+
+export { useGetCampaigns, getCampaigns, useGetCampaign, useCreateCampaign };

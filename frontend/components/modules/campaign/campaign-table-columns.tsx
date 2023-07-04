@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,40 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+type Coupon = {
+  id: number;
+  currentStatus: string;
+  cuid: string;
+  description: string | null;
+  createdBy: number;
+  updatedBy: number;
+  campaignId: number;
+  belongTo: null | any; // Replace `any` with the appropriate type if available
+  token: string;
+  expiredAt: string;
+  createdAt: string;
+  updatedAt: string;
+  couponDisplay: {
+    id: number;
+    logo: string;
+    company: string;
+    title: string;
+    description: string;
+    name: string;
+    promotion: string;
+    html: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  transactions: {
+    id: number;
+    status: string;
+    description: string;
+    createdBy: number;
+    createdAt: string;
+  }[];
+};
+
 export type Campaign = {
   id: number;
   cauid: string;
@@ -21,9 +57,12 @@ export type Campaign = {
   description: string;
   createdCoupon: number;
   creatableCoupon: number;
-  type: string;
+  maxCreatableCoupon: number;
+  couponType: string;
   createdAt: string;
   startAt: string;
+  updatedAt: string;
+  coupons: Coupon[];
   endAt: string;
   status: string;
 };
@@ -42,32 +81,48 @@ export const columns: ColumnDef<Campaign>[] = [
     header: "Description",
   },
   {
-    accessorKey: "creatableCoupon",
+    accessorKey: "maxCreatableCoupon",
     header: "Coupons",
     cell: ({ row }) => {
-      const { createdCoupon, creatableCoupon } = row.original;
+      const { maxCreatableCoupon, creatableCoupon } = row.original;
+      const createdCoupon = maxCreatableCoupon - creatableCoupon;
       return (
         <span>
-          {createdCoupon} / {creatableCoupon}
+          {createdCoupon} / {maxCreatableCoupon}
         </span>
       );
     },
   },
   {
-    accessorKey: "type",
+    accessorKey: "couponType",
     header: "Type",
   },
   {
     accessorKey: "createdAt",
     header: "Created Date",
+    cell: ({ row }) => {
+      const { createdAt } = row.original;
+      const formattedDate = new Date(createdAt).toLocaleDateString("en-GB");
+      return <span>{formattedDate}</span>;
+    },
   },
   {
     accessorKey: "startAt",
     header: "Valid From",
+    cell: ({ row }) => {
+      const { startAt } = row.original;
+      const formattedDate = new Date(startAt).toLocaleDateString("en-GB");
+      return <span>{formattedDate}</span>;
+    },
   },
   {
     accessorKey: "endAt",
     header: "Expires Date",
+    cell: ({ row }) => {
+      const { endAt } = row.original;
+      const formattedDate = new Date(endAt).toLocaleDateString("en-GB");
+      return <span>{formattedDate}</span>;
+    },
   },
   {
     accessorKey: "status",
@@ -101,8 +156,13 @@ export const columns: ColumnDef<Campaign>[] = [
               Copy Campaign ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            {/* Create Coupon Handle Here */}
             <DropdownMenuItem>Create Coupon</DropdownMenuItem>
-            <DropdownMenuItem>View Campaign Details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/campaigns/${campaign.id}`}>
+                View Campaign Details
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

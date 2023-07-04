@@ -1,4 +1,4 @@
-export { CampaignTable } from './campaign-table';
-export { CampaignTitle } from './campaign-title';
-export { CampaignDetailsCard } from './campaign-details-card';
-export { CampaignDialogCreationForm } from './campaign-dialog-creation-form';
+export { CampaignTable } from "./campaign-table";
+export { CampaignTitle } from "./campaign-title";
+export { CampaignDetailsCard } from "./campaign-details-card";
+export { CampaignCreateForm } from "./campaign-create-form";

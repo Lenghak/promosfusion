@@ -7,7 +7,7 @@ export interface Campaigns {
 }
 
 export interface Campaign {
-  id: number;
+  id: number | string;
   cauid: string;
   name: string;
   description: string;
@@ -55,3 +55,15 @@ export interface CampaignMetaLink {
   label: string;
   active: boolean;
 }
+
+export type CreateCampaignData = {
+  name: string;
+  description?: string;
+  maxCreatableCoupon: number;
+  type: string;
+  startAt: string;
+  endAt: string;
+  couponType: string;
+  couponDetail: CouponDetail;
+  shopIds: number[];
+};
