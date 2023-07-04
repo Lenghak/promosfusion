@@ -53,7 +53,7 @@ const ShopInfoView = ({ shopId }: ShopInfoViewProps) => {
           value="members"
           className="max-h-[72.5vh] overflow-y-auto focus-visible:ring-0 focus-visible:ring-offset-0"
         >
-          <ShopInfoMembers />
+          <ShopInfoMembers shopId={shopId} />
         </TabsContent>
       </Tabs>
     </div>
