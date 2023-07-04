@@ -13,15 +13,13 @@ const ShopDataTable = ({}: ShopTableProps) => {
   const { data: shops } = useGetShopsService();
 
   return (
-    <div className="h-full">
-      <DataTable
-        widget={<ShopCreateForm />}
-        data={shops?.data.data ?? []}
-        columns={ShopColumns}
-        filterBy="name"
-        tableContainerClass="h-[60vh] overflow-y-auto"
-      />
-    </div>
+    <DataTable
+      widget={<ShopCreateForm />}
+      data={shops?.data.data ?? []}
+      columns={ShopColumns}
+      filterBy="name"
+      tableContainerClass="h-[60vh] overflow-y-auto"
+    />
   );
 };
 
