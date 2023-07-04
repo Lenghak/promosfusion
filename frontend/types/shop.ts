@@ -9,8 +9,8 @@ export type Shops = {
 
 export type Shop = {
   id: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   name: string;
   description: string;
   logo: string;
@@ -27,12 +27,12 @@ export type ShopsLinks = {
 };
 
 export type Meta = {
-  current_page: number;
+  currentPage: number;
   from: number;
-  last_page: number;
+  lastPage: number;
   links: ShopMetaLink[];
   path: string;
-  per_page: number;
+  perPage: number;
   to: number;
   total: number;
 };
