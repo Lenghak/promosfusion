@@ -16,7 +16,7 @@ const ShopInfoDelete = ({ shop }: { shop?: Shop }) => {
           <span className="text-lg font-semibold">Delete Shop</span>
           <span className="text-sm text-muted-foreground">
             Delete and remove this shop from our server along with its campaigns
-            and coupons.
+            and coupons
           </span>
         </div>
       </div>
