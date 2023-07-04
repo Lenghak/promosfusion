@@ -21,7 +21,7 @@ import { useCreateShopService } from "@/services/shop";
 
 import { useHandleCreateEffect } from "@/hooks/shop";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import z from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
@@ -75,7 +75,7 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
           asChild
         >
           <Button className="w-fit gap-4 px-3 lg:px-4">
-            <PlusCircle size={18} />
+            <Plus size={18} />
             <span className="hidden lg:inline-block">Add Shop</span>
           </Button>
         </DialogTrigger>
