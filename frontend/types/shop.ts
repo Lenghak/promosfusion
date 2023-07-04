@@ -1,3 +1,6 @@
+import { Campaign } from "@/types/campaign";
+import { Member } from "@/types/member";
+
 export type Shops = {
   data: Shop[];
   links: ShopsLinks;
@@ -12,6 +15,8 @@ export type Shop = {
   description: string;
   logo: string;
   deleted_at: string;
+  users: Member[];
+  campaigns: Campaign[];
 };
 
 export type ShopsLinks = {
