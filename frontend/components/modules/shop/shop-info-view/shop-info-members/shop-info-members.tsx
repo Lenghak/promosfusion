@@ -1,6 +1,7 @@
 "use client";
 
 import { MemberColumns } from "@/components/modules/member";
+import { ShopAssignForm } from "@/components/modules/shop/shop-info-view/shop-info-members/shop-assign-member-form";
 import { DataTable } from "@/components/ui/data-table";
 
 import { useGetShopService } from "@/services/shop";
@@ -25,6 +26,7 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
             data={shop?.data.users ?? []}
             columns={MemberColumns}
             tableContainerClass="h-[42vh] overflow-y-auto"
+            widget={<ShopAssignForm dialogID={`shop-assign-form-${shopId}`} />}
           />
         </div>
       </div>
