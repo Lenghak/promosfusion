@@ -15,7 +15,7 @@ const ShopDataTable = ({}: ShopTableProps) => {
   return (
     <DataTable
       widget={<ShopCreateForm />}
-      data={shops?.data.data ?? []}
+      data={shops?.data ?? []}
       columns={ShopColumns}
       filterBy="name"
       tableContainerClass="h-[60vh] overflow-y-auto"
