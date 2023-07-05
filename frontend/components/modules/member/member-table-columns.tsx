@@ -4,7 +4,7 @@ import { Fragment } from "react";
 
 import Link from "next/link";
 
-import { MemberAssignForm } from "@/components/modules/member/member-assign-shop-form";
+import { MemberAssignForm } from "@/components/modules/member/member-assign-form";
 import { MemberDeleteForm } from "@/components/modules/member/member-delete-form";
 import { MemberUpdateForm } from "@/components/modules/member/member-update-form";
 import { Badge } from "@/components/ui/badge";
