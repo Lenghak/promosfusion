@@ -1,5 +1,12 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+
+import { useGetCampaignService } from "@/services/campaign";
+import { useGetMemberService } from "@/services/member";
+
+import { number } from "zod";
 
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
@@ -14,56 +21,112 @@ const getStatusBadgeColor = (status: string) => {
   }
 };
 
-const CampaignDetailsCard = () => {
+type CampaignDetailsCardProps = {
+  id?: number | string;
+  status?: string;
+  createdDate?: string;
+};
+
+const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
+  const {
+    data: campaign,
+    isError: isGetCampaignsError,
+    isLoading: isGettingCampaigns,
+    isFetching: isFetchingCampaigns,
+  } = useGetCampaignService(`${id!!}`);
+
+  let userId = campaign?.coupons[0]?.transactions[0]?.createdBy;
+
+  const { data: user } = useGetMemberService(`${userId!!}`);
+
+  let createdCoupon;
+  if (campaign && campaign.maxCreatableCoupon && campaign.creatableCoupon) {
+    createdCoupon = campaign.maxCreatableCoupon - campaign.creatableCoupon;
+  }
+
+  const formattedDate = (date: string): string => {
+    return new Date(date).toLocaleDateString("en-GB");
+  };
+
+  const formattedDateWithTimeZone = (date: string): string => {
+    const newDate = new Date(date);
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    };
+    const formatted = newDate.toLocaleDateString("en-GB", options);
+    return formatted;
+  };
+
   return (
     <Card>
-      <CardContent className="grid grid-cols-2 grid-flow-row py-4 px-6">
-        <div className="grid grid-flow-row">
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>ID</div>
-            <div>ID Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Name</div>
-            <div>Name Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Description</div>
-            <div>Description Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Coupon</div>
-            <div>Coupon Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Created At</div>
-            <div>Create Date Data</div>
-          </div>
-        </div>
-        <div className="grid grid-flow-row">
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Created By</div>
-            <div>Created By Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Valid From</div>
-            <div>Valid From Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Expires At</div>
-            <div>Expires At Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Last Updated At</div>
-            <div>Last Updated At Data</div>
-          </div>
-          <div className="grid grid-cols-2 grid-flow-col">
-            <div>Status</div>
-            <div>
-              <Badge>Staus Data and Color</Badge>
+      <CardContent className="px-6 py-4">
+        {isGettingCampaigns ? (
+          <div>Loading campaign detail...</div>
+        ) : isGetCampaignsError ? (
+          <div>Error loading campaign detail</div>
+        ) : (
+          campaign && (
+            <div className="grid grid-flow-row grid-cols-2">
+              <div className="grid grid-flow-row gap-1">
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>ID</div>
+                  <div>{campaign?.id}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Name</div>
+                  <div>{campaign?.name}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Description</div>
+                  <div>{campaign?.description}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Coupon</div>
+                  <div>
+                    {createdCoupon} / {campaign?.maxCreatableCoupon}
+                  </div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Created At</div>
+                  <div>
+                    {formattedDateWithTimeZone(campaign?.createdAt ?? "")}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-flow-row gap-1">
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Created By</div>
+                  {/* <div>{campaign?.coupons[0]?.transactions[0]?.createdBy}</div> */}
+                  <div>{user?.data?.name}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Valid From</div>
+                  <div>{formattedDate(campaign?.startAt ?? "")}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Expires At</div>
+                  <div>{formattedDate(campaign?.endAt ?? "")}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Last Updated At</div>
+                  <div>
+                    {formattedDateWithTimeZone(campaign?.updatedAt ?? "")}
+                  </div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div>Status</div>
+                  <div>
+                    <Badge color={getStatusBadgeColor(campaign?.status ?? "")}>
+                      {campaign?.status}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )
+        )}
       </CardContent>
     </Card>
   );

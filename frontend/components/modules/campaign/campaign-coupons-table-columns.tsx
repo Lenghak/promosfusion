@@ -6,13 +6,13 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type Coupon = {
   id: number;
-  cauid: string;
-  createdCoupon: number;
+  cuid: string;
   createdAt: string;
-  verifiedDate: string;
+  currentStatus: string;
+// verifiedDate: string;
+// verifiedBy: string;
 //   startAt: string;
 //   endAt: string;
-  status: string;
 };
 
 export const columns: ColumnDef<Coupon>[] = [
@@ -21,34 +21,40 @@ export const columns: ColumnDef<Coupon>[] = [
     header: "No",
   },
   {
-    accessorKey: "cauid",
+    accessorKey: "cuid",
     header: "CID",
   },
   {
-    accessorKey: "status",
+    accessorKey: "currentStatus",
     header: "Status",
     cell: ({ row }) => (
-      <Badge color={getStatusBadgeColor(row.original.status)}>
-        {row.original.status}
+      <Badge color={getStatusBadgeColor(row.original.currentStatus)}>
+        {row.original.currentStatus}
       </Badge>
     ),
   },
   {
     accessorKey: "createdAt",
     header: "Created Date",
+    cell: ({ row }) => {
+      const { createdAt } = row.original;
+      const formattedDate = new Date(createdAt).toLocaleDateString("en-GB");
+      return <span>{formattedDate}</span>;
+    },
   },
-  {
-    accessorKey: "verifiedDate",
-    header: "Verified Date",
-  },
-//   {
-//     accessorKey: "startAt",
-//     header: "Valid From",
-//   },
-//   {
-//     accessorKey: "endAt",
-//     header: "Expires Date",
-//   },
+  // {
+  //   accessorKey: "verifiedDate",
+  //   header: "Verified Date",
+  //   cell: ({ row }) => {
+  //     const { verifiedDate } = row.original;
+  //     const formattedDate = new Date(verifiedDate).toLocaleDateString("en-GB");
+  //     return <span>{formattedDate}</span>;
+  //   },
+  // },
+  // {
+  //   accessorKey: "verifiedBy",
+  //   header: "Verified By",
+  // },
 ];
 
 const getStatusBadgeColor = (status: string) => {

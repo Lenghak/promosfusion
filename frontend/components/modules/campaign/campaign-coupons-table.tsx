@@ -5,11 +5,12 @@ import { DataTable } from "@/components/ui/data-table";
 import { useGetCampaignService } from "@/services/campaign";
 import { useGetCouponsService } from "@/services/coupon";
 
+import { CouponProvide } from "../coupon/coupon-provide";
 import { columns } from "./campaign-coupons-table-columns";
 
 type CampaignCouponsTableProps = {
   id?: number | string;
-  cauid?: string;
+  cuid?: string;
   status?: string;
   createdDate?: string;
   verifyDate?: string;
@@ -23,19 +24,22 @@ const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
     isError: isGetCampaignsError,
     isLoading: isGettingCampaigns,
     isFetching: isFetchingCampaigns,
-  } = useGetCampaignService("campaignId");
+  } = useGetCampaignService(`${id!!}`);
 
-  const { data } = useGetCouponsService(`${id!!}`);
+  const { data: coupons } = useGetCouponsService(`${id!!}`);
 
-  console.log(data);
+  console.log(coupons?.data?.data);
 
-  console.log(campaign?.data);
+  // console.log(campaign?.id);
 
   return (
     <div className="p-4">
       <DataTable
+        widget={<CouponProvide campaignId={`${campaign?.id}`} />}
+        filterBy="createdAt"
+        tableContainerClass="h-[38vh] overflow-y-auto"
         columns={columns}
-        data={campaign?.data || []}
+        data={coupons?.data?.data || []}
       />
     </div>
   );

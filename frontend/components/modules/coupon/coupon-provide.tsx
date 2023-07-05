@@ -37,9 +37,13 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
       dialogTrigger={
         <DialogTrigger
           className="p-2"
+          asChild
           onClick={() => generateCoupon()}
         >
-          <Plus size={18} />
+          <Button className="w-fit gap-4 px-3 lg:px-4">
+            <Plus size={18} />
+            <span className="hidden lg:inline-block">Create Coupon</span>
+          </Button>
         </DialogTrigger>
       }
       alertTitle={"Are you absolutely sure?"}
