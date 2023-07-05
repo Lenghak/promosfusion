@@ -25,7 +25,7 @@ import {
 import { cn, dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useGetShopsService } from "@/services/shop";
+import { useAssignShopService, useGetShopsService } from "@/services/shop";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, Loader2 } from "lucide-react";
@@ -52,6 +52,8 @@ const MemberAssignForm = ({
 
   const { data: shops, isLoading: isQueryingShop } = useGetShopsService();
 
+  const { mutate: assignShop } = useAssignShopService();
+
   const form = useForm<z.infer<typeof MemberAssignSchema>>({
     resolver: zodResolver(MemberAssignSchema),
     defaultValues: {
@@ -76,9 +78,11 @@ const MemberAssignForm = ({
           <form
             onSubmit={form.handleSubmit(
               (values: z.infer<typeof MemberAssignSchema>) =>
-                console.log({
-                  userId: member.id,
+                assignShop({
                   shopId: values.shopId,
+                  data: {
+                    userIds: [`${member.id}`],
+                  },
                 })
             )}
             className="w-full space-y-4"
