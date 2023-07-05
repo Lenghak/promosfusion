@@ -16,56 +16,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-type Coupon = {
-  id: number;
-  currentStatus: string;
-  cuid: string;
-  description: string | null;
-  createdBy: number;
-  updatedBy: number;
-  campaignId: number;
-  belongTo: null | any; // Replace `any` with the appropriate type if available
-  token: string;
-  expiredAt: string;
-  createdAt: string;
-  updatedAt: string;
-  couponDisplay: {
-    id: number;
-    logo: string;
-    company: string;
-    title: string;
-    description: string;
-    name: string;
-    promotion: string;
-    html: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-  transactions: {
-    id: number;
-    status: string;
-    description: string;
-    createdBy: number;
-    createdAt: string;
-  }[];
-};
-
-export type Campaign = {
-  id: number;
-  cauid: string;
-  name: string;
-  description: string;
-  createdCoupon: number;
-  creatableCoupon: number;
-  maxCreatableCoupon: number;
-  couponType: string;
-  createdAt: string;
-  startAt: string;
-  updatedAt: string;
-  coupons: Coupon[];
-  endAt: string;
-  status: string;
-};
+import { Campaign } from "@/types/campaign";
 
 export const columns: ColumnDef<Campaign>[] = [
   {

@@ -3,9 +3,8 @@
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import {
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -15,6 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -26,18 +30,29 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useCreateCampaignService } from "@/services/campaign";
 
 import { useHandleCreateEffect } from "@/hooks/campaign";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Plus } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Loader2, Plus } from "lucide-react";
 import { z } from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
 
 type CampaignCreateFormProps = {};
+
+const CouponBogoType = z.object({
+  buy: z.number(),
+  get: z.number(),
+});
+
+const PercentNFixedPrice = z.object({
+  value: z.number(),
+});
 
 const campaignCreateFormSchema = z.object({
   name: z.string({ required_error: "Name your campaign" }).min(3, {
@@ -52,29 +67,21 @@ const campaignCreateFormSchema = z.object({
       (value) => value > 0,
       "Max creatable coupon must be greater than 0"
     ),
-  type: z
-    .string({ required_error: "Select type of campaign" })
-    .refine(
-      (value) => ["general", "public", "strict", "share"].includes(value),
-      "Invalid campaign type"
-    ),
-  startAt: z.string({ required_error: "Select valid date of campaign" }),
-  endAt: z.string({ required_error: "Select expires date of campaign" }),
-  couponType: z
-    .string({ required_error: "Select the coupons type" })
-    .refine(
-      (value) => ["Percent Based", "Fixed Price", "BOGO"].includes(value),
-      "Invalid coupons type"
-    ),
-  couponDetail: z.object({
-    // Define the structure of the coupon details JSON object here
-    // Example:
-    value: z.string({ required_error: "Coupon tyepe detail is required" }),
-    discount: z.number({ required_error: "Coupon tyepe detail is required" }),
+  type: z.enum(["general", "public", "strict", "share"], {
+    required_error: "Select a campaign type",
+    invalid_type_error: "Invalid Campaign Type",
   }),
-  shopIds: z.array(
-    z.number({ required_error: "Assign the campaign to shop(s)" })
-  ),
+  startAt: z.date({ required_error: "Select valid date of campaign" }),
+  endAt: z.date({ required_error: "Select expires date of campaign" }),
+
+  couponType: z.enum(["Percent Based", "Fixed Price", "BOGO"], {
+    required_error: "Select a coupons type",
+    invalid_type_error: "Invalid coupons type",
+  }),
+
+  couponDetail: z.union([CouponBogoType, PercentNFixedPrice]),
+
+  shopIds: z.string({ required_error: "Assign the campaign to shop(s)" }),
 });
 
 const CAMPAIGN_CREATE_DIALOG_ID = "campaign-create-dialog-id";
@@ -87,7 +94,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
       description: "",
       maxCreatableCoupon: 1,
       type: "general",
-      couponType: "Percent Based",
+      // couponType: "Percent Based",
     },
     shouldUnregister: true,
   });
@@ -134,7 +141,13 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
         <form
           onSubmit={form.handleSubmit(
             (values: z.infer<typeof campaignCreateFormSchema>) =>
-              createCampaign(values)
+              createCampaign({
+                ...values,
+                startAt: format(values.startAt, "yyyy/MM/dd"),
+                endAt: format(values.endAt, "yyyy/MM/dd"),
+                shopIds: [values.shopIds],
+                couponDetail: JSON.stringify(values.couponDetail),
+              })
           )}
           className="flex flex-col space-y-4"
         >
@@ -164,9 +177,12 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                   <FormLabel>Max Coupon</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
+                      type={"number"}
                       placeholder="16"
                       {...field}
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value))
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -201,6 +217,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                 <FormControl>
                   <Select
                     defaultValue="general"
+                    onValueChange={field.onChange}
                     {...field}
                   >
                     <SelectTrigger className="w-full">
@@ -222,20 +239,45 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
             )}
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex w-full gap-4">
             <FormField
               control={form.control}
               name="startAt"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="flex w-full flex-col">
                   <FormLabel>Start Date</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      placeholder="16"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                    >
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -245,15 +287,39 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
               control={form.control}
               name="endAt"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="flex w-full flex-col">
                   <FormLabel>Expires Date</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      placeholder="16"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                    >
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
@@ -269,11 +335,12 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                   <FormLabel>Coupon Type</FormLabel>
                   <FormControl>
                     <Select
-                      defaultValue="Percent Based"
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
                       {...field}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Percent Based" />
+                        <SelectValue placeholder="Select a coupon type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
@@ -294,22 +361,81 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="couponDetail"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Coupon Type Detail</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="20%"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Percentage Field */}
+            {(form.watch("couponType") === "Percent Based" ||
+              form.watch("couponType") === "Fixed Price") && (
+              <FormField
+                control={form.control}
+                name={"couponDetail.value"}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Coupon Type Detail</FormLabel>
+                    <FormControl>
+                      <Input
+                        type={"number"}
+                        placeholder={
+                          form.watch("couponType") === "Percent Based"
+                            ? "Enter a percent"
+                            : "Enter a price"
+                        }
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseFloat(e.target.value))
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {/* BOGO Field */}
+            {form.getValues("couponType") === "BOGO" && (
+              <div>
+                <FormField
+                  control={form.control}
+                  name={"couponDetail.buy"}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Coupon Type Detail</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={"number"}
+                          placeholder="20%"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={"couponDetail.get"}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Coupon Type Detail</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={"number"}
+                          placeholder="20%"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           <FormField
@@ -319,7 +445,11 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
               <FormItem className="w-full">
                 <FormLabel>Shop List</FormLabel>
                 <FormControl>
-                  <Select {...field}>
+                  <Select
+                    {...field}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select shops" />
                     </SelectTrigger>
@@ -327,11 +457,9 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                       <SelectGroup>
                         <SelectLabel>Your Shop List</SelectLabel>
                         {/* Handle Shop Here */}
-                        <SelectItem value={2}>
-                          Percent Based
-                        </SelectItem>
-                        <SelectItem value={3}>Fixed Price</SelectItem>
-                        <SelectItem value={4}>BOGO</SelectItem>
+                        <SelectItem value={`2`}>Percent Based</SelectItem>
+                        <SelectItem value={`3`}>Fixed Price</SelectItem>
+                        <SelectItem value={`4`}>BOGO</SelectItem>
                         {/* End Here */}
                       </SelectGroup>
                     </SelectContent>
