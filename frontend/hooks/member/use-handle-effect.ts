@@ -104,8 +104,38 @@ const useHandleUpdatedEffect = (
   }, [toast, isError, isSuccess, dialogId, openDialog]);
 };
 
+const useHandleAssignShopEffect = (
+  isError: boolean,
+  isSuccess: boolean,
+  dialogId: string
+) => {
+  const { toast } = useToast();
+  const { openDialog } = useDialogStore();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (isError)
+      toast({
+        title: "Member Assigned Failed",
+        description: "There was a problem assigning the member",
+        variant: "destructive",
+      });
+
+    if (isSuccess) {
+      toast({
+        title: "Member Assigned Successfully",
+        description: "You can view the list of assigned members in shop.",
+      });
+      openDialog(false, dialogId);
+      queryClient.invalidateQueries(["shops", "members"]).then((res) => res);
+    }
+  }, [isError, isSuccess, toast, openDialog, dialogId, queryClient]);
+};
+
 export {
   useHandleCreatedEffect,
   useHandleDeleteEffect,
   useHandleUpdatedEffect,
+  useHandleAssignShopEffect,
 };
