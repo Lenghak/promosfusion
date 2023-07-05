@@ -16,6 +16,7 @@ export type Coupon = {
   expiredAt: string;
   updatedAt: string;
   couponDisplay: CouponDisplay;
+  transactions: Transaction[];
 };
 
 export type CouponDisplay = {
@@ -69,4 +70,12 @@ export interface CouponsMetaLink {
   url?: string;
   label: string;
   active: boolean;
+}
+
+export interface Transaction {
+  id: number;
+  status: string;
+  description: string;
+  createdBy: number;
+  createdAt: string;
 }
