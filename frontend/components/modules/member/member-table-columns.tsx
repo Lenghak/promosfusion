@@ -4,6 +4,7 @@ import { Fragment } from "react";
 
 import Link from "next/link";
 
+import { MemberAssignForm } from "@/components/modules/member/member-assign-shop-form";
 import { MemberDeleteForm } from "@/components/modules/member/member-delete-form";
 import { MemberUpdateForm } from "@/components/modules/member/member-update-form";
 import { Badge } from "@/components/ui/badge";
@@ -227,8 +228,19 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {/* Assigning Member */}
-              {permission(cell.row.original) && (
-                <DropdownMenuItem>Assigns to Shop</DropdownMenuItem>
+              {permission(cell.row.original) ? (
+                <DropdownMenuItem
+                  onClick={() =>
+                    openDialog(
+                      true,
+                      `member-assign-dialog-${cell.row.original.id}`
+                    )
+                  }
+                >
+                  Assign to
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem disabled>Update Member</DropdownMenuItem>
               )}
               <DropdownMenuItem>
                 <Link href={`/members/${cell.row.original.id}`}>
@@ -283,6 +295,11 @@ const MemberColumns: ColumnDef<Member>[] = [
               <MemberDeleteForm
                 memberId={`${cell.row.original.id}`}
                 manual
+              />
+
+              <MemberAssignForm
+                member={cell.row.original}
+                dialogID={`member-assign-dialog-${cell.row.original.id}`}
               />
             </Fragment>
           )}
