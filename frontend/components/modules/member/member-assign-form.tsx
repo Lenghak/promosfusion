@@ -27,6 +27,7 @@ import { useDialogStore } from "@/lib/zustand";
 
 import { useAssignShopService, useGetShopsService } from "@/services/shop";
 
+import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, Loader2 } from "lucide-react";
 import z from "zod";
@@ -52,7 +53,12 @@ const MemberAssignForm = ({
 
   const { data: shops, isLoading: isQueryingShop } = useGetShopsService();
 
-  const { mutate: assignShop } = useAssignShopService();
+  const {
+    mutate: assignShop,
+    isError: isAssignedError,
+    isLoading: isAssigning,
+    isSuccess: isAssigned,
+  } = useAssignShopService();
 
   const form = useForm<z.infer<typeof MemberAssignSchema>>({
     resolver: zodResolver(MemberAssignSchema),
@@ -61,6 +67,12 @@ const MemberAssignForm = ({
     },
     shouldUnregister: true,
   });
+
+  useHandleAssignShopEffect(
+    isAssignedError,
+    isAssigned,
+    `member-assign-dialog-${member.id}`
+  );
 
   return (
     <DialogWithAlert
@@ -183,6 +195,20 @@ const MemberAssignForm = ({
           <span>Getting Shops...</span>
         </div>
       )}
+
+      {isAssigning ? (
+        <div
+          className={
+            "fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background"
+          }
+        >
+          <Loader2
+            size={24}
+            className={"animate-spin"}
+          />
+          <span>Assigning Shop...</span>
+        </div>
+      ) : null}
     </DialogWithAlert>
   );
 };
