@@ -95,7 +95,13 @@ const useAssignShopService = () => {
 
   return useMutation({
     mutationKey: ["shop-assign"],
-    mutationFn: async (data: AssignShopData) => await assignShop(data),
+    mutationFn: async ({
+      shopId,
+      data,
+    }: {
+      shopId: string | number;
+      data: AssignShopData;
+    }) => await assignShop(shopId, data),
     onSettled: async () => {
       await queryClient.invalidateQueries(["shops", "members"]);
     },
@@ -108,7 +114,13 @@ const useDismissShopService = () => {
 
   return useMutation({
     mutationKey: ["shop-assign"],
-    mutationFn: async (data: DismissShopData) => await dismissShop(data),
+    mutationFn: async ({
+      shopId,
+      data,
+    }: {
+      shopId: string | number;
+      data: DismissShopData;
+    }) => await dismissShop(shopId, data),
     onSettled: async () => {
       await queryClient.invalidateQueries(["shops", "members"]);
     },

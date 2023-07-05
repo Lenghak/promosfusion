@@ -33,7 +33,7 @@ const useGetShops = () => {
 const useGetShop = () => {
   const authorizedAxios = useAxiosAuth();
   return async (shopId: string) =>
-    authorizedAxios.get<{ data: Shop }  >(`/shops/${shopId}`);
+    authorizedAxios.get<{ data: Shop }>(`/shops/${shopId}`);
 };
 
 //* shop creator hook
@@ -58,15 +58,15 @@ const useDeleteShop = () => {
 //* shop assigner
 const useAssignShop = () => {
   const authorizedAxios = useAxiosAuth();
-  return async (data: AssignShopData) =>
-    authorizedAxios.post("/shops/assigns", data);
+  return async (shopId: string | number, data: AssignShopData) =>
+    authorizedAxios.post(`/shops/${shopId}/assign`, data);
 };
 
-//* shop dimisser
+//* shop dissembler
 const useDismissShop = () => {
   const authorizedAxios = useAxiosAuth();
-  return async (data: DismissShopData) =>
-    authorizedAxios.post("/shops/dismiss", data);
+  return async (shopId: string | number, data: DismissShopData) =>
+    authorizedAxios.post(`/shops/${shopId}/dismiss`, data);
 };
 
 export {
