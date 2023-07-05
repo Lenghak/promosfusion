@@ -1,4 +1,4 @@
-import { CouponDisplay } from "@/types/coupon";
+import { Coupon, CouponDisplay } from "@/types/coupon";
 
 export interface Campaigns {
   data: Campaign[];
@@ -20,16 +20,13 @@ export interface Campaign {
   status: string;
   type: string;
   couponType: string;
-  couponDetail: CouponDetail;
+  couponDetail: string;
+  coupons: Coupon[];
   couponDisplay: CouponDisplay;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
   updatedBy: string;
-}
-
-export interface CouponDetail {
-  value: number;
 }
 
 export interface CampaignsLinks {
@@ -64,6 +61,6 @@ export type CreateCampaignData = {
   startAt: string;
   endAt: string;
   couponType: string;
-  couponDetail: CouponDetail;
-  shopIds: number[];
+  couponDetail: string;
+  shopIds: string[];
 };

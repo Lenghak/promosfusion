@@ -1,7 +1,4 @@
-import { Campaign } from "@/components/modules/campaign/campaign-table-columns";
-
 import {
-  getCampaigns,
   useCreateCampaign,
   useGetCampaign,
   useGetCampaigns,
