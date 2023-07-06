@@ -1,14 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import { cn } from "@/lib/utils";
+
 type AvatarCardProps = {
   name: string;
   info: string;
   image: string;
+  className?: string;
 };
 
-const AvatarCard = ({ name, info, image }: AvatarCardProps) => {
+const AvatarCard = ({ name, info, image, className }: AvatarCardProps) => {
   return (
-    <div className="flex cursor-pointer flex-nowrap items-center gap-4">
+    <div
+      className={cn(
+        "flex cursor-pointer flex-nowrap items-center gap-4",
+        className
+      )}
+    >
       <Avatar className={"cursor-pointer"}>
         <AvatarImage src={image} />
         <AvatarFallback className="font-medium uppercase">
