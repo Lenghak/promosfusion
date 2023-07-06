@@ -89,7 +89,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
           "The shop data has been removed along with its campaigns and coupons.",
         variant: "default",
       });
-      pathName !== "/shops" ? replace("/shops") : null;
+      pathName.startsWith("/shops/") ? replace("/shops") : null;
       queryClient.invalidateQueries(["shops"]).then();
     }
   }, [isError, isSuccess, toast, queryClient, replace, pathName]);

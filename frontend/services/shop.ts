@@ -103,7 +103,8 @@ const useAssignShopService = () => {
       data: AssignShopData;
     }) => await assignShop(shopId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops", "members"]);
+      await queryClient.invalidateQueries(["shops"]);
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };
@@ -122,7 +123,8 @@ const useDismissShopService = () => {
       data: DismissShopData;
     }) => await dismissShop(shopId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops", "members"]);
+      await queryClient.invalidateQueries(["shops"]);
+      await queryClient.invalidateQueries(["members"]);
     },
   });
 };

@@ -71,7 +71,7 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         title: "Account deleted Successfully",
         description: "User that the account can no longer logged in",
       });
-      pathName !== "/members" ? replace("/members") : null;
+      pathName.startsWith("/members/") ? replace("/members") : null;
       queryClient.invalidateQueries(["members"]).then();
     }
   }, [replace, isError, isSuccess, toast, queryClient, pathName]);
@@ -128,7 +128,8 @@ const useHandleAssignShopEffect = (
         description: "You can view the list of assigned members in shop.",
       });
       openDialog(false, dialogId);
-      queryClient.invalidateQueries(["shops", "members"]).then((res) => res);
+      queryClient.invalidateQueries(["shops"]).then((res) => res);
+      queryClient.invalidateQueries(["members"]).then((res) => res);
     }
   }, [isError, isSuccess, toast, openDialog, dialogId, queryClient]);
 };

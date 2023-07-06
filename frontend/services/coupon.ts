@@ -39,7 +39,8 @@ const useRequestCouponService = (couponId: string, token: string) => {
     mutationKey: ["coupon-request"],
     mutationFn: async () => (await requestCoupon()).data,
     onSettled: async () => {
-      await queryClient.invalidateQueries(["coupons", "campaigns"]);
+      await queryClient.invalidateQueries(["coupons"]);
+      await queryClient.invalidateQueries(["campaigns"]);
     },
   });
 };
@@ -52,7 +53,8 @@ const useVerifyCouponService = (couponId: string, token: string) => {
     mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
     onSettled: async () => {
-      await queryClient.invalidateQueries(["coupons", "campaigns"]);
+      await queryClient.invalidateQueries(["coupons"]);
+      await queryClient.invalidateQueries(["campaigns"]);
     },
   });
 };
