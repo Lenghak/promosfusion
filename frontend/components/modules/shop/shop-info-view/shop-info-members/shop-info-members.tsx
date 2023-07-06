@@ -26,7 +26,12 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
             data={shop?.data.users ?? []}
             columns={MemberColumns}
             tableContainerClass="h-[42vh] overflow-y-auto"
-            widget={<ShopAssignForm dialogID={`shop-assign-form-${shopId}`} />}
+            widget={
+              <ShopAssignForm
+                shopId={shopId}
+                dialogID={`shop-assign-form-${shopId}`}
+              />
+            }
           />
         </div>
       </div>
