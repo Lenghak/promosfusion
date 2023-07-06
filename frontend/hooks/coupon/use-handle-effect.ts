@@ -1,15 +1,23 @@
 import { useEffect } from "react";
 
+import { AxiosError, isAxiosError } from "axios";
+
 import { useToast } from "../use-toast";
 
-const useHandleVerifyEffect = (isError: boolean, isSuccess: boolean) => {
+const useHandleVerifyEffect = (
+  isError: boolean,
+  isSuccess: boolean,
+  error: Error | AxiosError
+) => {
   const { toast } = useToast();
 
   useEffect(() => {
     if (isError)
       toast({
         title: "Coupon Verified Failed",
-        description: "There was an error verifying the coupon.",
+        description: isAxiosError(error)
+          ? error?.response?.data.message
+          : "There was an error verifying the coupon.",
         variant: "destructive",
       });
 
