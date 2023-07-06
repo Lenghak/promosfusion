@@ -110,7 +110,6 @@ const useAssignShopService = () => {
 };
 
 const useDismissShopService = () => {
-  const queryClient = useQueryClient();
   const dismissShop = useDismissShop();
 
   return useMutation({
