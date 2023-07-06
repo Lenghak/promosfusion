@@ -35,7 +35,7 @@ const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
       <DataTable
         widget={<CouponProvide campaignId={`${campaign?.id}`} />}
         filterBy="createdAt"
-        tableContainerClass="h-[38vh] overflow-y-auto"
+        tableContainerClass="h-[30vh] overflow-y-auto"
         columns={columns}
         data={coupons?.data?.data || []}
       />
