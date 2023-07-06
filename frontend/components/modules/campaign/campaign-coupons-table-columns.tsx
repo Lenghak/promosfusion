@@ -1,8 +1,10 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 export type Coupon = {
   id: number;
@@ -17,8 +19,28 @@ export type Coupon = {
 
 export const columns: ColumnDef<Coupon>[] = [
   {
+    id: "id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="w-fit"
+        >
+          No
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="h-full w-full px-4">{row.index + 1}</div>
+    ),
+    enableHiding: false,
+    enableSorting: true,
+  },
+  {
     accessorKey: "id",
-    header: "No",
+    header: "ID",
   },
   {
     accessorKey: "cuid",

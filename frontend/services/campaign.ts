@@ -21,7 +21,7 @@ const useGetCampaignsService = () => {
 const useGetCampaignService = (campaignId: string) => {
   const getCampaign = useGetCampaign(campaignId);
   return useQuery({
-    queryKey: ["campaign"],
+    queryKey: ["campaigns", campaignId],
     queryFn: async () => (await getCampaign()).data,
     refetchOnMount: true,
     refetchOnReconnect: true,

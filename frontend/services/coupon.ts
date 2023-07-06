@@ -18,6 +18,7 @@ const useProvideCouponService = (campaignId: string) => {
     mutationFn: async () => await provideCoupon(),
     onSettled: async () => {
       await queryClient.invalidateQueries(["campaigns"]);
+      await queryClient.invalidateQueries(["coupons"]);
     },
   });
 };
