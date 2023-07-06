@@ -28,7 +28,7 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
             tableContainerClass="h-[42vh] overflow-y-auto"
             widget={
               <ShopAssignForm
-                shopId={shopId}
+                shopId={parseInt(shopId)}
                 dialogID={`shop-assign-form-${shopId}`}
               />
             }

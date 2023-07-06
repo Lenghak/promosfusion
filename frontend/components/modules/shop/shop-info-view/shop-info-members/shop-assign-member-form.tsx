@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import { AvatarCard } from "@/components/modules/avatar-card";
@@ -18,15 +19,19 @@ import { MultiSelect } from "@/components/ui/select/multi-select";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useGetMembersService } from "@/services/member";
+import { useAssignShopService } from "@/services/shop";
 
+import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from "lucide-react";
+import { Loader2, UserPlus, UserX } from "lucide-react";
 import z from "zod";
+
+import { Members } from "@/types/member";
 
 type ShopAssignFormProps = {
   dialogTrigger?: React.ReactNode;
   dialogID: string;
-  shopId: string;
+  shopId: number;
 };
 
 const ShopAssignSchema = z.object({
@@ -42,21 +47,39 @@ const ShopAssignForm = ({
 }: ShopAssignFormProps) => {
   const openAlert = useDialogStore((state) => state.openAlert);
 
-  const { data: members } = useGetMembersService();
+  const { data: rawMembers } = useGetMembersService();
+
+  const {
+    mutate: assignShop,
+    isError: isAssignError,
+    isLoading: isAssigning,
+    isSuccess,
+  } = useAssignShopService();
+
+  const members: Members | undefined = useMemo(() => {
+    return rawMembers
+      ? {
+          ...rawMembers,
+          data: rawMembers.data.filter(
+            (member) => !member.shopIds.includes(shopId)
+          ),
+        }
+      : undefined;
+  }, [rawMembers, shopId]);
 
   const form = useForm<z.infer<typeof ShopAssignSchema>>({
     resolver: zodResolver(ShopAssignSchema),
     defaultValues: {
-      memberIds:
-        members?.data.reduce((acc: string[], current) => {
-          if (current.shopIds.includes(parseInt(shopId)))
-            acc.push(`${current.id}`);
-
-          return acc;
-        }, []) ?? [],
+      memberIds: members?.data.map((member) => `${member.id}`) ?? [],
     },
     shouldUnregister: true,
   });
+
+  useHandleAssignShopEffect(
+    isAssignError,
+    isSuccess,
+    `shop-assign-dialog-${shopId}`
+  );
 
   return (
     <DialogWithAlert
@@ -81,10 +104,15 @@ const ShopAssignForm = ({
         "You are about to close this dialog. All your changes will be unsaved."
       }
     >
-      {members?.data ? (
+      {members?.data.length ? (
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((values) => console.log(values))}
+            onSubmit={form.handleSubmit((values) =>
+              assignShop({
+                shopId: shopId,
+                data: { userIds: values.memberIds },
+              })
+            )}
             className="space-y-4"
           >
             <FormField
@@ -128,8 +156,25 @@ const ShopAssignForm = ({
           </form>
         </Form>
       ) : (
-        <div>There are no member found.</div>
+        <div
+          className={"flex items-center justify-center gap-4 p-4 text-center"}
+        >
+          <UserX size={24} />
+          <span className={"text-sm text-muted-foreground"}>
+            There are no more member to add.
+          </span>
+        </div>
       )}
+
+      {isAssigning ? (
+        <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background">
+          <Loader2
+            size={24}
+            className="animate-spin"
+          />
+          <span>Assigning Shop...</span>
+        </div>
+      ) : null}
     </DialogWithAlert>
   );
 };
