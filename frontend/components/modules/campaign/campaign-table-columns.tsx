@@ -1,5 +1,7 @@
 "use client";
 
+import { Fragment } from "react";
+
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -13,8 +15,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useDialogStore } from "@/lib/zustand";
+
+import { useDeleteCampaignService } from "@/services/campaign";
+
+import { useHandleDeleteEffect } from "@/hooks/campaign/use-handle-effect";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useSession } from "next-auth/react";
+
+import { CampaignDeleteForm } from "./campaign-delete-form";
 
 import { Campaign } from "@/types/campaign";
 
@@ -39,10 +49,10 @@ export const columns: ColumnDef<Campaign>[] = [
     enableHiding: false,
     enableSorting: true,
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "ID",
+  // },
   {
     accessorKey: "name",
     header: "Name",
@@ -106,36 +116,95 @@ export const columns: ColumnDef<Campaign>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: function Cell({ row }) {
       const campaign = row.original;
+
+      const { openDialog } = useDialogStore();
+
+      const { data: session } = useSession();
+
+      const { isError: isDeletedError, isSuccess: isDeleted } =
+        useDeleteCampaignService();
+
+      const UPDATE_ALERT_DIALOG_ID = `campaign-update-dialog-${row.original.id}`;
+      const CAMPAIGN_DELETE_DIALOG_ID = `campaign-delete-dialog-${row.original.id}`;
+
+      useHandleDeleteEffect(isDeletedError, isDeleted);
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(campaign.cauid)}
-            >
-              Copy Campaign ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            {/* Create Coupon Handle Here */}
-            <DropdownMenuItem>Create Coupon</DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={`/campaigns/${campaign.id}`}>
-                View Campaign Details
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Fragment>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-8 w-8 p-0"
+              >
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(campaign.cauid)}
+              >
+                Copy Campaign ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* Create Coupon Handle Here */}
+              <DropdownMenuItem>
+                <Link href={`/campaigns/${campaign.id}`}>
+                  View Campaign Details
+                </Link>
+              </DropdownMenuItem>
+
+              {session?.user.role ? (
+                <DropdownMenuItem
+                  onClick={() => openDialog(true, UPDATE_ALERT_DIALOG_ID)}
+                >
+                  Update Campaign
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem disabled={true}>
+                  Update Campaign
+                </DropdownMenuItem>
+              )}
+
+              <DropdownMenuSeparator />
+
+              {session?.user.role === "root" ? (
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  onClick={() => {
+                    openDialog(true, CAMPAIGN_DELETE_DIALOG_ID);
+                  }}
+                >
+                  Delete Campaign
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  className="font-medium text-destructive"
+                  disabled
+                >
+                  Delete Campaign
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {session?.user.role === "root" ? (
+            <Fragment>
+              {/* <CampaignUpdateForm
+                dialogID={UPDATE_ALERT_DIALOG_ID}
+                campaign={row.original}
+              /> */}
+              <CampaignDeleteForm
+                campaignId={`${row.original.id}`}
+                manual
+              />
+            </Fragment>
+          ) : null}
+        </Fragment>
       );
     },
   },
@@ -143,13 +212,13 @@ export const columns: ColumnDef<Campaign>[] = [
 
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
-  if (status === "Active") {
-    return "green";
-  } else if (status === "Inactive") {
-    return "gray";
-  } else if (status === "Pending") {
-    return "yellow";
-  } else {
+  if (status === "new") {
     return "default";
+  } else if (status === "valid") {
+    return "green";
+  } else if (status === "verified") {
+    return "red";
+  } else {
+    return "yellow";
   }
 };
