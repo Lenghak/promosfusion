@@ -26,7 +26,7 @@ const useHandleVerifyEffect = (
         title: "Coupon Verified Successfully",
         description: "The coupon has been verified as used.",
       });
-  }, [isError, isSuccess, toast]);
+  }, [isError, isSuccess, toast, error]);
 };
 
 const useHandleRequestEffect = (isError: boolean, isSuccess: boolean) => {
