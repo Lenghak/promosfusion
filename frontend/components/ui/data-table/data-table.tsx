@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +39,8 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   filterBy?: string;
   widget?: React.ReactNode;
+  footerWidget?: React.ReactNode;
+  onRowSelectChange?: (value: TData[]) => void;
   tableContainerClass?: string;
 }
 
@@ -47,7 +49,9 @@ const DataTable = <TData, TValue>({
   data,
   filterBy,
   widget,
+  footerWidget,
   tableContainerClass,
+  onRowSelectChange,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -74,7 +78,16 @@ const DataTable = <TData, TValue>({
     },
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    enableRowSelection: true,
   });
+
+  useEffect(() => {
+    onRowSelectChange
+      ? onRowSelectChange(
+          table.getSelectedRowModel().rows.map((row) => row.original)
+        )
+      : null;
+  }, [rowSelection, table, onRowSelectChange]);
 
   return (
     <div>
@@ -112,9 +125,7 @@ const DataTable = <TData, TValue>({
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -173,23 +184,28 @@ const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="flex items-center justify-between space-x-2 py-4">
+        {footerWidget}
+        <div className={"flex w-full items-center justify-end gap-2"}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className={"self-end"}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className={"self-end"}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );
