@@ -11,10 +11,10 @@ export type Coupon = {
   cuid: string;
   createdAt: string;
   currentStatus: string;
-// verifiedDate: string;
-// verifiedBy: string;
-//   startAt: string;
-//   endAt: string;
+  // verifiedDate: string;
+  // verifiedBy: string;
+  //   startAt: string;
+  //   endAt: string;
 };
 
 export const columns: ColumnDef<Coupon>[] = [
@@ -38,10 +38,10 @@ export const columns: ColumnDef<Coupon>[] = [
     enableHiding: false,
     enableSorting: true,
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "ID",
+  // },
   {
     accessorKey: "cuid",
     header: "CID",
@@ -81,13 +81,13 @@ export const columns: ColumnDef<Coupon>[] = [
 
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
-  if (status === "Active") {
-    return "green";
-  } else if (status === "Inactive") {
-    return "gray";
-  } else if (status === "Pending") {
-    return "yellow";
-  } else {
+  if (status === "new") {
     return "default";
+  } else if (status === "valid") {
+    return "green";
+  } else if (status === "verified") {
+    return "red";
+  } else {
+    return "yellow";
   }
 };
