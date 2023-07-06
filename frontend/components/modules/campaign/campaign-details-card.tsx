@@ -35,6 +35,8 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
     isFetching: isFetchingCampaigns,
   } = useGetCampaignService(`${id!!}`);
 
+  console.log(campaign);
+
   let userId = campaign?.coupons[0]?.transactions[0]?.createdBy;
 
   const { data: user } = useGetMemberService(`${userId!!}`);
@@ -68,28 +70,32 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
           <div>Error loading campaign detail</div>
         ) : (
           campaign && (
-            <div className="grid grid-flow-row grid-cols-2">
+            <div className="grid grid-flow-row grid-cols-2 text-sm">
               <div className="grid grid-flow-row gap-1">
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>ID</div>
+                  <div className="text-muted-foreground">ID</div>
                   <div>{campaign?.id}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Name</div>
+                  <div className="text-muted-foreground">Name</div>
                   <div>{campaign?.name}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Description</div>
+                  <div className="text-muted-foreground">Description</div>
                   <div>{campaign?.description}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Coupon</div>
+                  <div className="text-muted-foreground">Coupon</div>
                   <div>
                     {createdCoupon} / {campaign?.maxCreatableCoupon}
                   </div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Created At</div>
+                  <div className="text-muted-foreground">Coupon Type</div>
+                  <div>{campaign?.couponType}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div className="text-muted-foreground">Created At</div>
                   <div>
                     {formattedDateWithTimeZone(campaign?.createdAt ?? "")}
                   </div>
@@ -97,26 +103,30 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
               </div>
               <div className="grid grid-flow-row gap-1">
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Created By</div>
+                  <div className="text-muted-foreground">Created By</div>
                   {/* <div>{campaign?.coupons[0]?.transactions[0]?.createdBy}</div> */}
                   <div>{user?.data?.name}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Valid From</div>
+                  <div className="text-muted-foreground">Valid From</div>
                   <div>{formattedDate(campaign?.startAt ?? "")}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Expires At</div>
+                  <div className="text-muted-foreground">Expires At</div>
                   <div>{formattedDate(campaign?.endAt ?? "")}</div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Last Updated At</div>
+                  <div className="text-muted-foreground">Last Updated At</div>
                   <div>
                     {formattedDateWithTimeZone(campaign?.updatedAt ?? "")}
                   </div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div>Status</div>
+                  <div className="text-muted-foreground">Coupon Type Detail</div>
+                  <div>{}</div>
+                </div>
+                <div className="grid grid-flow-col grid-cols-2">
+                  <div className="text-muted-foreground">Status</div>
                   <div>
                     <Badge color={getStatusBadgeColor(campaign?.status ?? "")}>
                       {campaign?.status}

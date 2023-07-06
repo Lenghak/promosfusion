@@ -30,8 +30,6 @@ const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
 
   console.log(coupons?.data?.data);
 
-  // console.log(campaign?.id);
-
   return (
     <div className="p-4">
       <DataTable
