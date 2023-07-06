@@ -36,7 +36,7 @@ type ShopAssignFormProps = {
 
 const ShopAssignSchema = z.object({
   memberIds: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+    message: "Please select at least one member.",
   }),
 });
 
@@ -151,7 +151,7 @@ const ShopAssignForm = ({
               >
                 Cancel
               </Button>
-              <Button type="submit">Update</Button>
+              <Button type="submit">Assign</Button>
             </div>
           </form>
         </Form>
