@@ -52,10 +52,11 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     mutate: verifyCoupon,
     isLoading: isVerifying,
     isError: isVerifyError,
+    error: verifyError,
     isSuccess: isVerified,
   } = useVerifyCouponService(coupon?.data.cuid!!, getParam("token")!!);
 
-  useHandleVerifyEffect(isVerifyError, isVerified);
+  useHandleVerifyEffect(isVerifyError, isVerified, verifyError as Error);
   useHandleRequestEffect(isClaimError, isClaimed);
 
   useEffect(() => {
