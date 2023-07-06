@@ -1,5 +1,6 @@
 import {
   useCreateCampaign,
+  useDeleteCampaign,
   useGetCampaign,
   useGetCampaigns,
 } from "@/lib/axios/campaign";
@@ -41,8 +42,20 @@ const useCreateCampaignService = () => {
   });
 };
 
+const useDeleteCampaignService = () => {
+  const deleteCampaign = useDeleteCampaign();
+  return useMutation({
+    mutationKey: ["campaign-delete"],
+    mutationFn: async (campaignId: string) => await deleteCampaign(campaignId),
+    // onSettled: async () => {
+    //   await queryClient.invalidateQueries(["campaigns"]);
+    // },
+  });
+};
+
 export {
   useGetCampaignsService,
   useGetCampaignService,
   useCreateCampaignService,
+  useDeleteCampaignService,
 };

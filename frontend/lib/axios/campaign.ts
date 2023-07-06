@@ -28,4 +28,9 @@ const useCreateCampaign = () => {
     authorizedAxios.post("/campaigns", data);
 };
 
-export { useGetCampaigns, getCampaigns, useGetCampaign, useCreateCampaign };
+const useDeleteCampaign = () => {
+  const authorizedAxios = useAxiosAuth();
+  return async (campaignId: string) => authorizedAxios.delete(`/campaigns/${campaignId}`);
+};
+
+export { useGetCampaigns, getCampaigns, useGetCampaign, useCreateCampaign, useDeleteCampaign };
