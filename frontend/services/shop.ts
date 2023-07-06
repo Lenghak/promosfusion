@@ -122,10 +122,6 @@ const useDismissShopService = () => {
       shopId: string | number;
       data: DismissShopData;
     }) => await dismissShop(shopId, data),
-    onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
-      await queryClient.invalidateQueries(["members"]);
-    },
   });
 };
 
