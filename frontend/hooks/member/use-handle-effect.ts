@@ -134,9 +134,39 @@ const useHandleAssignShopEffect = (
   }, [isError, isSuccess, toast, openDialog, dialogId, queryClient]);
 };
 
+const useHandleDismissShopEffect = (
+  isError: boolean,
+  isSuccess: boolean,
+  openDialog: (state: boolean) => void
+) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (isError)
+      toast({
+        title: "Member(s) Dismiss Failed",
+        description: "There was a problem Dismissing the member(s)",
+        variant: "destructive",
+      });
+
+    if (isSuccess) {
+      toast({
+        title: "Member(s) Dismissed Successfully",
+        description:
+          "Members has been removed from this shop. You can re-assign them back later.",
+      });
+      openDialog(false);
+      queryClient.invalidateQueries(["shops"]).then((res) => res);
+      queryClient.invalidateQueries(["members"]).then((res) => res);
+    }
+  }, [toast, isError, isSuccess, openDialog, queryClient]);
+};
+
 export {
   useHandleCreatedEffect,
   useHandleDeleteEffect,
   useHandleUpdatedEffect,
   useHandleAssignShopEffect,
+  useHandleDismissShopEffect,
 };
