@@ -137,6 +137,7 @@ const useHandleAssignShopEffect = (
 const useHandleDismissShopEffect = (
   isError: boolean,
   isSuccess: boolean,
+  error: Error | AxiosError,
   openDialog: (state: boolean) => void
 ) => {
   const { toast } = useToast();
@@ -146,7 +147,9 @@ const useHandleDismissShopEffect = (
     if (isError)
       toast({
         title: "Member(s) Dismiss Failed",
-        description: "There was a problem Dismissing the member(s)",
+        description: isAxiosError(error)
+          ? error?.response?.data.errors.userIds[0]
+          : "There was a problem Dismissing the member(s)",
         variant: "destructive",
       });
 
@@ -160,7 +163,7 @@ const useHandleDismissShopEffect = (
       queryClient.invalidateQueries(["shops"]).then((res) => res);
       queryClient.invalidateQueries(["members"]).then((res) => res);
     }
-  }, [toast, isError, isSuccess, openDialog, queryClient]);
+  }, [toast, isError, isSuccess, openDialog, queryClient, error]);
 };
 
 export {
