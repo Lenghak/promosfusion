@@ -21,6 +21,7 @@ import {
 
 import { cn } from "@/lib/utils";
 
+import { usePermission } from "@/hooks/member/use-permission";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -33,6 +34,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
+import { useSession } from "next-auth/react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -82,6 +84,9 @@ const DataTable = <TData, TValue>({
     enableRowSelection: true,
   });
 
+  const permission = usePermission();
+  const { data: session } = useSession();
+
   useEffect(() => {
     onRowSelectChange
       ? onRowSelectChange(
@@ -110,7 +115,7 @@ const DataTable = <TData, TValue>({
           />
         )}
 
-        {widget}
+        {session?.user.role !== "seller" && widget}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -190,7 +195,7 @@ const DataTable = <TData, TValue>({
         </Table>
       </div>
       <div className="flex items-center justify-between space-x-2 py-4">
-        {footerWidget}
+        {session?.user.role !== "seller" && footerWidget}
         <div className={"flex w-full items-center justify-end gap-2"}>
           <Button
             variant="outline"
