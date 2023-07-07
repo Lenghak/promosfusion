@@ -7,6 +7,7 @@ import {
   CreateMemberData,
   Member,
   Members,
+  UpdateMemberData,
 } from "@/types/member";
 
 //* get members list function for SSR
@@ -44,8 +45,8 @@ const useCreateMember = () => {
 //* update an existing member
 const useUpdateMember = () => {
   const authorizedAxios = useAxiosAuth();
-  return async (member: Member) =>
-    authorizedAxios.put(`/users/${member.id}`, member);
+  return async (memberId: string, data: UpdateMemberData) =>
+    authorizedAxios.put(`/users/${memberId}`, data);
 };
 
 //* delete an existing member
