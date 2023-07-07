@@ -30,8 +30,6 @@ const CampaignTable = ({}: CampaignTableProps) => {
     isFetching: isFetchingCampaigns,
   } = useGetCampaignsService();
 
-  // console.log(campaigns?.data);
-
   return (
     <div className="p-4">
       <DataTable
