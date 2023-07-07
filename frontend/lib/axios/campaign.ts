@@ -2,7 +2,7 @@ import { useAxiosAuth } from "@/hooks/use-axios-auth";
 
 import { authorizeAxios } from "./authorize";
 
-import { Campaign, CreateCampaignData } from "@/types/campaign";
+import { Campaign, CreateCampaignData, UpdateCampaignData } from "@/types/campaign";
 
 const getCampaigns: () => Promise<Campaign[]> = async () => {
   const axios = await authorizeAxios();
@@ -28,9 +28,15 @@ const useCreateCampaign = () => {
     authorizedAxios.post("/campaigns", data);
 };
 
+const useUpdateCampaign = () => {
+  const authorizedAxios = useAxiosAuth();
+  return async (campaignId: string, data: UpdateCampaignData) =>
+    authorizedAxios.put(`/campaigns/${campaignId}`, data);
+};
+
 const useDeleteCampaign = () => {
   const authorizedAxios = useAxiosAuth();
   return async (campaignId: string) => authorizedAxios.delete(`/campaigns/${campaignId}`);
 };
 
-export { useGetCampaigns, getCampaigns, useGetCampaign, useCreateCampaign, useDeleteCampaign };
+export { useGetCampaigns, getCampaigns, useGetCampaign, useCreateCampaign, useUpdateCampaign, useDeleteCampaign };
