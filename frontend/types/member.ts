@@ -50,6 +50,8 @@ export type CreateMemberData = {
   password: string;
 };
 
+export type UpdateMemberData = CreateMemberData;
+
 export type CreatedMemberResponse = {
   message: string;
   data: Member;

@@ -9,7 +9,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-import { CreateMemberData, Member } from "@/types/member";
+import { CreateMemberData, UpdateMemberData } from "@/types/member";
 
 const useCreateMemberService = () => {
   const createMember = useCreateMember();
@@ -54,7 +54,13 @@ const useUpdateMemberService = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["member-update"],
-    mutationFn: async (member: Member) => await updateMember(member),
+    mutationFn: async ({
+      memberId,
+      data,
+    }: {
+      memberId: string;
+      data: UpdateMemberData;
+    }) => await updateMember(memberId, data),
     onSettled: async () => {
       await queryClient.invalidateQueries(["members"]);
     },
