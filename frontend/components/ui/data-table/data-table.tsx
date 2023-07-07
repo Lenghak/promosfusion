@@ -43,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   footerWidget?: React.ReactNode;
   onRowSelectChange?: (value: TData[]) => void;
   tableContainerClass?: string;
+  allowWidget?: boolean;
 }
 
 const DataTable = <TData, TValue>({
@@ -53,6 +54,7 @@ const DataTable = <TData, TValue>({
   footerWidget,
   tableContainerClass,
   onRowSelectChange,
+  allowWidget,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -113,7 +115,7 @@ const DataTable = <TData, TValue>({
           />
         )}
 
-        {session?.user.role !== "seller" && widget}
+        {(session?.user.role !== "seller" || allowWidget) && widget}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
