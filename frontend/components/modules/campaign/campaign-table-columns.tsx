@@ -109,7 +109,7 @@ export const columns: ColumnDef<Campaign>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <Badge color={getStatusBadgeColor(row.original.status)}>
+      <Badge className={`${getStatusBadgeColor(row.original.status)}`}>
         {row.original.status}
       </Badge>
     ),
@@ -213,12 +213,12 @@ export const columns: ColumnDef<Campaign>[] = [
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
   if (status === "new") {
-    return "default";
+    return "bg-primary hover:bg-primary/80";
   } else if (status === "valid") {
-    return "green";
+    return "bg-green-500 hover:bg-green-500/80";
   } else if (status === "verified") {
-    return "red";
+    return "bg-yellow-500 hover:bg-yellow-500/80";
   } else {
-    return "yellow";
+    return "bg-red-500 hover:bg-red-500/80";
   }
 };
