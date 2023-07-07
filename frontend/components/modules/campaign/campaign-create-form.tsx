@@ -110,15 +110,10 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
 
   const { data: shop } = useGetShopsService();
 
-  // console.log(shop?.data[0].id);
-  // console.log(shop);
-
   const shopDetails = shop?.data?.map((shop) => ({
     id: shop.id,
     name: shop.name,
   }));
-
-  console.log(shopDetails);
 
   useHandleCreateEffect(
     isCreateCampaignFailed,
@@ -140,6 +135,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
           </Button>
         </DialogTrigger>
       }
+      className="min-w-[46%]"
       dialogTitle={"Create Campaign"}
       dialogDescription={
         "Please fill in the form below to create your campaign"
@@ -381,7 +377,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                 name={"couponDetail.value"}
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Coupon Type Detail</FormLabel>
+                    <FormLabel>Discount</FormLabel>
                     <FormControl>
                       <Input
                         type={"number"}
@@ -404,17 +400,17 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
 
             {/* BOGO Field */}
             {form.getValues("couponType") === "BOGO" && (
-              <div>
+              <div className="flex flex-row gap-4">
                 <FormField
                   control={form.control}
                   name={"couponDetail.buy"}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Coupon Type Detail</FormLabel>
+                      <FormLabel>Buy</FormLabel>
                       <FormControl>
                         <Input
                           type={"number"}
-                          placeholder="20%"
+                          placeholder="2"
                           {...field}
                           onChange={(e) =>
                             field.onChange(parseFloat(e.target.value))
@@ -431,11 +427,11 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                   name={"couponDetail.get"}
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Coupon Type Detail</FormLabel>
+                      <FormLabel>Get</FormLabel>
                       <FormControl>
                         <Input
                           type={"number"}
-                          placeholder="20%"
+                          placeholder="1"
                           {...field}
                           onChange={(e) =>
                             field.onChange(parseFloat(e.target.value))
@@ -473,7 +469,6 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                           <SelectItem
                             key={shop.id}
                             value={`${shop.id}`}
-                            
                           >
                             {shop.name}
                           </SelectItem>
