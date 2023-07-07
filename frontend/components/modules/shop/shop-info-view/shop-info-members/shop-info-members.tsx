@@ -10,12 +10,14 @@ import { DataTable } from "@/components/ui/data-table";
 import { useGetShopService } from "@/services/shop";
 
 import { usePermission } from "@/hooks/member/use-permission";
+import { isAxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { Member } from "@/types/member";
 
 const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
-  const { data: shop } = useGetShopService(shopId);
+  const { data: shop, isError, isLoading, error } = useGetShopService(shopId);
 
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
 
@@ -24,7 +26,7 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
   const { data: session } = useSession();
 
   return (
-    <section className="flex h-full w-full flex-col gap-4">
+    <section className="relative flex h-full w-full flex-col gap-4">
       <div className="flex h-full w-full flex-col items-start justify-center gap-2 px-4 py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="flex w-full flex-col gap-1">
@@ -61,6 +63,28 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
           />
         </div>
       </div>
+
+      {isLoading ? (
+        <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background">
+          <Loader2
+            size={24}
+            className="animate-spin"
+          />
+          <span>Loading Shop...</span>
+        </div>
+      ) : null}
+
+      {isError ? (
+        <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg bg-background">
+          {isAxiosError(error) && error?.response?.status === 404 ? (
+            <span className={"text-center"}>Shop Not Found</span>
+          ) : (
+            <span className={"text-center"}>
+              There was a problem getting shop data. Please try again later.
+            </span>
+          )}
+        </div>
+      ) : null}
     </section>
   );
 };

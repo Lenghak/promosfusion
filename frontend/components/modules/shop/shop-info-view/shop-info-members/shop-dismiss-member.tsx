@@ -19,6 +19,7 @@ import { useDismissShopService } from "@/services/shop";
 
 import { useHandleDismissShopEffect } from "@/hooks/member/use-handle-effect";
 import { Loader2, UserMinus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import z from "zod";
 
 import { Member } from "@/types/member";
@@ -44,22 +45,36 @@ const ShopDismissMember = ({
     mutate: dismissShop,
     isLoading: isDismissing,
     isError: isDismissError,
+    error: dismissError,
     isSuccess: isDismissSuccess,
   } = useDismissShopService();
 
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
+  const { data: session } = useSession();
+
   const handleDismissMember = useCallback(
     (data: z.infer<typeof ShopDismissSchema>) => {
-      dismissShop({
-        shopId: `${shopId}`,
-        data: { userIds: data.selectedMembers },
-      });
+      session &&
+        dismissShop({
+          shopId: `${shopId}`,
+          data: {
+            userIds: data.selectedMembers.filter((member) => {
+              return member !== `${session?.user.id}`;
+            }),
+          },
+        });
     },
-    [dismissShop, shopId]
+
+    [session, dismissShop, shopId]
   );
 
-  useHandleDismissShopEffect(isDismissError, isDismissSuccess, setAlertOpen);
+  useHandleDismissShopEffect(
+    isDismissError,
+    isDismissSuccess,
+    dismissError as Error,
+    setAlertOpen
+  );
 
   return (
     <AlertDialog
