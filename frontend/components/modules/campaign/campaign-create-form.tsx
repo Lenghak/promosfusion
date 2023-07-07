@@ -34,6 +34,7 @@ import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useCreateCampaignService } from "@/services/campaign";
+import { useGetShopsService } from "@/services/shop";
 
 import { useHandleCreateEffect } from "@/hooks/campaign";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,12 +47,12 @@ import { DialogWithAlert } from "../dialog-with-alert";
 type CampaignCreateFormProps = {};
 
 const CouponBogoType = z.object({
-  buy: z.number(),
-  get: z.number(),
+  buy: z.number({ required_error: "Buy Condition Amount" }),
+  get: z.number({ required_error: "Get Condition Amount" }),
 });
 
 const PercentNFixedPrice = z.object({
-  value: z.number(),
+  value: z.number({ required_error: "Discount Price Detail" }),
 });
 
 const campaignCreateFormSchema = z.object({
@@ -94,7 +95,6 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
       description: "",
       maxCreatableCoupon: 1,
       type: "general",
-      // couponType: "Percent Based",
     },
     shouldUnregister: true,
   });
@@ -107,6 +107,18 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
     isError: isCreateCampaignFailed,
     isSuccess: isCampaignCreated,
   } = useCreateCampaignService();
+
+  const { data: shop } = useGetShopsService();
+
+  // console.log(shop?.data[0].id);
+  // console.log(shop);
+
+  const shopDetails = shop?.data?.map((shop) => ({
+    id: shop.id,
+    name: shop.name,
+  }));
+
+  console.log(shopDetails);
 
   useHandleCreateEffect(
     isCreateCampaignFailed,
@@ -457,9 +469,15 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                       <SelectGroup>
                         <SelectLabel>Your Shop List</SelectLabel>
                         {/* Handle Shop Here */}
-                        <SelectItem value={`2`}>Percent Based</SelectItem>
-                        <SelectItem value={`3`}>Fixed Price</SelectItem>
-                        <SelectItem value={`4`}>BOGO</SelectItem>
+                        {shopDetails?.map((shop) => (
+                          <SelectItem
+                            key={shop.id}
+                            value={`${shop.id}`}
+                            
+                          >
+                            {shop.name}
+                          </SelectItem>
+                        ))}
                         {/* End Here */}
                       </SelectGroup>
                     </SelectContent>
