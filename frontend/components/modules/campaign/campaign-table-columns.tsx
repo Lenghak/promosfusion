@@ -25,6 +25,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { CampaignDeleteForm } from "./campaign-delete-form";
+import { CampaignUpdateForm } from "./campaign-update-form";
 
 import { Campaign } from "@/types/campaign";
 
@@ -158,16 +159,14 @@ export const columns: ColumnDef<Campaign>[] = [
                 </Link>
               </DropdownMenuItem>
 
-              {session?.user.role ? (
+              {session?.user.role !== "seller" ? (
                 <DropdownMenuItem
                   onClick={() => openDialog(true, UPDATE_ALERT_DIALOG_ID)}
                 >
                   Update Campaign
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem disabled={true}>
-                  Update Campaign
-                </DropdownMenuItem>
+                <DropdownMenuItem disabled>Update Campaign</DropdownMenuItem>
               )}
 
               <DropdownMenuSeparator />
@@ -192,12 +191,12 @@ export const columns: ColumnDef<Campaign>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {session?.user.role === "root" ? (
+          {session?.user.role !== "seller" ? (
             <Fragment>
-              {/* <CampaignUpdateForm
+              <CampaignUpdateForm
                 dialogID={UPDATE_ALERT_DIALOG_ID}
                 campaign={row.original}
-              /> */}
+              />
               <CampaignDeleteForm
                 campaignId={`${row.original.id}`}
                 manual
