@@ -28,12 +28,11 @@ const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
 
   const { data: coupons } = useGetCouponsService(`${id!!}`);
 
-  console.log(coupons?.data?.data);
-
   return (
     <div className="p-4">
       <DataTable
         widget={<CouponProvide campaignId={`${campaign?.id}`} />}
+        allowWidget={true}
         filterBy="createdAt"
         tableContainerClass="h-[30vh] overflow-y-auto"
         columns={columns}
