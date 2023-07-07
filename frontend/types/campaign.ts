@@ -73,3 +73,11 @@ export type CreateCampaignData = {
   couponDetail: string;
   shopIds: string[];
 };
+
+export type UpdateCampaignData = {
+  name: string;
+  description?: string;
+  maxCreatableCoupon: number;
+  startAt: string;
+  endAt: string;
+};
