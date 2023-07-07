@@ -37,7 +37,7 @@ const CampaignTable = ({}: CampaignTableProps) => {
       <DataTable
         widget={<CampaignCreateForm />}
         filterBy="name"
-        tableContainerClass="h-[47vh] overflow-y-auto"
+        tableContainerClass="h-[59vh] overflow-y-auto"
         columns={columns}
         data={campaigns?.data || []}
       />

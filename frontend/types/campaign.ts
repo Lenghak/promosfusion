@@ -20,13 +20,22 @@ export interface Campaign {
   status: string;
   type: string;
   couponType: string;
-  couponDetail: string;
+  couponDetail: CouponDetailBOGO | CouponDetailPBandPrice;
   coupons: Coupon[];
   couponDisplay: CouponDisplay;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
   updatedBy: string;
+}
+
+export interface CouponDetailPBandPrice {
+  value: number;
+}
+
+export interface CouponDetailBOGO {
+  buy: number;
+  get: number;
 }
 
 export interface CampaignsLinks {

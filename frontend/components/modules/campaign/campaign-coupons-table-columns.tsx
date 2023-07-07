@@ -11,10 +11,10 @@ export type Coupon = {
   cuid: string;
   createdAt: string;
   currentStatus: string;
-// verifiedDate: string;
-// verifiedBy: string;
-//   startAt: string;
-//   endAt: string;
+  // verifiedDate: string;
+  // verifiedBy: string;
+  //   startAt: string;
+  //   endAt: string;
 };
 
 export const columns: ColumnDef<Coupon>[] = [
@@ -38,10 +38,10 @@ export const columns: ColumnDef<Coupon>[] = [
     enableHiding: false,
     enableSorting: true,
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "ID",
+  // },
   {
     accessorKey: "cuid",
     header: "CID",
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Coupon>[] = [
     accessorKey: "currentStatus",
     header: "Status",
     cell: ({ row }) => (
-      <Badge color={getStatusBadgeColor(row.original.currentStatus)}>
+      <Badge className={`${getStatusBadgeColor(row.original.currentStatus)}`}>
         {row.original.currentStatus}
       </Badge>
     ),
@@ -81,13 +81,13 @@ export const columns: ColumnDef<Coupon>[] = [
 
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
-  if (status === "Active") {
-    return "green";
-  } else if (status === "Inactive") {
-    return "gray";
-  } else if (status === "Pending") {
-    return "yellow";
+  if (status === "new") {
+    return "bg-primary hover:bg-primary/80";
+  } else if (status === "valid") {
+    return "bg-green-500 hover:bg-green-500/80";
+  } else if (status === "verified") {
+    return "bg-yellow-500 hover:bg-yellow-500/80";
   } else {
-    return "default";
+    return "bg-red-500 hover:bg-red-500/80";
   }
 };
