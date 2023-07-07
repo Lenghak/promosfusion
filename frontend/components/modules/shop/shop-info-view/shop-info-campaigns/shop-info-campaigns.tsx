@@ -3,12 +3,11 @@
 import { columns as CampaignColumns } from "@/components/modules/campaign/campaign-table-columns";
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetShopService } from "@/services/shop";
+import { Shop } from "@/types/shop";
 
-const ShopInfoCampaigns = ({ shopId }: { shopId: string }) => {
-  const { data: shop } = useGetShopService(shopId);
+const ShopInfoCampaigns = ({ shop }: { shop?: Shop }) => {
   return (
-    <section className="flex h-full w-full flex-col gap-4">
+    <section className="relative flex h-full w-full flex-col gap-4">
       <div className="flex h-full w-full flex-col items-start justify-center gap-2 px-4 py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="flex w-full flex-col gap-1">
@@ -22,7 +21,7 @@ const ShopInfoCampaigns = ({ shopId }: { shopId: string }) => {
         <div className="flex w-full flex-col gap-4">
           <DataTable
             filterBy={"name"}
-            data={shop?.data.campaigns ?? []}
+            data={shop?.campaigns ?? []}
             columns={CampaignColumns}
           />
         </div>

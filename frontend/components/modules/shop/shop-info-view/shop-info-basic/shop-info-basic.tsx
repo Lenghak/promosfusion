@@ -1,23 +1,21 @@
 "use client";
 
-import { useGetShopService } from "@/services/shop";
-
 import { ShopBasicLogo } from "./shop-basic-logo";
 import { ShopInfo } from "./shop-info";
 import { ShopInfoDelete } from "./shop-info-delete";
 
-type ShopInfoBasicProps = { shopId: string };
+import { Shop } from "@/types/shop";
 
-const ShopInfoBasic = ({ shopId }: ShopInfoBasicProps) => {
-  const { data: shop } = useGetShopService(shopId);
+type ShopInfoBasicProps = { shop?: Shop };
 
+const ShopInfoBasic = ({ shop }: ShopInfoBasicProps) => {
   return (
-    <section className="flex h-full w-full flex-col gap-4">
-      <ShopBasicLogo logo={shop?.data.logo} />
+    <section className="relative flex h-full w-full flex-col gap-4">
+      <ShopBasicLogo logo={shop?.logo} />
 
-      <ShopInfo shop={shop?.data} />
+      <ShopInfo shop={shop} />
 
-      <ShopInfoDelete shop={shop?.data}/>
+      <ShopInfoDelete shop={shop} />
     </section>
   );
 };
