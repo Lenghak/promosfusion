@@ -79,13 +79,11 @@ const SideMenu = () => {
           name="Members"
         />
 
-        {session?.user.role !== "seller" && (
-          <MenuTab
-            href={"/shops"}
-            Icon={Store}
-            name="Shops"
-          />
-        )}
+        <MenuTab
+          href={"/shops"}
+          Icon={Store}
+          name="Shops"
+        />
       </section>
 
       <section
