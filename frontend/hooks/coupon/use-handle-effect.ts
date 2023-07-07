@@ -29,14 +29,20 @@ const useHandleVerifyEffect = (
   }, [isError, isSuccess, toast, error]);
 };
 
-const useHandleRequestEffect = (isError: boolean, isSuccess: boolean) => {
+const useHandleRequestEffect = (
+  isError: boolean,
+  isSuccess: boolean,
+  error: Error | AxiosError
+) => {
   const { toast } = useToast();
 
   useEffect(() => {
     if (isError)
       toast({
         title: "Coupon Claimed Failed",
-        description: "There was an error while claiming the coupon.",
+        description: isAxiosError(error)
+          ? error?.response?.data.message
+          : "There was an error while claiming the coupon.",
         variant: "destructive",
       });
 

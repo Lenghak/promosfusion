@@ -13,6 +13,7 @@ import {
 } from "@/services/coupon";
 
 import { useHandleRequestEffect, useHandleVerifyEffect } from "@/hooks/coupon";
+import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -38,6 +39,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     data: coupon,
     isError: isGetCouponError,
     isLoading: isGettingCoupon,
+    error: couponError,
   } = useGetCouponService(couponId);
 
   const {
@@ -46,6 +48,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     isLoading: isClaiming,
     isSuccess: isClaimed,
     isError: isClaimError,
+    error: claimError,
   } = useRequestCouponService(coupon?.data.cuid!!, getParam("token")!!);
 
   const {
@@ -57,7 +60,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
   } = useVerifyCouponService(coupon?.data.cuid!!, getParam("token")!!);
 
   useHandleVerifyEffect(isVerifyError, isVerified, verifyError as Error);
-  useHandleRequestEffect(isClaimError, isClaimed);
+  useHandleRequestEffect(isClaimError, isClaimed, claimError as Error);
 
   useEffect(() => {
     if (isClaimed) replace(`${pathName}/?token=${response.data.token}`);
@@ -111,14 +114,19 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
       )}
     </div>
   ) : isGettingCoupon ? (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
       <Loader2
         size={48}
         className="animate-spin"
       />
+      <span>Getting Coupon...</span>
     </div>
   ) : isGetCouponError ? (
-    <CouponError />
+    <CouponError
+      status={
+        isAxiosError(couponError) ? `${couponError.response?.status}` : "400"
+      }
+    />
   ) : null;
 };
 
