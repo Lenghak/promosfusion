@@ -9,12 +9,19 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { useGetShopService } from "@/services/shop";
 
+import { usePermission } from "@/hooks/member/use-permission";
+import { useSession } from "next-auth/react";
+
 import { Member } from "@/types/member";
 
 const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
   const { data: shop } = useGetShopService(shopId);
 
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+
+  const permission = usePermission();
+
+  const { data: session } = useSession();
 
   return (
     <section className="flex h-full w-full flex-col gap-4">
@@ -41,7 +48,9 @@ const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
               />
             }
             footerWidget={
-              selectedMembers.length ? (
+              selectedMembers.length &&
+              session &&
+              permission(session.user.role, session.user.uuid, "u") ? (
                 <ShopDismissMember
                   shopId={shopId}
                   selectedMember={selectedMembers}

@@ -9,7 +9,7 @@ import { Member } from "@/types/member";
 const MemberInfoDelete = ({ member }: { member: Member }) => {
   const permission = usePermission();
 
-  return permission(member) ? (
+  return permission(member.role, member.uuid, "d") ? (
     <div className="flex h-full w-full flex-col items-start justify-center gap-6 border-t py-4 lg:flex-row lg:items-center">
       <div className="flex w-full justify-between gap-2">
         <div className="flex w-full flex-col gap-1">

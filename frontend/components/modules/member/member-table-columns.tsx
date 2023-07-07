@@ -260,7 +260,11 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {/* Assigning Member */}
-              {permission(cell.row.original, "d") ? (
+              {permission(
+                cell.row.original.role,
+                cell.row.original.uuid,
+                "d"
+              ) ? (
                 <DropdownMenuItem
                   onClick={() =>
                     openDialog(
@@ -282,7 +286,11 @@ const MemberColumns: ColumnDef<Member>[] = [
                   View Member
                 </Link>
               </DropdownMenuItem>
-              {permission(cell.row.original, "u") ? (
+              {permission(
+                cell.row.original.role,
+                cell.row.original.uuid,
+                "u"
+              ) ? (
                 <DropdownMenuItem
                   onClick={() =>
                     openDialog(
@@ -299,7 +307,11 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {/* Delete Member */}
-              {permission(cell.row.original, "d") ? (
+              {permission(
+                cell.row.original.role,
+                cell.row.original.uuid,
+                "d"
+              ) ? (
                 <DropdownMenuItem
                   className="font-medium text-destructive"
                   onClick={() =>
@@ -321,7 +333,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-          {permission(cell.row.original, "u") && (
+          {permission(cell.row.original.role, cell.row.original.uuid, "u") && (
             <Fragment>
               <MemberUpdateForm
                 member={cell.row.original as Member}
