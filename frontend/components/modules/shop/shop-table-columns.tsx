@@ -201,18 +201,23 @@ const ShopColumns: ColumnDef<Shop>[] = [
                 Copy Image URL
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href={`/shops/${row.original.id}`}>View Shop</Link>
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/shops/${row.original.id}`}
+                  className={"h-full w-full"}
+                >
+                  View Shop
+                </Link>
               </DropdownMenuItem>
 
-              {session?.user.role ? (
+              {session?.user.role !== "seller" ? (
                 <DropdownMenuItem
                   onClick={() => openDialog(true, UPDATE_ALERT_DIALOG_ID)}
                 >
                   Update Shop
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem disabled={true}>Update Shop</DropdownMenuItem>
+                <DropdownMenuItem disabled>Update Shop</DropdownMenuItem>
               )}
 
               <DropdownMenuSeparator />
@@ -237,7 +242,7 @@ const ShopColumns: ColumnDef<Shop>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {session?.user.role === "root" ? (
+          {session?.user.role !== "seller" ? (
             <Fragment>
               <ShopUpdateForm
                 dialogID={UPDATE_ALERT_DIALOG_ID}
