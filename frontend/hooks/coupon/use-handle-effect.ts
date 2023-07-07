@@ -51,7 +51,7 @@ const useHandleRequestEffect = (
         title: "Coupon Claimed Successfully",
         description: "Don't forget to copy the URL to make it yours.",
       });
-  }, [isError, isSuccess, toast]);
+  }, [isError, isSuccess, toast, error]);
 };
 
 export { useHandleVerifyEffect, useHandleRequestEffect };
