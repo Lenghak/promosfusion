@@ -8,16 +8,19 @@ import { useGetMemberService } from "@/services/member";
 
 import { number } from "zod";
 
+import { CouponDetailPBandPrice } from "@/types/campaign";
+import { CouponDetailBOGO } from "@/types/campaign";
+
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
-  if (status === "Active") {
-    return "green";
-  } else if (status === "Inactive") {
-    return "gray";
-  } else if (status === "Pending") {
-    return "yellow";
+  if (status === "new") {
+    return "bg-primary hover:bg-primary/80";
+  } else if (status === "valid") {
+    return "bg-green-500 hover:bg-green-500/80";
+  } else if (status === "verified") {
+    return "bg-yellow-500 hover:bg-yellow-500/80";
   } else {
-    return "default";
+    return "bg-red-500 hover:bg-red-500/80";
   }
 };
 
@@ -35,7 +38,7 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
     isFetching: isFetchingCampaigns,
   } = useGetCampaignService(`${id!!}`);
 
-  console.log(campaign);
+  // console.log(campaign?.couponDetail.value);
 
   let userId = campaign?.coupons[0]?.transactions[0]?.createdBy;
 
@@ -122,13 +125,25 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
                   </div>
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
-                  <div className="text-muted-foreground">Coupon Type Detail</div>
-                  <div>{}</div>
+                  <div className="text-muted-foreground">
+                    Coupon Type Detail
+                  </div>
+                  {"value" in campaign?.couponDetail ? (
+                    <div>{campaign?.couponDetail?.value}%</div>
+                  ) : "buy" in campaign?.couponDetail &&
+                    "get" in campaign?.couponDetail ? (
+                    <div>
+                      Buy {campaign.couponDetail.buy} Get{" "}
+                      {campaign?.couponDetail.get}
+                    </div>
+                  ) : (
+                    <div>No Detail</div>
+                  )}
                 </div>
                 <div className="grid grid-flow-col grid-cols-2">
                   <div className="text-muted-foreground">Status</div>
                   <div>
-                    <Badge color={getStatusBadgeColor(campaign?.status ?? "")}>
+                    <Badge className={`${getStatusBadgeColor(campaign?.status ?? "")}`}>
                       {campaign?.status}
                     </Badge>
                   </div>
