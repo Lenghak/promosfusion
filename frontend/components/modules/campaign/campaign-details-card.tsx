@@ -129,7 +129,9 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
                     Coupon Type Detail
                   </div>
                   {"value" in campaign?.couponDetail ? (
-                    <div>{campaign?.couponDetail?.value}%</div>
+                    <div>{campaign?.couponDetail?.value}{
+                      campaign?.couponType === "Percent Based" ? "%" : "$"
+                    }</div>
                   ) : "buy" in campaign?.couponDetail &&
                     "get" in campaign?.couponDetail ? (
                     <div>
