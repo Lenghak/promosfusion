@@ -3,11 +3,12 @@ import {
   useDeleteCampaign,
   useGetCampaign,
   useGetCampaigns,
+  useUpdateCampaign,
 } from "@/lib/axios/campaign";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { CreateCampaignData } from "@/types/campaign";
+import { CreateCampaignData, UpdateCampaignData } from "@/types/campaign";
 
 const useGetCampaignsService = () => {
   const getCampaigns = useGetCampaigns();
@@ -42,6 +43,25 @@ const useCreateCampaignService = () => {
   });
 };
 
+const useUpdateCampaignService = () => {
+  const updateCampaign = useUpdateCampaign();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ["campaign-update"],
+    mutationFn: async ({
+      campaignId,
+      data,
+    }: {
+      campaignId: string;
+      data: UpdateCampaignData;
+    }) => await updateCampaign(campaignId, data),
+    onSettled: async () => {
+      await queryClient.invalidateQueries(["campaigns"]);
+    },
+  });
+};
+
 const useDeleteCampaignService = () => {
   const deleteCampaign = useDeleteCampaign();
   return useMutation({
@@ -57,5 +77,6 @@ export {
   useGetCampaignsService,
   useGetCampaignService,
   useCreateCampaignService,
+  useUpdateCampaignService,
   useDeleteCampaignService,
 };
