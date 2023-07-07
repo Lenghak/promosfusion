@@ -28,6 +28,7 @@ import { useHandleDeleteEffect } from "@/hooks/member/use-handle-effect";
 import { usePermission } from "@/hooks/member/use-permission";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { AvatarCard } from "../avatar-card";
 
@@ -36,23 +37,30 @@ import { Member } from "@/types/member";
 const MemberColumns: ColumnDef<Member>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        id={"checkbox"}
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => {
-          row.toggleSelected(!!value);
-        }}
-        aria-label="Select row"
-      />
-    ),
+    header: function Header({ table }) {
+      const { data: session } = useSession();
+      return session?.user.role !== "seller" ? (
+        <Checkbox
+          id={"checkbox"}
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ) : null;
+    },
+    cell: function Cell({ row }) {
+      const { data: session } = useSession();
+
+      return session?.user.role !== "seller" ? (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => {
+            row.toggleSelected(!!value);
+          }}
+          aria-label="Select row"
+        />
+      ) : null;
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -252,7 +260,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {/* Assigning Member */}
-              {permission(cell.row.original) ? (
+              {permission(cell.row.original, "d") ? (
                 <DropdownMenuItem
                   onClick={() =>
                     openDialog(
@@ -264,14 +272,17 @@ const MemberColumns: ColumnDef<Member>[] = [
                   Assign to
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem disabled>Update Member</DropdownMenuItem>
+                <DropdownMenuItem disabled>Assign Member</DropdownMenuItem>
               )}
-              <DropdownMenuItem>
-                <Link href={`/members/${cell.row.original.id}`}>
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/members/${cell.row.original.id}`}
+                  className={"h-full w-full"}
+                >
                   View Member
                 </Link>
               </DropdownMenuItem>
-              {permission(cell.row.original) ? (
+              {permission(cell.row.original, "u") ? (
                 <DropdownMenuItem
                   onClick={() =>
                     openDialog(
@@ -288,7 +299,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               <DropdownMenuSeparator />
 
               {/* Delete Member */}
-              {permission(cell.row.original) ? (
+              {permission(cell.row.original, "d") ? (
                 <DropdownMenuItem
                   className="font-medium text-destructive"
                   onClick={() =>
@@ -310,7 +321,7 @@ const MemberColumns: ColumnDef<Member>[] = [
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-          {permission(cell.row.original) && (
+          {permission(cell.row.original, "u") && (
             <Fragment>
               <MemberUpdateForm
                 member={cell.row.original as Member}
