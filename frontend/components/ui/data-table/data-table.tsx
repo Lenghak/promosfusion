@@ -66,6 +66,7 @@ const DataTable = <TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -88,6 +89,10 @@ const DataTable = <TData, TValue>({
         )
       : null;
   }, [rowSelection, table, onRowSelectChange]);
+
+  useEffect(() => {
+    table.setPageSize(50);
+  }, [table]);
 
   return (
     <div>

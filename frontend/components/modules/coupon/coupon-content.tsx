@@ -27,7 +27,6 @@ const CouponContent = ({
   couponType,
   description,
   expiredAt,
-  title,
   companyName,
   logo,
   status,
@@ -83,20 +82,20 @@ const CouponContent = ({
         status === "verified" ? "border-0" : ""
       )}
     >
-      <div className="flex items-center justify-center gap-8">
+      <div className="flex items-center justify-center gap-4">
         {logo ? (
           <Image
             src={logo}
-            width={80}
-            height={80}
+            width={96}
+            height={96}
             alt="Company Logo"
-            className="my-2 h-20 w-20 object-cover"
+            className="my-2 h-24 w-24 object-cover"
           />
         ) : (
           <Logo
-            width={80}
-            height={80}
-            className={"my-2 h-20 w-20 object-cover"}
+            width={96}
+            height={96}
+            className={"my-2 h-24 w-24 object-cover"}
           />
         )}
         <div className="flex flex-col items-center justify-center gap-4 text-center">
@@ -107,9 +106,6 @@ const CouponContent = ({
           </span>
         </div>
       </div>
-
-      {/*//* Title */}
-      <span className="text-lg font-bold capitalize">{title}</span>
 
       {/*//* Description */}
       <span className="mb-2 max-h-20 max-w-sm overflow-hidden text-ellipsis whitespace-break-spaces text-center text-sm">
