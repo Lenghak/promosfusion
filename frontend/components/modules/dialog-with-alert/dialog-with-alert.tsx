@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { useDialogStore } from "@/lib/zustand";
+import { cn } from "@/lib/utils";
 
 type DialogWithAlertProps = {
   id: string;
@@ -31,6 +32,7 @@ type DialogWithAlertProps = {
   children?: React.ReactNode;
   alertTitle?: React.ReactNode;
   alertDescription?: React.ReactNode;
+  className?: string;
 };
 
 const DialogWithAlert = ({
@@ -41,6 +43,7 @@ const DialogWithAlert = ({
   children,
   alertTitle,
   alertDescription,
+  className,
 }: DialogWithAlertProps) => {
   const {
     alertOpen,
@@ -59,7 +62,7 @@ const DialogWithAlert = ({
         open={dialogOpen && id === dialogId}
       >
         {dialogTrigger}
-        <DialogContent className="flex h-screen flex-col gap-4 sm:h-fit ">
+        <DialogContent className={cn("flex h-screen flex-col gap-4 sm:h-fit", className)}>
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>
