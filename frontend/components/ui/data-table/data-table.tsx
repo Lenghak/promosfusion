@@ -21,7 +21,6 @@ import {
 
 import { cn } from "@/lib/utils";
 
-import { usePermission } from "@/hooks/member/use-permission";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -84,7 +83,6 @@ const DataTable = <TData, TValue>({
     enableRowSelection: true,
   });
 
-  const permission = usePermission();
   const { data: session } = useSession();
 
   useEffect(() => {
