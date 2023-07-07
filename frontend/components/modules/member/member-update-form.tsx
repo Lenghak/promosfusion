@@ -43,9 +43,15 @@ const memberUpdateSchema = z.object({
     message: "Name must be at least 2 characters.",
   }),
   email: z.string().email({ message: "This is not a valid email address" }),
-  // password: z
-  //   .string()
-  //   .min(8, { message: "Password must be at least 8 characters." }),
+  password: z
+    .string()
+
+    .refine(
+      (value) => {
+        return value.length === 0 ? true : value.length >= 8;
+      },
+      { message: "Password must be at least 8 characters." }
+    ),
   role: z.enum(["manager", "seller"], {
     required_error: "Please select a role",
     invalid_type_error: "Select either manager or seller",
@@ -65,6 +71,7 @@ const MemberUpdateForm = ({
       name: member.name,
       email: member.email,
       role: member.role as "manager" | "seller",
+      password: "",
     },
     shouldUnregister: true,
   });
@@ -153,6 +160,23 @@ const MemberUpdateForm = ({
                 <FormControl>
                   <Input
                     placeholder="example@email.com"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="New Password"
                     {...field}
                   />
                 </FormControl>
