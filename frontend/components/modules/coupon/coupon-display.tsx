@@ -95,12 +95,12 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
           }/coupons/${couponId}?token=${getParam("token")}`} // This is the token
           action={
             coupon?.data.currentStatus === "valid" &&
-            session &&
+            session?.user.token &&
             !isVerifying &&
             !isVerified ? (
               <Button onClick={() => verifyCoupon()}>Verify</Button>
             ) : coupon?.data.currentStatus === "new" &&
-              !session &&
+              !session?.user.token &&
               !isClaiming ? (
               <Button
                 onClick={() => claimCoupon()}
