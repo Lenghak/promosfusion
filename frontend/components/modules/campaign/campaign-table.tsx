@@ -21,15 +21,10 @@ type CampaignTableProps = {
 };
 
 const CampaignTable = ({}: CampaignTableProps) => {
-  const {
-    data: campaigns,
-    isError: isGetCampaignsError,
-    isLoading: isGettingCampaigns,
-    isFetching: isFetchingCampaigns,
-  } = useGetCampaignsService();
+  const { data: campaigns } = useGetCampaignsService();
 
   return (
-    <div className="py-4">
+    <div>
       <DataTable
         widget={<CampaignCreateForm />}
         filterBy="name"
