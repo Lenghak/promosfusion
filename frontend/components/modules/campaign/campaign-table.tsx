@@ -1,7 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 
 import { useGetCampaignsService } from "@/services/campaign";
@@ -31,7 +29,7 @@ const CampaignTable = ({}: CampaignTableProps) => {
   } = useGetCampaignsService();
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       <DataTable
         widget={<CampaignCreateForm />}
         filterBy="name"
