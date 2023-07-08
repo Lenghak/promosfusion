@@ -23,7 +23,7 @@ export default async function middleware(request: NextRequest) {
   if (!isAuthPath && !token)
     return NextResponse.redirect(new URL("/sign-in", request.url));
 
-  if (pathname.startsWith("/dashboard") && token?.role)
+  if (pathname.startsWith("/dashboard") && token?.role === "seller")
     return NextResponse.redirect(new URL("/campaigns", request.url));
   return NextResponse.next();
 }
