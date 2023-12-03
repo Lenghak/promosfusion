@@ -5,7 +5,7 @@ import axios, { AxiosInstance } from "axios";
  * @description Axios instance for associating with api call
  */
 const instance: AxiosInstance = axios.create({
-  baseURL: "https://couponapi.textura-art.com",
+  baseURL: "https://couponapi.promosfusion.com",
   headers: {
     "X-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const instance: AxiosInstance = axios.create({
 });
 
 const authorizedInstance: AxiosInstance = axios.create({
-  baseURL: "https://couponapi.textura-art.com",
+  baseURL: "https://couponapi.promosfusion.com",
   headers: {
     "X-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",
