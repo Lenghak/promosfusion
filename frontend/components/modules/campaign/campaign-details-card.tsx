@@ -30,14 +30,13 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
     data: campaign,
     isError: isGetCampaignsError,
     isLoading: isGettingCampaigns,
-    isFetching: isFetchingCampaigns,
-  } = useGetCampaignService(`${id!!}`);
+  } = useGetCampaignService(`${id!}`);
 
   // console.log(campaign?.couponDetail.value);
 
-  let userId = campaign?.coupons[0]?.transactions[0]?.createdBy;
+  const userId = campaign?.coupons[0]?.transactions[0]?.createdBy;
 
-  const { data: user } = useGetMemberService(`${userId!!}`);
+  const { data: user } = useGetMemberService(`${userId!}`);
 
   let createdCoupon;
   if (campaign && campaign.maxCreatableCoupon && campaign.creatableCoupon) {
@@ -143,7 +142,7 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
                   <div>
                     <Badge
                       className={`${getStatusBadgeColor(
-                        campaign?.status ?? ""
+                        campaign?.status ?? "",
                       )}`}
                     >
                       {campaign?.status}
@@ -159,4 +158,4 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
   );
 };
 
-export { CampaignDetailsCard };
+export { CampaignDetailsCard as default };

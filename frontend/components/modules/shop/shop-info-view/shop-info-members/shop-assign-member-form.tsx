@@ -16,17 +16,18 @@ import {
 } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/select/multi-select";
 
+import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
+
 import { useDialogStore } from "@/lib/zustand";
 
 import { useGetMembersService } from "@/services/member";
 import { useAssignShopService } from "@/services/shop";
 
-import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, UserPlus, UserX } from "lucide-react";
 import z from "zod";
 
-import { Members } from "@/types/member";
+import { type Members } from "@/types/member";
 
 type ShopAssignFormProps = {
   dialogTrigger?: React.ReactNode;
@@ -61,7 +62,7 @@ const ShopAssignForm = ({
       ? {
           ...rawMembers,
           data: rawMembers.data.filter(
-            (member) => !member.shopIds.includes(shopId)
+            (member) => !member.shopIds.includes(shopId),
           ),
         }
       : undefined;
@@ -78,7 +79,7 @@ const ShopAssignForm = ({
   useHandleAssignShopEffect(
     isAssignError,
     isSuccess,
-    `shop-assign-dialog-${shopId}`
+    `shop-assign-dialog-${shopId}`,
   );
 
   return (
@@ -111,7 +112,7 @@ const ShopAssignForm = ({
               assignShop({
                 shopId: shopId,
                 data: { userIds: values.memberIds },
-              })
+              }),
             )}
             className="space-y-4"
           >

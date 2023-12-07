@@ -20,9 +20,8 @@ const newPassword = z.object({
   otp: z.string().length(6, "The verification code must be 6 numbers long"),
 });
 
-type ResetPasswordFormProps = {};
 
-export function ResetPasswordForm({}: ResetPasswordFormProps) {
+export function ResetPasswordForm() {
   const form = useForm<z.infer<typeof newPassword>>({
     defaultValues: {
       otp: "",

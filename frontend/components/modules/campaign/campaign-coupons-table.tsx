@@ -19,9 +19,9 @@ type CampaignCouponsTableProps = {
 };
 
 const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
-  const { data: campaign } = useGetCampaignService(`${id!!}`);
+  const { data: campaign } = useGetCampaignService(`${id!}`);
 
-  const { data: coupons } = useGetCouponsService(`${id!!}`);
+  const { data: coupons } = useGetCouponsService(`${id!}`);
 
   return (
     <div className="p-4">

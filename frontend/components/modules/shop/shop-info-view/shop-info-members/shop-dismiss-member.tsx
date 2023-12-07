@@ -15,14 +15,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
+import { useHandleDismissShopEffect } from "@/hooks/member/use-handle-effect";
+
 import { useDismissShopService } from "@/services/shop";
 
-import { useHandleDismissShopEffect } from "@/hooks/member/use-handle-effect";
 import { Loader2, UserMinus } from "lucide-react";
 import { useSession } from "next-auth/react";
 import z from "zod";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type ShopDismissMemberProps = {
   selectedMember: Member[];
@@ -66,14 +67,14 @@ const ShopDismissMember = ({
         });
     },
 
-    [session, dismissShop, shopId]
+    [session, dismissShop, shopId],
   );
 
   useHandleDismissShopEffect(
     isDismissError,
     isDismissSuccess,
     dismissError as Error,
-    setAlertOpen
+    setAlertOpen,
   );
 
   return (
@@ -127,9 +128,9 @@ const ShopDismissMember = ({
               handleDismissMember(
                 ShopDismissSchema.parse({
                   selectedMembers: selectedMember.map(
-                    (member) => `${member.id}`
+                    (member) => `${member.id}`,
                   ),
-                })
+                }),
               )
             }
             className={"bg-destructive hover:bg-destructive/80"}

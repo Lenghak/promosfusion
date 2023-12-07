@@ -32,7 +32,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, Loader2 } from "lucide-react";
 import z from "zod";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type MemberAssignFormProps = {
   member: Member;

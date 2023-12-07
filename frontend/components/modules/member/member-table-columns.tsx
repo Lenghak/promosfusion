@@ -26,13 +26,13 @@ import { useDeleteMemberService } from "@/services/member";
 
 import { useHandleDeleteEffect } from "@/hooks/member/use-handle-effect";
 import { usePermission } from "@/hooks/member/use-permission";
-import { ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { AvatarCard } from "../avatar-card";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 const MemberColumns: ColumnDef<Member>[] = [
   {
@@ -336,7 +336,7 @@ const MemberColumns: ColumnDef<Member>[] = [
           {permission(cell.row.original.role, cell.row.original.uuid, "u") && (
             <Fragment>
               <MemberUpdateForm
-                member={cell.row.original as Member}
+                member={cell.row.original }
                 dialogID={`member-update-dialog-${cell.row.original.id}`}
               />
               <MemberDeleteForm

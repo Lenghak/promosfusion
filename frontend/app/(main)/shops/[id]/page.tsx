@@ -12,9 +12,9 @@ type ShopProps = {
   };
 };
 
-export default function Shop({ params }: ShopProps) {
+export default async function Shop({ params }: ShopProps) {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["shops", params.id],
     queryFn: async () => await getShop(params.id),
   });

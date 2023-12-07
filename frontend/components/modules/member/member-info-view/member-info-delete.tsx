@@ -4,7 +4,7 @@ import { MemberDeleteForm } from "@/components/modules/member/member-delete-form
 
 import { usePermission } from "@/hooks/member/use-permission";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 const MemberInfoDelete = ({ member }: { member: Member }) => {
   const permission = usePermission();

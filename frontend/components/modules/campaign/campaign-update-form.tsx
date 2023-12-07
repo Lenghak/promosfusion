@@ -33,7 +33,7 @@ import { z } from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
 
-import { Campaign } from "@/types/campaign";
+import { type Campaign } from "@/types/campaign";
 
 type CampaignUpdateFormProps = {
   campaign: Campaign;

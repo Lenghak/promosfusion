@@ -14,7 +14,7 @@ import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
   const { data: shop, isError, isLoading, error } = useGetShopService(shopId);

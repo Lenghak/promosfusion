@@ -31,7 +31,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, UserPlus } from "lucide-react";
 import * as z from "zod";
 
-type MemberCreateFormProps = {};
 
 const MEMBER_CREATE_DIALOG_ID = "member-create-dialog";
 
@@ -49,7 +48,7 @@ const memberFormSchema = z.object({
   }),
 });
 
-const MemberCreateForm = ({}: MemberCreateFormProps) => {
+const MemberCreateForm = () => {
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {

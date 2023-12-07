@@ -4,7 +4,7 @@ import { ShopDeleteForm } from "@/components/modules/shop/shop-delete-form";
 
 import { useSession } from "next-auth/react";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 const ShopInfoDelete = ({ shop }: { shop?: Shop }) => {
   const { data: session } = useSession();

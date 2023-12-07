@@ -7,9 +7,8 @@ import { useGetShopsService } from "@/services/shop";
 
 import { ShopCreateForm } from "./shop-create-form";
 
-type ShopTableProps = {};
 
-const ShopDataTable = ({}: ShopTableProps) => {
+const ShopDataTable = () => {
   const { data: shops } = useGetShopsService();
 
   return (

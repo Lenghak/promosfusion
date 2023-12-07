@@ -6,13 +6,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
+import { useHandleRequestEffect, useHandleVerifyEffect } from "@/hooks/coupon";
+
 import {
   useGetCouponService,
   useRequestCouponService,
   useVerifyCouponService,
 } from "@/services/coupon";
 
-import { useHandleRequestEffect, useHandleVerifyEffect } from "@/hooks/coupon";
 import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -31,7 +32,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
 
   const { get: getParam } = useSearchParams();
 
-  const { replace } = useRouter();
+  const router = useRouter();
 
   const { data: session } = useSession();
 
@@ -49,7 +50,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     isSuccess: isClaimed,
     isError: isClaimError,
     error: claimError,
-  } = useRequestCouponService(coupon?.data.cuid!!, getParam("token")!!);
+  } = useRequestCouponService(coupon?.data?.cuid ?? "", getParam("token")!);
 
   const {
     mutate: verifyCoupon,
@@ -57,14 +58,14 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
     isError: isVerifyError,
     error: verifyError,
     isSuccess: isVerified,
-  } = useVerifyCouponService(coupon?.data.cuid!!, getParam("token")!!);
+  } = useVerifyCouponService(coupon?.data.cuid ?? "", getParam("token")!);
 
   useHandleVerifyEffect(isVerifyError, isVerified, verifyError as Error);
   useHandleRequestEffect(isClaimError, isClaimed, claimError as Error);
 
   useEffect(() => {
-    if (isClaimed) replace(`${pathName}/?token=${response.data.token}`);
-  }, [isClaimed, pathName, response, replace]);
+    if (isClaimed) router.replace(`${pathName}/?token=${response.data.token}`);
+  }, [isClaimed, pathName, response, router]);
 
   return coupon ? (
     <div

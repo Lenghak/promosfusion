@@ -12,7 +12,7 @@ type CouponProps = {
 export default async function Coupon({ params }: CouponProps) {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["coupon"],
+    queryKey: ["coupons", params.id],
     queryFn: () => getCoupon(params.id),
   });
   const dehydratedState = dehydrate(queryClient);

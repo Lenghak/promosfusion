@@ -11,7 +11,7 @@ const getCampaigns: () => Promise<Campaign[]> = async () => {
 
 const useGetCampaigns = () => {
   const axios = useAxiosAuth();
-  return async () => axios.get("/campaigns").then((res) => res.data);
+  return (async () => axios.get("/campaigns").then((res) => res.data));
 };
 
 const useGetCampaign = (campaignId: string) => {

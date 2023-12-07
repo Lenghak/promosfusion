@@ -4,7 +4,7 @@ import { ShopBasicLogo } from "./shop-basic-logo";
 import { ShopInfo } from "./shop-info";
 import { ShopInfoDelete } from "./shop-info-delete";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 type ShopInfoBasicProps = { shop?: Shop };
 

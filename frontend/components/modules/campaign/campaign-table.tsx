@@ -4,7 +4,7 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { useGetCampaignsService } from "@/services/campaign";
 
-import { CampaignCreateForm } from "./campaign-create-form";
+import CampaignCreateForm from "./campaign-create-form";
 import { columns } from "./campaign-table-columns";
 
 type CampaignTableProps = {
@@ -21,6 +21,7 @@ type CampaignTableProps = {
 };
 
 const CampaignTable = ({}: CampaignTableProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data: campaigns } = useGetCampaignsService();
 
   return (
@@ -30,10 +31,11 @@ const CampaignTable = ({}: CampaignTableProps) => {
         filterBy="name"
         tableContainerClass="h-[59vh] overflow-y-auto"
         columns={columns}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         data={campaigns?.data || []}
       />
     </div>
   );
 };
 
-export { CampaignTable };
+export { CampaignTable as default };

@@ -64,6 +64,7 @@ const SideMenu = () => {
             href={"/dashboard"}
             Icon={LayoutGrid}
             name="Dashboard"
+            disabled
           />
         )}
 
@@ -115,18 +116,21 @@ const SideMenu = () => {
           href={"/reports"}
           Icon={Flag}
           name="Reports"
+          disabled
         />
 
         <MenuTab
           href={"/activities"}
           Icon={Activity}
           name="Actvities"
+          disabled
         />
 
         <MenuTab
           href={"/schedules"}
           Icon={Calendar}
           name="Schedules"
+          disabled
         />
       </section>
 

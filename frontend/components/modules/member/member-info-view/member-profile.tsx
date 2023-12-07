@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { Edit } from "lucide-react";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type MemberProfileProps = {
   member: Member;

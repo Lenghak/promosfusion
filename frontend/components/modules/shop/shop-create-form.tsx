@@ -26,7 +26,6 @@ import z from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
 
-type ShopCreateFormProps = {};
 
 const shopCreateFormSchema = z.object({
   name: z.string().min(2, {
@@ -40,7 +39,7 @@ const shopCreateFormSchema = z.object({
 
 const SHOP_CREATE_DIALOG_ID = "shop-create-dialog-id";
 
-const ShopCreateForm = ({}: ShopCreateFormProps) => {
+const ShopCreateForm = () => {
   const form = useForm<z.infer<typeof shopCreateFormSchema>>({
     resolver: zodResolver(shopCreateFormSchema),
     defaultValues: {

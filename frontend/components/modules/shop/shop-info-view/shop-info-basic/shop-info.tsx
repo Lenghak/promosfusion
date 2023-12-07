@@ -9,7 +9,7 @@ import { useDialogStore } from "@/lib/zustand";
 import { Edit } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 type ShopInfoProps = {
   shop?: Shop;

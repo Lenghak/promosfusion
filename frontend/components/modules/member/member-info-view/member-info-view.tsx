@@ -27,15 +27,15 @@ const MemberInfoView = ({ id }: MemberInfoViewProps) => {
     <section className="flex h-full w-full flex-col gap-4 ">
       {/* Profile Picture + Name + Email */}
       <MemberProfile
-        member={member.data!!}
+        member={member.data}
         isQueryingMember={isQueryingMember}
       />
 
       {/* Information in the of cards in sequence  */}
-      <MemberInfo member={member.data!!} />
+      <MemberInfo member={member.data} />
 
       {/* Delete user section */}
-      <MemberInfoDelete member={member.data!!} />
+      <MemberInfoDelete member={member.data} />
     </section>
   ) : isQueryingError ? (
     <MemberError

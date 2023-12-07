@@ -1,10 +1,10 @@
-import { ButtonProps, buttonVariants } from "@/components/ui/button";
-import { NavLink, NavLinkProps } from "@/components/ui/nav-link";
+import { type ButtonProps, buttonVariants } from "@/components/ui/button";
+import { NavLink, type NavLinkProps } from "@/components/ui/nav-link";
 
 import { cn } from "@/lib/utils";
 import { useSideMenuStore } from "@/lib/zustand";
 
-import { LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 /**
  * @description the menu tab component for menu
@@ -13,8 +13,6 @@ const MenuTab = ({
   href,
   name,
   Icon,
-  className,
-
   ...props
 }: {
   name: string;
@@ -24,9 +22,9 @@ const MenuTab = ({
   const { isSideMenuOpen } = useSideMenuStore((state) => state);
   return (
     <NavLink
-      href={props.disabled ? "" :  href}
+      href={props.disabled ? "" : href}
       className={cn([
-        buttonVariants({    
+        buttonVariants({
           variant: "ghost",
         }),
         `relative w-full justify-center gap-4 ${
@@ -35,7 +33,7 @@ const MenuTab = ({
             : "w-fit justify-center place-self-center self-center px-3"
         }`,
         props.disabled
-          ? "cursor-not-allowed text-muted-foreground hover:!bg-none"
+          ? "cursor-not-allowed bg-background text-muted-foreground hover:!bg-background hover:text-muted-foreground"
           : "",
       ])}
       activeClass={"text-primary"}

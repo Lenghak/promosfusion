@@ -20,14 +20,14 @@ import { useDialogStore } from "@/lib/zustand";
 import { useDeleteCampaignService } from "@/services/campaign";
 
 import { useHandleDeleteEffect } from "@/hooks/campaign/use-handle-effect";
-import { ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { CampaignDeleteForm } from "./campaign-delete-form";
 import { CampaignUpdateForm } from "./campaign-update-form";
 
-import { Campaign } from "@/types/campaign";
+import { type Campaign } from "@/types/campaign";
 
 export const columns: ColumnDef<Campaign>[] = [
   {

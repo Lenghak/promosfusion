@@ -1,8 +1,6 @@
 "use client";
 
-type ErrorProps = {};
-
-export default function Error({}: ErrorProps) {
+export default function Error() {
   return (
     <div className="grid h-full min-h-screen w-full place-content-center place-items-center">
       <span className="text-xl">

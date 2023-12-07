@@ -8,12 +8,16 @@ import {
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { CreateCampaignData, UpdateCampaignData } from "@/types/campaign";
+import {
+  type CreateCampaignData,
+  type UpdateCampaignData,
+} from "@/types/campaign";
 
 const useGetCampaignsService = () => {
   const getCampaigns = useGetCampaigns();
   return useQuery({
     queryKey: ["campaigns"],
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     queryFn: async () => await getCampaigns(),
     refetchOnMount: true,
     refetchOnReconnect: true,

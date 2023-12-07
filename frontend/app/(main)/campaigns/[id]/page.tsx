@@ -17,12 +17,10 @@ export default async function CampaignDetails({
   params,
 }: CampaignDetailsProps) {
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(
-    {
-      queryKey : ["coupons"],
-      queryFn : async () => await getCoupons(params.id)
-    }
-  );
+  await queryClient.prefetchQuery({
+    queryKey: ["coupons", params.id],
+    queryFn: async () => await getCoupons(params.id),
+  });
   const dehydratedState = dehydrate(queryClient);
 
   return (

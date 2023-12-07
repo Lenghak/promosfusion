@@ -1,18 +1,13 @@
+/** @type {import("prettier").Config} */
 module.exports = {
   arrowParens: "always",
   bracketSpacing: true,
-  endOfLine: "lf",
   htmlWhitespaceSensitivity: "css",
-  singleAttributePerLine: true,
   jsxSingleQuote: false,
-  proseWrap: "preserve",
-  quoteProps: "as-needed",
+  singleAttributePerLine: true,
   semi: true,
   singleQuote: false,
   tabWidth: 2,
-  trailingComma: "es5",
-  useTabs: false,
-  embeddedLanguageFormatting: "auto",
   parser: "typescript",
   plugins: [
     require.resolve("@trivago/prettier-plugin-sort-imports"),
@@ -22,8 +17,10 @@ module.exports = {
     "^@/scss/(.*)$",
     "^react(.*)$",
     "^next/(.*)$",
-    "@^/layouts/(.*)$",
+    "^@/layouts/(.*)$",
+    "^@/modules/(.*)$",
     "^@/components/(.*)$",
+    "^@/hooks/(.*)$",
     "^@/lib/(.*)$",
     "^@/services/(.*)$",
     "<THIRD_PARTY_MODULES>",
@@ -37,6 +34,10 @@ module.exports = {
     {
       files: "*.scss",
       options: { parser: "scss" },
+    },
+    {
+      files: "*.json",
+      options: { parser: "json" },
     },
   ],
 };
