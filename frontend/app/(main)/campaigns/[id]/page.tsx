@@ -5,7 +5,7 @@ import { PageTitle } from "@/components/modules/page-title";
 import { getCoupons } from "@/lib/axios/coupon";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate, Hydrate } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type CampaignDetailsProps = {
   params: {
@@ -18,8 +18,10 @@ export default async function CampaignDetails({
 }: CampaignDetailsProps) {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
-    ["coupons"],
-    async () => await getCoupons(params.id)
+    {
+      queryKey : ["coupons"],
+      queryFn : async () => await getCoupons(params.id)
+    }
   );
   const dehydratedState = dehydrate(queryClient);
 
@@ -34,9 +36,9 @@ export default async function CampaignDetails({
       <div className="px-4">
         <CampaignDetailsCard id={params.id} />
       </div>
-      <Hydrate state={dehydratedState}>
+      <HydrationBoundary state={dehydratedState}>
         <CampaignCouponsTable id={params.id} />
-      </Hydrate>
+      </HydrationBoundary>
     </div>
   );
 }

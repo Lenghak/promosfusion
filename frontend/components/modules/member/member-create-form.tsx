@@ -28,8 +28,7 @@ import { useCreateMemberService } from "@/services/member";
 
 import { useHandleCreatedEffect } from "@/hooks/member";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from "lucide-react";
-import { Loader2 } from "lucide-react";
+import { Loader2, UserPlus } from "lucide-react";
 import * as z from "zod";
 
 type MemberCreateFormProps = {};
@@ -66,7 +65,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
     isSuccess: isMemberCreated,
     isError: isMemberCreatedError,
     error: memberError,
-    isLoading: isCreatingMember,
+    isPending: isCreatingMember,
   } = useCreateMemberService();
 
   const { openDialog, openAlert } = useDialogStore((state) => state);

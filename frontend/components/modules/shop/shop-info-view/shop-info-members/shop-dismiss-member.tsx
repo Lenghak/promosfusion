@@ -43,7 +43,7 @@ const ShopDismissMember = ({
 }: ShopDismissMemberProps) => {
   const {
     mutate: dismissShop,
-    isLoading: isDismissing,
+    isPending: isDismissing,
     isError: isDismissError,
     error: dismissError,
     isSuccess: isDismissSuccess,

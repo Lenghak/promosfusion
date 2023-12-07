@@ -2,7 +2,7 @@
 
 import React, { Fragment } from "react";
 
-import ProgressBar from "next-nprogress-bar";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 type RouteProgressProviderProps = {
   children: React.ReactNode;
@@ -13,9 +13,8 @@ const RouteProgressProvider = ({ children }: RouteProgressProviderProps) => {
     <Fragment>
       <ProgressBar
         height="4px"
-        color={true ? "#2563eb" : "#3b82f6"}
+        color={"#2563eb"}
         options={{ showSpinner: false }}
-        appDirectory
       />
       {children}
     </Fragment>

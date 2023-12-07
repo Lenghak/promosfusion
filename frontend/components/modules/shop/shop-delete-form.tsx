@@ -31,7 +31,7 @@ const ShopDeleteForm = ({
 }) => {
   const {
     mutate: deleteShop,
-    isLoading: isDeletingShop,
+    isPending: isDeletingShop,
     isSuccess: isShopDeleted,
     isError: isDeleteError,
   } = useDeleteShopService();

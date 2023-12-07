@@ -32,8 +32,7 @@ const useHandleCreateEffect = (
     if (isSuccess) {
       toast({
         title: successTitle ?? "Campaign Created Successfully",
-        description:
-          successDescription ?? "The campaign can now be used.",
+        description: successDescription ?? "The campaign can now be used.",
       });
       openDialog(false, dialogID);
     }
@@ -90,9 +89,9 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         variant: "default",
       });
       pathName !== "/campaigns" ? replace("/campaigns") : null;
-      queryClient.invalidateQueries(["campaigns"]).then();
+      queryClient.invalidateQueries({ queryKey: ["campaigns"] }).then();
     }
   }, [isError, isSuccess, toast, queryClient, replace, pathName]);
 };
 
-export { useHandleCreateEffect, useHandleUpdatedEffect, useHandleDeleteEffect };
+export { useHandleCreateEffect, useHandleDeleteEffect, useHandleUpdatedEffect };

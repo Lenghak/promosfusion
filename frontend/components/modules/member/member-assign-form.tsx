@@ -56,7 +56,7 @@ const MemberAssignForm = ({
   const {
     mutate: assignShop,
     isError: isAssignedError,
-    isLoading: isAssigning,
+    isPending: isAssigning,
     isSuccess: isAssigned,
   } = useAssignShopService();
 

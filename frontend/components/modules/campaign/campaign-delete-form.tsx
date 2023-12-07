@@ -31,7 +31,7 @@ const CampaignDeleteForm = ({
 }) => {
   const {
     mutate: deleteCampaign,
-    isLoading: isDeletingCampaign,
+    isPending: isDeletingCampaign,
     isSuccess: isCampaignDeleted,
     isError: isDeleteError,
   } = useDeleteCampaignService();

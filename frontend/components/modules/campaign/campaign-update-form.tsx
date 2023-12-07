@@ -18,28 +18,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useUpdateCampaignService } from "@/services/campaign";
-import { useGetShopsService } from "@/services/shop";
 
 import { useHandleUpdatedEffect } from "@/hooks/campaign/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { z, ZodEnum } from "zod";
+import { z } from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
 
@@ -89,7 +79,7 @@ const CampaignUpdateForm = ({
 
   const {
     mutate: updateCampaign,
-    isLoading: isUpdatingCampaign,
+    isPending: isUpdatingCampaign,
     isSuccess: isCampaignUpdated,
     isError: isCampaignUpdatedError,
   } = useUpdateCampaignService();

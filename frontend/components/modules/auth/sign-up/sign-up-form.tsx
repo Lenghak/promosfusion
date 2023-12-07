@@ -44,7 +44,7 @@ export function SignUpForm({}: SignUpFormProps) {
     mutate: signUp,
     isError: isSignUpError,
     isSuccess: isSignUpSuccess,
-    isLoading: isSigningUp,
+    isPending: isSigningUp,
     error: signUpError,
   } = useSignUpService();
 

@@ -6,11 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useGetCampaignService } from "@/services/campaign";
 import { useGetMemberService } from "@/services/member";
 
-import { number } from "zod";
-
-import { CouponDetailPBandPrice } from "@/types/campaign";
-import { CouponDetailBOGO } from "@/types/campaign";
-
 const getStatusBadgeColor = (status: string) => {
   // Customize badge color based on the status value
   if (status === "new") {
@@ -129,9 +124,10 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
                     Coupon Type Detail
                   </div>
                   {"value" in campaign?.couponDetail ? (
-                    <div>{campaign?.couponDetail?.value}{
-                      campaign?.couponType === "Percent Based" ? "%" : "$"
-                    }</div>
+                    <div>
+                      {campaign?.couponDetail?.value}
+                      {campaign?.couponType === "Percent Based" ? "%" : "$"}
+                    </div>
                   ) : "buy" in campaign?.couponDetail &&
                     "get" in campaign?.couponDetail ? (
                     <div>
@@ -145,7 +141,11 @@ const CampaignDetailsCard = ({ id }: CampaignDetailsCardProps) => {
                 <div className="grid grid-flow-col grid-cols-2">
                   <div className="text-muted-foreground">Status</div>
                   <div>
-                    <Badge className={`${getStatusBadgeColor(campaign?.status ?? "")}`}>
+                    <Badge
+                      className={`${getStatusBadgeColor(
+                        campaign?.status ?? ""
+                      )}`}
+                    >
                       {campaign?.status}
                     </Badge>
                   </div>

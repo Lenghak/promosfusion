@@ -15,8 +15,8 @@ module.exports = {
   embeddedLanguageFormatting: "auto",
   parser: "typescript",
   plugins: [
-    require("@trivago/prettier-plugin-sort-imports"),
-    require("prettier-plugin-tailwindcss"),
+    require.resolve("@trivago/prettier-plugin-sort-imports"),
+    require.resolve("prettier-plugin-tailwindcss"),
   ],
   importOrder: [
     "^@/scss/(.*)$",

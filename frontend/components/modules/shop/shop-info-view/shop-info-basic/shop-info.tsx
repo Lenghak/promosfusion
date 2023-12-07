@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { ShopUpdateForm } from "@/components/modules/shop/shop-update-form";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

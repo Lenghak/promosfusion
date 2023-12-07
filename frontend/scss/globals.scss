@@ -103,6 +103,7 @@
 
     /* Firefox */
     input[type="number"] {
+      appearance: textfield !important;
       -moz-appearance: textfield !important;
     }
   }

@@ -1,7 +1,5 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +19,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { useDialogStore } from "@/lib/zustand";
 import { cn } from "@/lib/utils";
+import { useDialogStore } from "@/lib/zustand";
 
 type DialogWithAlertProps = {
   id: string;
@@ -62,7 +60,9 @@ const DialogWithAlert = ({
         open={dialogOpen && id === dialogId}
       >
         {dialogTrigger}
-        <DialogContent className={cn("flex h-screen flex-col gap-4 sm:h-fit", className)}>
+        <DialogContent
+          className={cn("flex h-screen flex-col gap-4 sm:h-fit", className)}
+        >
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription>{dialogDescription}</DialogDescription>

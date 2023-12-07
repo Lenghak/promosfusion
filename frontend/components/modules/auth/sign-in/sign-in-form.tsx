@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -49,7 +49,7 @@ export function SignInForm({}: SignInFormProps) {
 
   const {
     mutate: signIn,
-    isLoading: isSigningIn,
+    isPending: isSigningIn,
     data: signInResponse,
   } = useSignInService();
 

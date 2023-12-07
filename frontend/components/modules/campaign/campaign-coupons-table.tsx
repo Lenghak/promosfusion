@@ -19,12 +19,7 @@ type CampaignCouponsTableProps = {
 };
 
 const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
-  const {
-    data: campaign,
-    isError: isGetCampaignsError,
-    isLoading: isGettingCampaigns,
-    isFetching: isFetchingCampaigns,
-  } = useGetCampaignService(`${id!!}`);
+  const { data: campaign } = useGetCampaignService(`${id!!}`);
 
   const { data: coupons } = useGetCouponsService(`${id!!}`);
 

@@ -52,7 +52,7 @@ const ShopAssignForm = ({
   const {
     mutate: assignShop,
     isError: isAssignError,
-    isLoading: isAssigning,
+    isPending: isAssigning,
     isSuccess,
   } = useAssignShopService();
 

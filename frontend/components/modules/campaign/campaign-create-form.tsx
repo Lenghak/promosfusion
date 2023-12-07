@@ -103,7 +103,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
 
   const {
     mutate: createCampaign,
-    isLoading: isCreatingCampaign,
+    isPending: isCreatingCampaign,
     isError: isCreateCampaignFailed,
     isSuccess: isCampaignCreated,
   } = useCreateCampaignService();

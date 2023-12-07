@@ -38,14 +38,14 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
   const {
     data: coupon,
     isError: isGetCouponError,
-    isLoading: isGettingCoupon,
+    isPending: isGettingCoupon,
     error: couponError,
   } = useGetCouponService(couponId);
 
   const {
     data: response,
     mutate: claimCoupon,
-    isLoading: isClaiming,
+    isPending: isClaiming,
     isSuccess: isClaimed,
     isError: isClaimError,
     error: claimError,
@@ -53,7 +53,7 @@ const CouponDisplay = ({ couponId }: CouponDisplayProps) => {
 
   const {
     mutate: verifyCoupon,
-    isLoading: isVerifying,
+    isPending: isVerifying,
     isError: isVerifyError,
     error: verifyError,
     isSuccess: isVerified,

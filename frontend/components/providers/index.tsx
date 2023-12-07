@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import { Toaster } from "@/components/ui/toast";
 
 import { SessionProvider } from "next-auth/react";
@@ -14,11 +16,13 @@ type ProvidersProps = {
 export default function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
-      <RouteProgressProvider>
-        <SessionProvider>
-          {children} <Toaster />
-        </SessionProvider>
-      </RouteProgressProvider>
+      <Suspense>
+        <RouteProgressProvider>
+          <SessionProvider>
+            {children} <Toaster />
+          </SessionProvider>
+        </RouteProgressProvider>
+      </Suspense>
     </ReactQueryProvider>
   );
 }

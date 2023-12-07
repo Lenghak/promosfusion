@@ -20,7 +20,7 @@ const CouponProvide = ({ campaignId }: CouponProvideProps) => {
     mutate: generateCoupon,
     data: generateResponse,
     isError: isGenerateError,
-    isLoading: isGenerating,
+    isPending: isGenerating,
   } = useProvideCouponService(campaignId);
 
   const coupon = generateResponse?.data.data;

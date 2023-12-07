@@ -38,7 +38,9 @@ const useCreateCampaignService = () => {
     mutationKey: ["campaign-create"],
     mutationFn: async (data: CreateCampaignData) => await createCampaign(data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["campaigns"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["campaigns"],
+      });
     },
   });
 };
@@ -57,7 +59,9 @@ const useUpdateCampaignService = () => {
       data: UpdateCampaignData;
     }) => await updateCampaign(campaignId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["campaigns"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["campaigns"],
+      });
     },
   });
 };
@@ -68,15 +72,17 @@ const useDeleteCampaignService = () => {
     mutationKey: ["campaign-delete"],
     mutationFn: async (campaignId: string) => await deleteCampaign(campaignId),
     // onSettled: async () => {
-    //   await queryClient.invalidateQueries(["campaigns"]);
+    //   await queryClient.invalidateQueries({
+    // queryKey : ["campaigns"]
+    // });
     // },
   });
 };
 
 export {
-  useGetCampaignsService,
-  useGetCampaignService,
   useCreateCampaignService,
-  useUpdateCampaignService,
   useDeleteCampaignService,
+  useGetCampaignService,
+  useGetCampaignsService,
+  useUpdateCampaignService,
 };

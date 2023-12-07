@@ -3,10 +3,13 @@ import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
 import { getCampaigns } from "@/lib/axios/campaign";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function Campaigns() {
-  await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
+  await getQueryClient().prefetchQuery({
+    queryKey: ["campaigns"],
+    queryFn: async () => await getCampaigns(),
+  });
   const dehydratedState = dehydrate(getQueryClient());
 
   return (
@@ -15,9 +18,9 @@ export default async function Campaigns() {
         <CampaignTitle />
       </div>
       <div>
-        <Hydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
           <CampaignTable />
-        </Hydrate>
+        </HydrationBoundary>
       </div>
     </div>
   );

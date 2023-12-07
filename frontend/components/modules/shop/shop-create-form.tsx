@@ -55,7 +55,7 @@ const ShopCreateForm = ({}: ShopCreateFormProps) => {
 
   const {
     mutate: createShop,
-    isLoading: isCreatingShop,
+    isPending: isCreatingShop,
     isError: isCreateShopFailed,
     isSuccess: isShopCreated,
   } = useCreateShopService();

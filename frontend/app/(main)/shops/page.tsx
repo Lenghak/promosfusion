@@ -4,7 +4,7 @@ import { ShopDataTable } from "@/components/modules/shop";
 import { getShops } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate, Hydrate } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function Shop() {
   //* Shop page will be handled by role.
@@ -13,7 +13,10 @@ export default async function Shop() {
   //* If there is no shop for the admin role. Show the create shop button.
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["shops"], async () => await getShops());
+  await queryClient.prefetchQuery({
+    queryKey: ["shops"],
+    queryFn: async () => await getShops(),
+  });
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -22,9 +25,9 @@ export default async function Shop() {
         title="Shops"
         description="View the list of your shops"
       />
-      <Hydrate state={dehydratedState}>
+      <HydrationBoundary state={dehydratedState}>
         <ShopDataTable />
-      </Hydrate>
+      </HydrationBoundary>
     </div>
   );
 }

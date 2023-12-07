@@ -51,7 +51,9 @@ const useCreateShopService = () => {
     mutationKey: ["shop-create"],
     mutationFn: async (data: CreateShopData) => await createShop(data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["shops"],
+      });
     },
   });
 };
@@ -71,7 +73,9 @@ const useUpdateShopService = () => {
       data: UpdateShopData;
     }) => await updateShop(shopId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["shops"],
+      });
     },
   });
 };
@@ -83,7 +87,9 @@ const useDeleteShopService = () => {
     mutationKey: ["shop-delete"],
     mutationFn: async (shopId: string) => await deleteShop(shopId),
     // onSettled: async () => {
-    //   await queryClient.invalidateQueries(["shops"]);
+    //   await queryClient.invalidateQueries({
+    // queryKey : ["shops"]
+    // });
     // },
   });
 };
@@ -103,8 +109,12 @@ const useAssignShopService = () => {
       data: AssignShopData;
     }) => await assignShop(shopId, data),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["shops"]);
-      await queryClient.invalidateQueries(["members"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["shops"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["members"],
+      });
     },
   });
 };
@@ -126,10 +136,10 @@ const useDismissShopService = () => {
 
 export {
   useAssignShopService,
-  useDismissShopService,
-  useDeleteShopService,
   useCreateShopService,
-  useUpdateShopService,
+  useDeleteShopService,
+  useDismissShopService,
   useGetShopService,
   useGetShopsService,
+  useUpdateShopService,
 };

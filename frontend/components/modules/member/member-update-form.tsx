@@ -78,7 +78,7 @@ const MemberUpdateForm = ({
 
   const {
     mutate: updateMember,
-    isLoading: isUpdatingMember,
+    isPending: isUpdatingMember,
     isSuccess: isMemberUpdated,
     isError: isMemberUpdateError,
   } = useUpdateMemberService();

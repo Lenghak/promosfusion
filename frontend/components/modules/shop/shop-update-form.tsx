@@ -59,7 +59,7 @@ const ShopUpdateForm = ({
 
   const {
     mutate: updateShop,
-    isLoading: isUpdatingShop,
+    isPending: isUpdatingShop,
     isSuccess: isShopUpdated,
     isError: isShopUpdatedError,
   } = useUpdateShopService();
@@ -128,7 +128,7 @@ const ShopUpdateForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Describe your shop"
-                    {...field}  
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
