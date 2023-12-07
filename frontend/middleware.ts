@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
   });
 
   if (token && isAuthPath)
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/campaigns", request.url));
 
   if (!isAuthPath && !token)
     return NextResponse.redirect(new URL("/sign-in", request.url));

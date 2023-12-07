@@ -97,12 +97,14 @@ const SideMenu = () => {
           href={"/chat"}
           Icon={MessageCircle}
           name="Messages"
+          disabled
         />
 
         <MenuTab
           href={"/notifications"}
           Icon={Bell}
           name="Notification"
+          disabled
         />
       </section>
 

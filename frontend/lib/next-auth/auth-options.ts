@@ -47,12 +47,11 @@ const authOptions: AuthOptions = {
   pages: { signIn: "/sign-in", error: "/sign-in" },
   session: {
     strategy: "jwt",
-    maxAge: 365 * 24 * 60 * 60,
+    maxAge: 24 * 60 * 60,
   },
   callbacks: {
     async session({ session, token }) {
       session.user = token as User;
-      console.log(session);
       return session;
     },
 

@@ -1,4 +1,4 @@
-import { buttonVariants } from "@/components/ui/button";
+import { ButtonProps, buttonVariants } from "@/components/ui/button";
 import { NavLink, NavLinkProps } from "@/components/ui/nav-link";
 
 import { cn } from "@/lib/utils";
@@ -14,17 +14,19 @@ const MenuTab = ({
   name,
   Icon,
   className,
+
   ...props
 }: {
   name: string;
   Icon: LucideIcon;
-} & NavLinkProps) => {
+} & NavLinkProps &
+  ButtonProps) => {
   const { isSideMenuOpen } = useSideMenuStore((state) => state);
   return (
     <NavLink
-      href={href}
+      href={props.disabled ? "" :  href}
       className={cn([
-        buttonVariants({
+        buttonVariants({    
           variant: "ghost",
         }),
         `relative w-full justify-center gap-4 ${
@@ -32,6 +34,9 @@ const MenuTab = ({
             ? "max-md:place-self-center max-md:self-center max-md:px-3 md:justify-start"
             : "w-fit justify-center place-self-center self-center px-3"
         }`,
+        props.disabled
+          ? "cursor-not-allowed text-muted-foreground hover:!bg-none"
+          : "",
       ])}
       activeClass={"text-primary"}
       {...props}

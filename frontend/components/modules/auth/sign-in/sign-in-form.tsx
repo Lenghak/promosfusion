@@ -81,10 +81,6 @@ export function SignInForm({}: SignInFormProps) {
           "There was a problem processing your request. Please try again later",
       });
     }
-
-    if (signInResponse?.error === null) {
-      replace("/dashboard");
-    }
   }, [signInResponse, form, toast, replace]);
 
   return (
