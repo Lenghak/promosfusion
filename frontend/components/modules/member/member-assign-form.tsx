@@ -22,17 +22,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
+
 import { cn, dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useAssignShopService, useGetShopsService } from "@/services/shop";
+import useAssignShopService from "@/services/shops/query/use-asign-shop-service";
+import useGetShopsService from "@/services/shops/query/use-get-shops-service";
 
-import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon, Loader2 } from "lucide-react";
 import z from "zod";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type MemberAssignFormProps = {
   member: Member;
@@ -56,7 +58,7 @@ const MemberAssignForm = ({
   const {
     mutate: assignShop,
     isError: isAssignedError,
-    isLoading: isAssigning,
+    isPending: isAssigning,
     isSuccess: isAssigned,
   } = useAssignShopService();
 
@@ -71,7 +73,7 @@ const MemberAssignForm = ({
   useHandleAssignShopEffect(
     isAssignedError,
     isAssigned,
-    `member-assign-dialog-${member.id}`
+    `member-assign-dialog-${member.id}`,
   );
 
   return (
@@ -95,7 +97,7 @@ const MemberAssignForm = ({
                   data: {
                     userIds: [`${member.id}`],
                   },
-                })
+                }),
             )}
             className="w-full space-y-4"
           >
@@ -109,7 +111,7 @@ const MemberAssignForm = ({
                       className={cn(
                         "pointer-events-auto w-full justify-between",
                         !field.value && "text-muted-foreground",
-                        buttonVariants({ variant: "outline" })
+                        buttonVariants({ variant: "outline" }),
                       )}
                     >
                       {field.value
@@ -157,7 +159,7 @@ const MemberAssignForm = ({
                               "ml-auto h-4 w-4",
                               shop.id === field.value
                                 ? "opacity-100"
-                                : "opacity-0"
+                                : "opacity-0",
                             )}
                           />
                         </CommandItem>

@@ -30,21 +30,20 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useHandleCreateEffect } from "@/hooks/campaign/use-handle-effect";
+
 import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useCreateCampaignService } from "@/services/campaign";
-import { useGetShopsService } from "@/services/shop";
+import useCreateCampaignService from "@/services/campaigns/query/use-create-campaign-service";
+import useGetShopsService from "@/services/shops/query/use-get-shops-service";
 
-import { useHandleCreateEffect } from "@/hooks/campaign";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2, Plus } from "lucide-react";
 import { z } from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
-
-type CampaignCreateFormProps = {};
 
 const CouponBogoType = z.object({
   buy: z.number({ required_error: "Buy Condition Amount" }),
@@ -66,7 +65,7 @@ const campaignCreateFormSchema = z.object({
     .number({ required_error: "Input amount of coupon for the campaign" })
     .refine(
       (value) => value > 0,
-      "Max creatable coupon must be greater than 0"
+      "Max creatable coupon must be greater than 0",
     ),
   type: z.enum(["general", "public", "strict", "share"], {
     required_error: "Select a campaign type",
@@ -87,7 +86,7 @@ const campaignCreateFormSchema = z.object({
 
 const CAMPAIGN_CREATE_DIALOG_ID = "campaign-create-dialog-id";
 
-const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
+const CampaignCreateForm = () => {
   const form = useForm<z.infer<typeof campaignCreateFormSchema>>({
     resolver: zodResolver(campaignCreateFormSchema),
     defaultValues: {
@@ -103,7 +102,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
 
   const {
     mutate: createCampaign,
-    isLoading: isCreatingCampaign,
+    isPending: isCreatingCampaign,
     isError: isCreateCampaignFailed,
     isSuccess: isCampaignCreated,
   } = useCreateCampaignService();
@@ -118,7 +117,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
   useHandleCreateEffect(
     isCreateCampaignFailed,
     isCampaignCreated,
-    CAMPAIGN_CREATE_DIALOG_ID
+    CAMPAIGN_CREATE_DIALOG_ID,
   );
 
   return (
@@ -155,7 +154,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                 endAt: format(values.endAt, "yyyy/MM/dd"),
                 shopIds: [values.shopIds],
                 couponDetail: JSON.stringify(values.couponDetail),
-              })
+              }),
           )}
           className="flex flex-col space-y-4"
         >
@@ -261,7 +260,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -304,7 +303,7 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -508,4 +507,4 @@ const CampaignCreateForm = ({}: CampaignCreateFormProps) => {
   );
 };
 
-export { CampaignCreateForm };
+export { CampaignCreateForm as default };

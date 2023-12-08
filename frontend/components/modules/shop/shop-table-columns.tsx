@@ -15,19 +15,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
+
 import { dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteShopService } from "@/services/shop";
+import useDeleteShopService from "@/services/shops/query/use-delete-shop-service";
 
-import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
-import { ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { ShopDeleteForm } from "./shop-delete-form";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

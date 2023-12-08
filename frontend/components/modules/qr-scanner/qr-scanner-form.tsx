@@ -12,22 +12,20 @@ import { ScanLine } from "lucide-react";
 
 import { QrScannerView } from "./qr-scanner-view";
 
-type QRScannerFormProps = {};
-
-const QRScannerForm = ({}: QRScannerFormProps) => {
+const QRScannerForm = () => {
   return (
     <Sheet
       modal={false}
-      onOpenChange={(open) => {
+      onOpenChange={async (open) => {
         !open
-          ? navigator.mediaDevices
+          ? await navigator.mediaDevices
               .getUserMedia({ video: true })
               .then((stream) =>
                 stream.getTracks().forEach((track) => {
                   if (track.readyState == "live" && track.kind === "video") {
                     track.stop();
                   }
-                })
+                }),
               )
           : null;
       }}

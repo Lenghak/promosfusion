@@ -10,9 +10,7 @@ import { Bell, Search, SidebarClose, SidebarOpen } from "lucide-react";
 import { QRScannerForm } from "../qr-scanner";
 import { TopBarProfileDropdown } from "./top-bar-profile-dropdown";
 
-type TopbarProps = {};
-
-const TopBar = ({}: TopbarProps) => {
+const TopBar = () => {
   const { isSideMenuOpen, setSideMenu } = useSideMenuStore((state) => state);
 
   return (

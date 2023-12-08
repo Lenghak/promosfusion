@@ -28,11 +28,9 @@ import { useCreateMemberService } from "@/services/member";
 
 import { useHandleCreatedEffect } from "@/hooks/member";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from "lucide-react";
-import { Loader2 } from "lucide-react";
+import { Loader2, UserPlus } from "lucide-react";
 import * as z from "zod";
 
-type MemberCreateFormProps = {};
 
 const MEMBER_CREATE_DIALOG_ID = "member-create-dialog";
 
@@ -50,7 +48,7 @@ const memberFormSchema = z.object({
   }),
 });
 
-const MemberCreateForm = ({}: MemberCreateFormProps) => {
+const MemberCreateForm = () => {
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
@@ -66,7 +64,7 @@ const MemberCreateForm = ({}: MemberCreateFormProps) => {
     isSuccess: isMemberCreated,
     isError: isMemberCreatedError,
     error: memberError,
-    isLoading: isCreatingMember,
+    isPending: isCreatingMember,
   } = useCreateMemberService();
 
   const { openDialog, openAlert } = useDialogStore((state) => state);

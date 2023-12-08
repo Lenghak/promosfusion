@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import { ShopUpdateForm } from "@/components/modules/shop/shop-update-form";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -11,7 +9,7 @@ import { useDialogStore } from "@/lib/zustand";
 import { Edit } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 type ShopInfoProps = {
   shop?: Shop;

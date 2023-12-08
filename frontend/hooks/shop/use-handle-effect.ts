@@ -90,9 +90,13 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         variant: "default",
       });
       pathName.startsWith("/shops/") ? replace("/shops") : null;
-      queryClient.invalidateQueries(["shops"]).then();
+      queryClient
+        .invalidateQueries({
+          queryKey: ["shops"],
+        })
+        .then();
     }
   }, [isError, isSuccess, toast, queryClient, replace, pathName]);
 };
 
-export { useHandleCreateEffect, useHandleUpdatedEffect, useHandleDeleteEffect };
+export { useHandleCreateEffect, useHandleDeleteEffect, useHandleUpdatedEffect };

@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Link from "next/link";
-import {  useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -16,11 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { useToast } from "@/hooks/use-toast";
+
 import { cn } from "@/lib/utils";
 
 import { useSignInService } from "@/services/auth";
 
-import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Key, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
@@ -31,13 +32,11 @@ const signInSchema = z.object({
   password: z.string().min(8, "Password must has at least 8 characters"),
 });
 
-type SignInFormProps = {};
-
-export function SignInForm({}: SignInFormProps) {
+export function SignInForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
 
-  const { replace } = useRouter();
+  const router = useRouter();
   //* form return object from useForm from react-hook-form integrated with zod
   const form = useForm<z.infer<typeof signInSchema>>({
     defaultValues: {
@@ -49,7 +48,8 @@ export function SignInForm({}: SignInFormProps) {
 
   const {
     mutate: signIn,
-    isLoading: isSigningIn,
+    isPending: isSigningIn,
+    isSuccess: isSignedIn,
     data: signInResponse,
   } = useSignInService();
 
@@ -82,10 +82,8 @@ export function SignInForm({}: SignInFormProps) {
       });
     }
 
-    if (signInResponse?.error === null) {
-      replace("/dashboard");
-    }
-  }, [signInResponse, form, toast, replace]);
+    if (signInResponse?.ok || isSignedIn) redirect("/campaigns");
+  }, [signInResponse, form, toast, router, isSignedIn]);
 
   return (
     <Fragment>
@@ -108,7 +106,7 @@ export function SignInForm({}: SignInFormProps) {
                     />
                     <Input
                       type="email"
-                      placeholder="someone@example.com"
+                      placeholder="Enter email address"
                       {...field}
                       autoComplete="on"
                       className="pl-12"
@@ -133,7 +131,7 @@ export function SignInForm({}: SignInFormProps) {
                       className="absolute left-4 h-full text-accent-foreground"
                     />
                     <Input
-                      placeholder="Password"
+                      placeholder="Enter password"
                       {...field}
                       type={showPassword ? "text" : "password"}
                       id="password"

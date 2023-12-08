@@ -17,10 +17,10 @@ import { Button } from "@/components/ui/button";
 
 import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteCampaignService } from "@/services/campaign";
 
 import { useHandleDeleteEffect } from "@/hooks/campaign/use-handle-effect";
 import { Loader2 } from "lucide-react";
+import useDeleteCampaignService from "@/services/campaigns/query/use-delete-campaign-service";
 
 const CampaignDeleteForm = ({
   campaignId,
@@ -31,7 +31,7 @@ const CampaignDeleteForm = ({
 }) => {
   const {
     mutate: deleteCampaign,
-    isLoading: isDeletingCampaign,
+    isPending: isDeletingCampaign,
     isSuccess: isCampaignDeleted,
     isError: isDeleteError,
   } = useDeleteCampaignService();

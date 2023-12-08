@@ -7,9 +7,8 @@ import { useGetMembersService } from "@/services/member";
 import { MemberCreateForm } from "./member-create-form";
 import { MemberColumns } from "./member-table-columns";
 
-type MemberDataTableProps = {};
 
-const MemberDataTable = ({}: MemberDataTableProps) => {
+const MemberDataTable = () => {
   const { data: members } = useGetMembersService();
 
   return (

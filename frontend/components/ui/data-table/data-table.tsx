@@ -22,20 +22,20 @@ import {
 import { cn } from "@/lib/utils";
 
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import { useSession } from "next-auth/react";
 
-interface DataTableProps<TData, TValue> {
+export interface DataTableProps<TData, TValue = undefined> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterBy?: string;
@@ -90,7 +90,7 @@ const DataTable = <TData, TValue>({
   useEffect(() => {
     onRowSelectChange
       ? onRowSelectChange(
-          table.getSelectedRowModel().rows.map((row) => row.original)
+          table.getSelectedRowModel().rows.map((row) => row.original),
         )
       : null;
   }, [rowSelection, table, onRowSelectChange]);
@@ -156,7 +156,7 @@ const DataTable = <TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -175,7 +175,7 @@ const DataTable = <TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -221,4 +221,4 @@ const DataTable = <TData, TValue>({
   );
 };
 
-export { DataTable };
+export { DataTable as default };

@@ -72,7 +72,11 @@ const useHandleDeleteEffect = (isError: boolean, isSuccess: boolean) => {
         description: "User that the account can no longer logged in",
       });
       pathName.startsWith("/members/") ? replace("/members") : null;
-      queryClient.invalidateQueries(["members"]).then();
+      queryClient
+        .invalidateQueries({
+          queryKey: ["members"],
+        })
+        .then();
     }
   }, [replace, isError, isSuccess, toast, queryClient, pathName]);
 };
@@ -128,8 +132,16 @@ const useHandleAssignShopEffect = (
         description: "You can view the list of assigned members in shop.",
       });
       openDialog(false, dialogId);
-      queryClient.invalidateQueries(["shops"]).then((res) => res);
-      queryClient.invalidateQueries(["members"]).then((res) => res);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["shops"],
+        })
+        .then((res) => res);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["members"],
+        })
+        .then((res) => res);
     }
   }, [isError, isSuccess, toast, openDialog, dialogId, queryClient]);
 };
@@ -160,16 +172,24 @@ const useHandleDismissShopEffect = (
           "Members has been removed from this shop. You can re-assign them back later.",
       });
       openDialog(false);
-      queryClient.invalidateQueries(["shops"]).then((res) => res);
-      queryClient.invalidateQueries(["members"]).then((res) => res);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["shops"],
+        })
+        .then((res) => res);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["members"],
+        })
+        .then((res) => res);
     }
   }, [toast, isError, isSuccess, openDialog, queryClient, error]);
 };
 
 export {
+  useHandleAssignShopEffect,
   useHandleCreatedEffect,
   useHandleDeleteEffect,
-  useHandleUpdatedEffect,
-  useHandleAssignShopEffect,
   useHandleDismissShopEffect,
+  useHandleUpdatedEffect,
 };

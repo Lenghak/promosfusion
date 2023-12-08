@@ -30,7 +30,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import z from "zod";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type MemberUpdateFormProps = {
   member: Member;
@@ -78,7 +78,7 @@ const MemberUpdateForm = ({
 
   const {
     mutate: updateMember,
-    isLoading: isUpdatingMember,
+    isPending: isUpdatingMember,
     isSuccess: isMemberUpdated,
     isError: isMemberUpdateError,
   } = useUpdateMemberService();

@@ -4,7 +4,7 @@ import { PageTitle } from "@/components/modules/page-title";
 import { getMember } from "@/lib/axios/member";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate, Hydrate } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type MemberViewProps = {
   params: { id: string };
@@ -12,10 +12,10 @@ type MemberViewProps = {
 
 export default async function MemberView({ params }: MemberViewProps) {
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(
-    ["members", params.id],
-    async () => await getMember(params.id)
-  );
+  await queryClient.prefetchQuery({
+    queryKey: ["members", params.id],
+    queryFn: async () => await getMember(params.id),
+  });
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -24,10 +24,10 @@ export default async function MemberView({ params }: MemberViewProps) {
         title="Member Profile"
         description="View gathered basic information on member all in one place."
       />
-      <Hydrate state={dehydratedState}>
+      <HydrationBoundary state={dehydratedState}>
         {/* The Data Components */}
         <MemberInfoView id={params.id} />
-      </Hydrate>
+      </HydrationBoundary>
     </section>
   );
 }

@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -23,9 +22,7 @@ const resetPassowrdSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
 
-type ForgotPasswordFormProps = {};
-
-export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
+export function ForgotPasswordForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof resetPassowrdSchema>>({
@@ -36,7 +33,7 @@ export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
   });
 
   //* Hanlder function
-  const formSubmitHandler = (values: z.infer<typeof resetPassowrdSchema>) => {
+  const formSubmitHandler = () => {
     router.push("/reset-password");
   };
 
@@ -44,7 +41,7 @@ export function ForgotPasswordForm({}: ForgotPasswordFormProps) {
     <Form {...form}>
       <form
         className="flex w-full max-w-sm flex-col items-center gap-4 self-center"
-        onSubmit={form.handleSubmit((values) => formSubmitHandler(values))}
+        onSubmit={form.handleSubmit(() => formSubmitHandler())}
       >
         {/*//* Email input field  */}
         <FormField

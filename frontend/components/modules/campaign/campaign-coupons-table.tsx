@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetCampaignService } from "@/services/campaign";
+import useGetCampaignService from "@/services/campaigns/query/use-get-campaign-service";
 import { useGetCouponsService } from "@/services/coupon";
 
 import { CouponProvide } from "../coupon/coupon-provide";
@@ -19,14 +19,9 @@ type CampaignCouponsTableProps = {
 };
 
 const CampaignCouponsTable = ({ id }: CampaignCouponsTableProps) => {
-  const {
-    data: campaign,
-    isError: isGetCampaignsError,
-    isLoading: isGettingCampaigns,
-    isFetching: isFetchingCampaigns,
-  } = useGetCampaignService(`${id!!}`);
+  const { data: campaign } = useGetCampaignService(`${id!}`);
 
-  const { data: coupons } = useGetCouponsService(`${id!!}`);
+  const { data: coupons } = useGetCouponsService(`${id!}`);
 
   return (
     <div className="p-4">

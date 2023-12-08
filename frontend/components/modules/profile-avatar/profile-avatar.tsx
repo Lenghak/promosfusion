@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { cn } from "@/lib/utils";
 
-import { AvatarProps } from "@radix-ui/react-avatar";
+import { type AvatarProps } from "@radix-ui/react-avatar";
 import { useSession } from "next-auth/react";
 
 const ProfileAvatar = forwardRef<HTMLSpanElement, AvatarProps>(

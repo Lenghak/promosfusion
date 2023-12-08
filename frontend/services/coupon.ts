@@ -17,8 +17,12 @@ const useProvideCouponService = (campaignId: string) => {
     mutationKey: ["coupon-provide"],
     mutationFn: async () => await provideCoupon(),
     onSettled: async () => {
-      await queryClient.invalidateQueries(["campaigns"]);
-      await queryClient.invalidateQueries(["coupons"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["campaigns"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["coupons"],
+      });
     },
   });
 };
@@ -40,8 +44,12 @@ const useRequestCouponService = (couponId: string, token: string) => {
     mutationKey: ["coupon-request"],
     mutationFn: async () => (await requestCoupon()).data,
     onSettled: async () => {
-      await queryClient.invalidateQueries(["coupons"]);
-      await queryClient.invalidateQueries(["campaigns"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["coupons"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["campaigns"],
+      });
     },
   });
 };
@@ -54,8 +62,12 @@ const useVerifyCouponService = (couponId: string, token: string) => {
     mutationKey: ["coupon-verify"],
     mutationFn: async () => (await verifyCoupon()).data,
     onSettled: async () => {
-      await queryClient.invalidateQueries(["coupons"]);
-      await queryClient.invalidateQueries(["campaigns"]);
+      await queryClient.invalidateQueries({
+        queryKey: ["coupons"],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["campaigns"],
+      });
     },
   });
 };
@@ -73,9 +85,9 @@ const useGetCouponsService = (campaignId: string) => {
 };
 
 export {
-  useProvideCouponService,
   useGetCouponService,
+  useGetCouponsService,
+  useProvideCouponService,
   useRequestCouponService,
   useVerifyCouponService,
-  useGetCouponsService,
 };

@@ -1,9 +1,16 @@
-import { PageTitle } from "@/components/modules/page-title";
+import dynamic from "next/dynamic";
+
+const PageTitle = dynamic(
+  () => import("@/components/modules/page-title/page-title"),
+);
 
 const CampaignTitle = () => {
   return (
-    <PageTitle title="Campaign" description="Views the lists of your categorized campaigns"/>
+    <PageTitle
+      title="Campaign"
+      description="Views the lists of your categorized campaigns"
+    />
   );
 };
 
-export { CampaignTitle };
+export { CampaignTitle as default };

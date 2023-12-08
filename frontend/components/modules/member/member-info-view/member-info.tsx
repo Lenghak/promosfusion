@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 import { MemberUpdateForm } from "../member-update-form";
 
-import { Member } from "@/types/member";
+import { type Member } from "@/types/member";
 
 type MemberInfoProps = { member: Member };
 
@@ -85,7 +85,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
       </div>
       {session?.user.role === "root" && (
         <MemberUpdateForm
-          member={member!!}
+          member={member}
           dialogID={`member-update-dialog-${member?.uuid}`}
         />
       )}

@@ -1,6 +1,6 @@
-import React, { AnchorHTMLAttributes } from "react";
+import { type AnchorHTMLAttributes } from "react";
 
-import Link, { LinkProps } from "next/link";
+import Link, { type LinkProps } from "next/link";
 
 import { cn } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ const SideMenuLink = ({
       href={href}
       className={cn(
         "whitespace-nowrap text-sm capitalize text-opacity-50 hover:underline hover:underline-offset-2",
-        className
+        className,
       )}
       {...props}
     >

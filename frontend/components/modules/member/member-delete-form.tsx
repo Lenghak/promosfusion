@@ -31,7 +31,7 @@ const MemberDeleteForm = ({
 }) => {
   const {
     mutate: deleteMember,
-    isLoading: isDeletingMember,
+    isPending: isDeletingMember,
     isSuccess: isMemberDeleted,
     isError: isDeleteError,
   } = useDeleteMemberService();

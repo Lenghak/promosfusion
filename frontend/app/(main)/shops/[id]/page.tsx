@@ -1,10 +1,10 @@
 import { PageTitle } from "@/components/modules/page-title";
 import { ShopInfoView } from "@/components/modules/shop/shop-info-view";
 
-import { getShop } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
+import getShop from "@/services/shops/ssr/get-shop";
 
-import { dehydrate, Hydrate } from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type ShopProps = {
   params: {
@@ -12,12 +12,12 @@ type ShopProps = {
   };
 };
 
-export default function Shop({ params }: ShopProps) {
+export default async function Shop({ params }: ShopProps) {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery(
-    ["shops", params.id],
-    async () => await getShop(params.id)
-  );
+  await queryClient.prefetchQuery({
+    queryKey: ["shops", params.id],
+    queryFn: async () => await getShop(params.id),
+  });
   const dehydratedState = dehydrate(queryClient);
 
   return (
@@ -27,9 +27,9 @@ export default function Shop({ params }: ShopProps) {
         title="Shop Detail"
         description="View the detail of your shop"
       />
-      <Hydrate state={dehydratedState}>
+      <HydrationBoundary state={dehydratedState}>
         <ShopInfoView shopId={params.id} />
-      </Hydrate>
+      </HydrationBoundary>
     </div>
   );
 }

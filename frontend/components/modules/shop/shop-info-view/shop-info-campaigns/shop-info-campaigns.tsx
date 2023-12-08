@@ -1,9 +1,9 @@
 "use client";
 
-import { columns as CampaignColumns } from "@/components/modules/campaign/campaign-table-columns";
+import { default as CampaignColumns } from "@/components/modules/campaign/campaign-table-columns";
 import { DataTable } from "@/components/ui/data-table";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 const ShopInfoCampaigns = ({ shop }: { shop?: Shop }) => {
   return (

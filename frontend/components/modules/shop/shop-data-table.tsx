@@ -3,13 +3,11 @@
 import { ShopColumns } from "@/components/modules/shop/shop-table-columns";
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetShopsService } from "@/services/shop";
 
 import { ShopCreateForm } from "./shop-create-form";
+import useGetShopsService from "@/services/shops/query/use-get-shops-service";
 
-type ShopTableProps = {};
-
-const ShopDataTable = ({}: ShopTableProps) => {
+const ShopDataTable = () => {
   const { data: shops } = useGetShopsService();
 
   return (

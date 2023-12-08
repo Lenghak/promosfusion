@@ -11,13 +11,13 @@ const firaMono = Fira_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
-  fallback: ["monospace"],
+  fallback: ["san-serif"],
 });
 
 export const metadata = {
-  title: "Coupon Flare",
+  title: "Promos Fusion",
   description:
-    "CouponFlare is a versatile coupon generating tool that enables users to easily create and distribute customized coupons for a wide range of products and services. CouponGen's user-friendly design and strong features make it simple for businesses and individuals to attract customers, increase sales, and strengthen brand loyalty.",
+    "Promos-Fusion is a versatile coupon generating tool that enables users to easily create and distribute customized coupons for a wide range of products and services. CouponGen's user-friendly design and strong features make it simple for businesses and individuals to attract customers, increase sales, and strengthen brand loyalty.",
 };
 
 export default function RootLayout({

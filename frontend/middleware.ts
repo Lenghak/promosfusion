@@ -18,12 +18,12 @@ export default async function middleware(request: NextRequest) {
   });
 
   if (token && isAuthPath)
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/campaigns", request.url));
 
   if (!isAuthPath && !token)
     return NextResponse.redirect(new URL("/sign-in", request.url));
 
-  if (pathname.startsWith("/dashboard") && token?.role === "seller")
+  if (pathname.startsWith("/dashboard"))
     return NextResponse.redirect(new URL("/campaigns", request.url));
   return NextResponse.next();
 }

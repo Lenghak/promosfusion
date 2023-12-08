@@ -1,11 +1,18 @@
 "use client";
 
-import { DataTable } from "@/components/ui/data-table";
+import dynamic from "next/dynamic";
 
-import { useGetCampaignsService } from "@/services/campaign";
+import useGetCampaignsService from "@/services/campaigns/query/use-get-campaigns-service";
 
-import { CampaignCreateForm } from "./campaign-create-form";
-import { columns } from "./campaign-table-columns";
+import { type ColumnDef } from "@tanstack/react-table";
+
+const DataTable = dynamic(
+  () => import("@/components/ui/data-table/data-table"),
+);
+
+const CampaignCreateForm = dynamic(
+  () => import("@/components/modules/campaign/campaign-create-form"),
+);
 
 type CampaignTableProps = {
   id?: number;
@@ -20,7 +27,7 @@ type CampaignTableProps = {
   status?: string;
 };
 
-const CampaignTable = ({}: CampaignTableProps) => {
+const CampaignTable = async ({}: CampaignTableProps) => {
   const { data: campaigns } = useGetCampaignsService();
 
   return (
@@ -29,11 +36,14 @@ const CampaignTable = ({}: CampaignTableProps) => {
         widget={<CampaignCreateForm />}
         filterBy="name"
         tableContainerClass="h-[59vh] overflow-y-auto"
-        columns={columns}
+        columns={
+          (await import("@/components/modules/campaign/campaign-table-columns"))
+            .default as ColumnDef<unknown, unknown>[]
+        }
         data={campaigns?.data || []}
       />
     </div>
   );
 };
 
-export { CampaignTable };
+export { CampaignTable as default };

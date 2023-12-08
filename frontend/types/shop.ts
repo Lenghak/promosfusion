@@ -1,5 +1,5 @@
-import { Campaign } from "@/types/campaign";
-import { Member } from "@/types/member";
+import { type Campaign } from "@/types/campaign";
+import { type Member } from "@/types/member";
 
 export type Shops = {
   data: Shop[];

@@ -1,12 +1,24 @@
-import { CampaignTable, CampaignTitle } from "@/components/modules/campaign";
+import dynamic from "next/dynamic";
 
-import { getCampaigns } from "@/lib/axios/campaign";
 import { getQueryClient } from "@/lib/react-query";
 
-import { dehydrate, Hydrate, useQueryClient } from "@tanstack/react-query";
+import getCampaigns from "@/services/campaigns/ssr/get-campaigns";
+
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+
+const CampaignTitle = dynamic(
+  () => import("@/components/modules/campaign/campaign-title"),
+);
+
+const CampaignTable = dynamic(
+  () => import("@/components/modules/campaign/campaign-table"),
+);
 
 export default async function Campaigns() {
-  await getQueryClient().prefetchQuery(["campaigns"], () => getCampaigns());
+  await getQueryClient().prefetchQuery({
+    queryKey: ["campaigns"],
+    queryFn: async () => await getCampaigns(),
+  });
   const dehydratedState = dehydrate(getQueryClient());
 
   return (
@@ -15,9 +27,9 @@ export default async function Campaigns() {
         <CampaignTitle />
       </div>
       <div>
-        <Hydrate state={dehydratedState}>
+        <HydrationBoundary state={dehydratedState}>
           <CampaignTable />
-        </Hydrate>
+        </HydrationBoundary>
       </div>
     </div>
   );

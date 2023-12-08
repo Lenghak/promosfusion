@@ -7,9 +7,7 @@ import { Small } from "@/components/ui/small";
 
 import { cn } from "@/lib/utils";
 
-type TermsPolicyProps = {};
-
-const TermsPolicy = ({}: TermsPolicyProps) => {
+const TermsPolicy = () => {
   return (
     <section className="flex w-full justify-center">
       <Small className="w-full max-w-sm justify-self-center text-center text-sm">

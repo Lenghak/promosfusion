@@ -16,35 +16,31 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { useToast } from "@/hooks/use-toast";
+
 import { cn } from "@/lib/utils";
 
-import { useToast } from "@/hooks/use-toast";
 import { useSignUpService } from "@/services/auth";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isAxiosError } from "axios";
 import { Eye, EyeOff, Key, Loader2, Mail, User } from "lucide-react";
 import { z } from "zod";
 
 const signUpSchema = z.object({
-  name: z.string().nonempty("Enter your full name"),
-  email: z.string().email("Invalid email address").nonempty(),
-  password: z
-    .string()
-    .min(8, "Password must has at least 8 characters")
-    .nonempty(),
+  name: z.string({ required_error: "Enter your full name" }),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must has at least 8 characters"),
 });
 
-type SignUpFormProps = {};
-
-export function SignUpForm({}: SignUpFormProps) {
+export function SignUpForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
 
   const {
     mutate: signUp,
-    isError: isSignUpError,
     isSuccess: isSignUpSuccess,
-    isLoading: isSigningUp,
+    isPending: isSigningUp,
     error: signUpError,
   } = useSignUpService();
 
@@ -73,7 +69,8 @@ export function SignUpForm({}: SignUpFormProps) {
     }
 
     if (isAxiosError(signUpError)) {
-      const emailError: string = signUpError.response?.data.errors.email;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const emailError: string = signUpError.response?.data?.errors?.email;
 
       emailError
         ? form.setError("email", { message: emailError })

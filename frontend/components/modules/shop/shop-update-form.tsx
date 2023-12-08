@@ -15,16 +15,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useHandleUpdatedEffect } from "@/hooks/shop/use-handle-effect";
+
 import { useDialogStore } from "@/lib/zustand";
 
-import { useUpdateShopService } from "@/services/shop";
+import useUpdateShopService from "@/services/shops/query/use-update-shop-service";
 
-import { useHandleUpdatedEffect } from "@/hooks/shop/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import z from "zod";
 
-import { Shop } from "@/types/shop";
+import { type Shop } from "@/types/shop";
 
 type ShopUpdateFormProps = {
   shop: Shop;
@@ -59,7 +60,7 @@ const ShopUpdateForm = ({
 
   const {
     mutate: updateShop,
-    isLoading: isUpdatingShop,
+    isPending: isUpdatingShop,
     isSuccess: isShopUpdated,
     isError: isShopUpdatedError,
   } = useUpdateShopService();
@@ -81,7 +82,7 @@ const ShopUpdateForm = ({
         <form
           onSubmit={form.handleSubmit(
             (values: z.infer<typeof shopUpdateSchema>) =>
-              updateShop({ shopId: `${shop.id}`, data: values })
+              updateShop({ shopId: `${shop.id}`, data: values }),
           )}
           className="space-y-4"
         >
@@ -128,7 +129,7 @@ const ShopUpdateForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Describe your shop"
-                    {...field}  
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

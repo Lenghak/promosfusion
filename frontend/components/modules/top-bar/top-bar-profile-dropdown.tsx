@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useSignOutService } from "@/services/auth";
+
 import { useTheme } from "@wits/next-themes";
 import {
   Bug,
@@ -34,9 +35,7 @@ import {
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-type Props = {};
-
-const TopBarProfileDropdown = ({}: Props) => {
+const TopBarProfileDropdown = () => {
   //* session from next-auth for user session data
   const { data: session } = useSession();
 
