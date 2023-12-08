@@ -1,7 +1,6 @@
-import { DefaultUser } from "next-auth";
-import NextAuth from "next-auth/next";
+import "next-auth";
 
-import { User as CustomUser } from "./auth";
+import { type User as CustomUser } from "./auth";
 
 declare module "next-auth" {
   interface User extends CustomUser {}

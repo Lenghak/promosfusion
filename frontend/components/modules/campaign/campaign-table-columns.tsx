@@ -15,11 +15,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useHandleDeleteEffect } from "@/hooks/campaign/use-handle-effect";
+
 import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteCampaignService } from "@/services/campaign";
+import useDeleteCampaignService from "@/services/campaigns/query/use-delete-campaign-service";
 
-import { useHandleDeleteEffect } from "@/hooks/campaign/use-handle-effect";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -29,7 +30,7 @@ import { CampaignUpdateForm } from "./campaign-update-form";
 
 import { type Campaign } from "@/types/campaign";
 
-export const columns: ColumnDef<Campaign>[] = [
+const columns: ColumnDef<Campaign>[] = [
   {
     id: "id",
     header: ({ column }) => {
@@ -221,3 +222,5 @@ const getStatusBadgeColor = (status: string) => {
     return "bg-red-500 hover:bg-red-500/80";
   }
 };
+
+export { columns as default };

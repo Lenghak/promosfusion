@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetCampaignService } from "@/services/campaign";
+import useGetCampaignService from "@/services/campaigns/query/use-get-campaign-service";
 import { useGetCouponsService } from "@/services/coupon";
 
 import { CouponProvide } from "../coupon/coupon-provide";

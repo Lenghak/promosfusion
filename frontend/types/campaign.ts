@@ -1,4 +1,4 @@
-import { Coupon, CouponDisplay } from "@/types/coupon";
+import { type Coupon, type CouponDisplay } from "@/types/coupon";
 
 export interface Campaigns {
   data: Campaign[];

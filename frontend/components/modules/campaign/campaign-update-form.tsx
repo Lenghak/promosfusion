@@ -20,12 +20,13 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useHandleUpdatedEffect } from "@/hooks/campaign/use-handle-effect";
+
 import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useUpdateCampaignService } from "@/services/campaign";
+import useUpdateCampaignService from "@/services/campaigns/query/use-update-campaign-service";
 
-import { useHandleUpdatedEffect } from "@/hooks/campaign/use-handle-effect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -52,7 +53,7 @@ const campaignUpdateFormSchema = z.object({
     .number({ required_error: "Input amount of coupon for the campaign" })
     .refine(
       (value) => value > 0,
-      "Max creatable coupon must be greater than 0"
+      "Max creatable coupon must be greater than 0",
     ),
   startAt: z.date({ required_error: "Select valid date of campaign" }),
   endAt: z.date({ required_error: "Select expires date of campaign" }),
@@ -108,7 +109,7 @@ const CampaignUpdateForm = ({
                   startAt: format(values.startAt, "yyyy/MM/dd"),
                   endAt: format(values.endAt, "yyyy/MM/dd"),
                 },
-              })
+              }),
           )}
           className="flex flex-col space-y-4"
         >
@@ -183,7 +184,7 @@ const CampaignUpdateForm = ({
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (
@@ -226,7 +227,7 @@ const CampaignUpdateForm = ({
                           variant={"outline"}
                           className={cn(
                             "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (

@@ -1,4 +1,8 @@
-import { PageTitle } from "@/components/modules/page-title";
+import dynamic from "next/dynamic";
+
+const PageTitle = dynamic(
+  () => import("@/components/modules/page-title/page-title"),
+);
 
 const CampaignTitle = () => {
   return (

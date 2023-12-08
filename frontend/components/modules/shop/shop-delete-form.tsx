@@ -15,12 +15,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
+import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
+
 import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteShopService } from "@/services/shop";
 
-import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
 import { Loader2 } from "lucide-react";
+import useDeleteShopService from "@/services/shops/query/use-delete-shop-service";
 
 const ShopDeleteForm = ({
   shopId,

@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import useGetCampaignService from "@/services/campaigns/query/use-get-campaign-service";
 
-import { useGetCampaignService } from "@/services/campaign";
 import { useGetMemberService } from "@/services/member";
 
 const getStatusBadgeColor = (status: string) => {

@@ -21,13 +21,13 @@ import { useHandleAssignShopEffect } from "@/hooks/member/use-handle-effect";
 import { useDialogStore } from "@/lib/zustand";
 
 import { useGetMembersService } from "@/services/member";
-import { useAssignShopService } from "@/services/shop";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, UserPlus, UserX } from "lucide-react";
 import z from "zod";
 
 import { type Members } from "@/types/member";
+import useAssignShopService from "@/services/shops/query/use-asign-shop-service";
 
 type ShopAssignFormProps = {
   dialogTrigger?: React.ReactNode;

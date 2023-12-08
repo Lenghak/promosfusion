@@ -30,13 +30,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { useHandleCreateEffect } from "@/hooks/campaign";
+import { useHandleCreateEffect } from "@/hooks/campaign/use-handle-effect";
 
 import { cn } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useCreateCampaignService } from "@/services/campaign";
-import { useGetShopsService } from "@/services/shop";
+import useCreateCampaignService from "@/services/campaigns/query/use-create-campaign-service";
+import useGetShopsService from "@/services/shops/query/use-get-shops-service";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";

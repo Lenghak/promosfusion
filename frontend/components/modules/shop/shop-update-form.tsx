@@ -19,7 +19,7 @@ import { useHandleUpdatedEffect } from "@/hooks/shop/use-handle-effect";
 
 import { useDialogStore } from "@/lib/zustand";
 
-import { useUpdateShopService } from "@/services/shop";
+import useUpdateShopService from "@/services/shops/query/use-update-shop-service";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";

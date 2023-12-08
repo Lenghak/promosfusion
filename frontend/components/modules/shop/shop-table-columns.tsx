@@ -15,12 +15,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
+
 import { dateFormat } from "@/lib/utils";
 import { useDialogStore } from "@/lib/zustand";
 
-import { useDeleteShopService } from "@/services/shop";
+import useDeleteShopService from "@/services/shops/query/use-delete-shop-service";
 
-import { useHandleDeleteEffect } from "@/hooks/shop/use-handle-effect";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";

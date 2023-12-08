@@ -15,17 +15,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useHandleCreateEffect } from "@/hooks/shop";
+
 import { useDialogStore } from "@/lib/zustand";
 
-import { useCreateShopService } from "@/services/shop";
 
-import { useHandleCreateEffect } from "@/hooks/shop";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus } from "lucide-react";
 import z from "zod";
 
 import { DialogWithAlert } from "../dialog-with-alert";
-
+import useCreateShopService from "@/services/shops/query/use-create-shop-service";
 
 const shopCreateFormSchema = z.object({
   name: z.string().min(2, {
@@ -62,7 +62,7 @@ const ShopCreateForm = () => {
   useHandleCreateEffect(
     isCreateShopFailed,
     isShopCreated,
-    SHOP_CREATE_DIALOG_ID
+    SHOP_CREATE_DIALOG_ID,
   );
 
   return (
@@ -89,7 +89,8 @@ const ShopCreateForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(
-            (values: z.infer<typeof shopCreateFormSchema>) => createShop(values)
+            (values: z.infer<typeof shopCreateFormSchema>) =>
+              createShop(values),
           )}
           className="space-y-4"
         >

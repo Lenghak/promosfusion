@@ -1,8 +1,9 @@
 import { PageTitle } from "@/components/modules/page-title";
 import { ShopDataTable } from "@/components/modules/shop";
 
-import { getShops } from "@/lib/axios/shop";
 import { getQueryClient } from "@/lib/react-query";
+
+import getShops from "@/services/shops/ssr/get-shops";
 
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 

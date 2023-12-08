@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import { useHandleDismissShopEffect } from "@/hooks/member/use-handle-effect";
 
-import { useDismissShopService } from "@/services/shop";
+import useDismissShopService from "@/services/shops/query/use-dismiss-shop-service";
 
 import { Loader2, UserMinus } from "lucide-react";
 import { useSession } from "next-auth/react";

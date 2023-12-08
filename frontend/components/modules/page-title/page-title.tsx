@@ -50,4 +50,4 @@ const PageTitle = ({ title, description, className }: PageTitleProps) => {
   );
 };
 
-export { PageTitle };
+export { PageTitle as default };

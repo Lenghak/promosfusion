@@ -7,14 +7,15 @@ import { ShopAssignForm } from "@/components/modules/shop/shop-info-view/shop-in
 import { ShopDismissMember } from "@/components/modules/shop/shop-info-view/shop-info-members/shop-dismiss-member";
 import { DataTable } from "@/components/ui/data-table";
 
-import { useGetShopService } from "@/services/shop";
-
 import { usePermission } from "@/hooks/member/use-permission";
+
+
 import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { type Member } from "@/types/member";
+import useGetShopService from "@/services/shops/query/use-get-shop-service";
 
 const ShopInfoMembers = ({ shopId }: { shopId: string }) => {
   const { data: shop, isError, isLoading, error } = useGetShopService(shopId);

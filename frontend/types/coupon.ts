@@ -7,11 +7,11 @@ export type Coupon = {
   currentStatus: string;
   cuid: string;
   token: string;
-  description: any;
+  description: string;
   createdBy: number;
   updatedBy: number;
   campaign_id: number;
-  belongTo: any;
+  belongTo: unknown;
   createdAt: string;
   expiredAt: string;
   updatedAt: string;
@@ -51,7 +51,7 @@ export interface Coupons {
 export interface CouponsPageLinks {
   first: string;
   last: string;
-  prev: any;
+  prev: string;
   next: string;
 }
 
