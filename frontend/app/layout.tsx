@@ -15,9 +15,9 @@ const firaMono = Fira_Mono({
 });
 
 export const metadata = {
-  title: "Promos Fusion",
+  title: "Coupon Flare",
   description:
-    "Promos-Fusion is a versatile coupon generating tool that enables users to easily create and distribute customized coupons for a wide range of products and services. CouponGen's user-friendly design and strong features make it simple for businesses and individuals to attract customers, increase sales, and strengthen brand loyalty.",
+    "Coupon Flare is a versatile coupon generating tool that enables users to easily create and distribute customized coupons for a wide range of products and services. CouponGen's user-friendly design and strong features make it simple for businesses and individuals to attract customers, increase sales, and strengthen brand loyalty.",
 };
 
 export default function RootLayout({
