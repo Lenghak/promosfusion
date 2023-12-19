@@ -153,4 +153,4 @@ const ShopDismissMember = ({
   );
 };
 
-export { ShopDismissMember };
+export { ShopDismissMember as default };

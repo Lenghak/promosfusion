@@ -180,4 +180,4 @@ const ShopAssignForm = ({
   );
 };
 
-export { ShopAssignForm };
+export { ShopAssignForm as default};
