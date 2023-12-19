@@ -1,6 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import useGetShopService from "@/services/shops/query/use-get-shop-service";
 
 import { isAxiosError } from "axios";
 import { Loader2 } from "lucide-react";
@@ -8,8 +12,8 @@ import { Loader2 } from "lucide-react";
 import { ShopError } from "./shop-error";
 import { ShopInfoBasic } from "./shop-info-basic";
 import { ShopInfoCampaigns } from "./shop-info-campaigns";
-import { ShopInfoMembers } from "./shop-info-members";
-import useGetShopService from "@/services/shops/query/use-get-shop-service";
+
+const ShopInfoMembers = dynamic(() => import("./shop-info-members"));
 
 type ShopInfoViewProps = {
   shopId: string;

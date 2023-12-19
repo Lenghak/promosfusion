@@ -1,2 +1,2 @@
-export { ShopInfoMembers } from "./shop-info-members";
-export { ShopAssignForm } from "./shop-assign-member-form";
+export { default as ShopAssignForm } from "./shop-assign-member-form";
+export { default } from "./shop-info-members";
